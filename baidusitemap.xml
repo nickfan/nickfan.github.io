@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+  <url>
+    <loc>https://nickfan.github.io/2015/07/21/envoy-deployscript/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>基于Laravel Envoy的部署脚本</title>
+        <pubTime>2015-07-21T08:04:06.000Z</pubTime>
+        
+        <tag>deploy</tag>
+         
+        <tag>envoy</tag>
+         
+        <tag>laravel</tag>
+         
+        <tag>php</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+             
+              <breadCrumb title="laravel" url="https://nickfan.github.io/categories/dev/laravel/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://nickfan.github.io/2017/07/25/github-blog-setup/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>github上hexo静态博客自动部署配置笔记</title>
+        <pubTime>2017-07-25T12:33:00.000Z</pubTime>
+        
+        <tag>github</tag>
+         
+        <tag>static-site</tag>
+         
+        <tag>hexo</tag>
+         
+        <tag>deployment</tag>
+         
+        <tag>ci</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+             
+              <breadCrumb title="deployment" url="https://nickfan.github.io/categories/dev/deployment/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://nickfan.github.io/2015/03/09/hello-world/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>世界，你好！</title>
+        <pubTime>2015-03-09T23:48:40.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="uncategorized" url="https://nickfan.github.io/categories/uncategorized/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://nickfan.github.io/2015/07/01/laravel-oauth2-tips/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>laravel的oauth2-server相关开发的备忘</title>
+        <pubTime>2015-07-01T02:53:52.000Z</pubTime>
+        
+        <tag>laravel</tag>
+         
+        <tag>php</tag>
+         
+        <tag>oauth</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+             
+              <breadCrumb title="laravel" url="https://nickfan.github.io/categories/dev/laravel/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://nickfan.github.io/2015/07/08/simple-php-daemon-code/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>一个简单的php守护进程代码示例</title>
+        <pubTime>2015-07-08T04:50:29.000Z</pubTime>
+        
+        <tag>php</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://nickfan.github.io/2018/01/05/caddy-hugo-acme/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>阿熊的Caddy+Hugo+Acme.sh配置填坑笔记</title>
+        <pubTime>2018-01-05T04:04:38.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+        <tag>caddy</tag>
+         
+        <tag>hugo</tag>
+         
+        <tag>https</tag>
+         
+        <tag>systemd</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+             
+              <breadCrumb title="env" url="https://nickfan.github.io/categories/dev/env/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+    
+    
+  <url>
+    <loc>https://nickfan.github.io/2017/08/20/android-termux/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>android终端环境配置</title>
+        <pubTime>2017-08-20T02:27:49.000Z</pubTime>
+        
+        <tag>mobile-dev</tag>
+         
+        <tag>android</tag>
+         
+        <tag>termux</tag>
+         
+        <tag>linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+             
+              <breadCrumb title="env" url="https://nickfan.github.io/categories/dev/env/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://nickfan.github.io/2016/05/28/windows-dev-env-setup/</loc>
+    <lastmod>2018-12-25T08:22:59.822Z</lastmod>
+    <data>
+        <display>
+        <title>windows下基础开发环境搭建</title>
+        <pubTime>2016-05-28T01:22:12.000Z</pubTime>
+        
+        <tag>babun</tag>
+         
+        <tag>cmder</tag>
+         
+        <tag>cygwin</tag>
+         
+         
+           
+             
+              <breadCrumb title="dev" url="https://nickfan.github.io/categories/dev/"/>
+          
+        </display>
+    </data>
+    </url>
+
+</urlset>
