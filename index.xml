@@ -1,0 +1,2573 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>https://www.kumaxiong.com/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 02 Sep 2020 11:08:32 +0800</lastBuildDate><atom:link href="https://www.kumaxiong.com/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>https://www.kumaxiong.com/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>https://www.kumaxiong.com/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
+&lt;p>这里是阿熊的个人博客（原博客名称：隐逸山林），主要分享一些开发笔记。&lt;/p>
+&lt;p>由于.me的域名续费太贵 axiong.me的域名后面不续费了，还是用.com划算，咩哈哈~~&lt;/p></description></item><item><title>链接及证书的命令行检查(curl+openssl)</title><link>https://www.kumaxiong.com/post/devops-httpcheck/</link><pubDate>Wed, 02 Sep 2020 11:08:32 +0800</pubDate><guid>https://www.kumaxiong.com/post/devops-httpcheck/</guid><description>&lt;h1 id="链接及证书的命令行检查curlopenssl">链接及证书的命令行检查(curl+openssl)&lt;/h1>
+&lt;p>日常开发运维中经常需要用到的一些检查链接连通性，包括但不限于挂代理/指定服务实例IP的情况，
+另外随着LE的使用，证书的单个周期的有效性检测验证也需要做一下记录。&lt;/p>
+&lt;h2 id="httphttps连通性检查">http/https连通性检查&lt;/h2>
+&lt;h3 id="常规连接检查">常规连接检查&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl --connect-timeout &lt;span class="m">15&lt;/span> --max-time &lt;span class="m">20&lt;/span> -ivs http://www.bing.com
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="指定域名和ip检测">指定域名和ip检测&lt;/h3>
+&lt;p>http协议的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl --connect-timeout &lt;span class="m">15&lt;/span> --max-time &lt;span class="m">20&lt;/span> -ivs --resolve &lt;span class="s2">&amp;#34;www.bing.com:80:202.89.233.101&amp;#34;&lt;/span> http://www.bing.com
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>https协议的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl --connect-timeout &lt;span class="m">15&lt;/span> --max-time &lt;span class="m">20&lt;/span> -ivs --resolve &lt;span class="s2">&amp;#34;www.bing.com:443:202.89.233.101&amp;#34;&lt;/span> https://www.bing.com
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>（备选）使用手工指定ip+Host头的模式：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl --connect-timeout &lt;span class="m">15&lt;/span> --max-time &lt;span class="m">20&lt;/span> -ivs -H &lt;span class="s2">&amp;#34;Host:www.bing.com:80&amp;#34;&lt;/span> http://202.89.233.101
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="验证挂代理后的公网地址">验证挂代理后的公网地址&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl --connect-timeout &lt;span class="m">15&lt;/span> --max-time &lt;span class="m">20&lt;/span> -ivs -x http://127.0.0.1:8118 https://httpbin.org/ip
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中参数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-txt" data-lang="txt">-x http://127.0.0.1:8118
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>代表使用本地127.0.0.1的IP的8118端口的http协议的代理服务&lt;/p>
+&lt;h2 id="证书有效期检查">证书有效期检查&lt;/h2>
+&lt;h3 id="本地证书检查">本地证书检查&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">openssl x509 -in mycert.pem -noout -enddate
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>输出类似于：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-txt" data-lang="txt">notAfter=Oct 28 23:42:57 2020 GMT
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="在线服务的证书检查">在线服务的证书检查&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="nb">echo&lt;/span> &lt;span class="p">|&lt;/span> openssl s_client -servername bing.com -connect &lt;span class="s2">&amp;#34;bing.com&amp;#34;&lt;/span>:443 2&amp;gt;/dev/null &lt;span class="p">|&lt;/span> openssl x509 -noout -enddate
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>H5下的图片上传下载与dataURI转换</title><link>https://www.kumaxiong.com/post/h5-upload-datauri/</link><pubDate>Wed, 26 Aug 2020 19:46:19 +0800</pubDate><guid>https://www.kumaxiong.com/post/h5-upload-datauri/</guid><description>&lt;h1 id="h5下的图片上传下载与datauri转换">H5下的图片上传下载与dataURI转换&lt;/h1>
+&lt;p>最近加强了一点点对前端的学习，从各个地方查找和学习到了前端图片基础处理的一些知识记录一下。&lt;/p>
+&lt;p>先看需要解决的问题：&lt;/p>
+&lt;ol>
+&lt;li>粘贴与拖拽上传：
+这部分我阅读了一下iview的上传的组件的源码，基本上就是监听元素的触发事件的关联对象：
+拖拽&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">onDrop&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">uploadFiles&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">dataTransfer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">files&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>粘贴：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">handlePaste&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">uploadFiles&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">clipboardData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">files&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>本质上是通过事件e触发后读取关联的对象（拖拽行为的dataTransfer和粘贴行为的clipboardData）下属的files数组（内容为File对象的数组列表）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">uploadFiles&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">files&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">postFiles&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">Array&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">prototype&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">slice&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">call&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">files&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">multiple&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">postFiles&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">postFiles&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">slice&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">postFiles&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span> &lt;span class="o">===&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="nx">postFiles&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">forEach&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">upload&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">});&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>uploadFiles遍历files数组后逐个调用上传接口&lt;/p>
+&lt;ol start="2">
+&lt;li>上传图片的预览&lt;/li>
+&lt;/ol>
+&lt;p>现在的chrome的安全机制已经不能允许直接使用input file的源路径直接展示内容了。
+不过我们还是可以通过File Reader的方式将需要读取的图片文件转为dataURI的形式并赋值给img的src直接呈现出来。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="c1">// 创建一个 FileReader 对象
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">let&lt;/span> &lt;span class="nx">reader&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">FileReader&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="c1">// readAsDataURL 方法用于读取指定 Blob 或 File 的内容
+&lt;/span>&lt;span class="c1">// 当读操作完成，readyState 变为 DONE，loadend 被触发，此时 result 属性包含数据：URL（以 base64 编码的字符串表示文件的数据）
+&lt;/span>&lt;span class="c1">// 读取文件作为 URL 可访问地址
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">readAsDataURL&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="kr">const&lt;/span> &lt;span class="nx">_this&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">this&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="c1">// eslint-disable-next-line no-unused-vars
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">onloadend&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">_this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">handlePreview&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中的reader.result就是文件内容的base64编码后的dataURI地址链接直接赋值给img的src即可呈现出来&lt;/p>
+&lt;ol start="3">
+&lt;li>远程图片的下载&lt;/li>
+&lt;/ol>
+&lt;p>这个直接在网上找到了处理的方法，记录一下代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">getBase64ImageFromUrl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">async&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">imageUrl&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">await&lt;/span> &lt;span class="nx">fetch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">imageUrl&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">blob&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">await&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">blob&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Promise&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="nx">resolve&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">reject&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">reader&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">FileReader&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">addEventListener&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="s2">&amp;#34;load&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="kd">function&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">resolve&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">result&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="kc">false&lt;/span>
+&lt;span class="p">);&lt;/span>
+&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">onerror&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">reject&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">readAsDataURL&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">blob&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">});&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>本质上还是利用FileReader转换fetch下载回来的blob内容转换为dataURI的链接&lt;/p>
+&lt;ol start="4">
+&lt;li>dataURI的上传&lt;/li>
+&lt;/ol>
+&lt;p>要做到dataURI的上传首先先了解一下思路：&lt;/p>
+&lt;ul>
+&lt;li>将dataURI转化为File对象&lt;/li>
+&lt;li>将File对象和其他的提交字段一并添加到FormData的对象实例&lt;/li>
+&lt;li>将FormData通过axios或者原生等ajax方式转化为和普通上传文件表单一样的http报文的形式实现提交上传请求&lt;/li>
+&lt;/ul>
+&lt;p>基础的就是将dataURI的字符串拆解并转换回Blob对象：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">dataURItoBlob&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// convert base64 to raw binary data held in a string
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="c1">// doesn&amp;#39;t handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kd">let&lt;/span> &lt;span class="nx">byteString&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">].&lt;/span>&lt;span class="nx">indexOf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;base64&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">byteString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">atob&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">byteString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">unescape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// separate out the mime component
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">mimeString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">dataURI&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;:&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;;&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;span class="c1">// write the bytes of the string to an ArrayBuffer
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">ab&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">ArrayBuffer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">byteString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="c1">// create a view into the buffer
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">ia&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">Uint8Array&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ab&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="c1">// set the bytes of the buffer to the correct values
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="nx">byteString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">ia&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">byteString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">charCodeAt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// write the ArrayBuffer to a blob, and you&amp;#39;re done
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">blob&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">Blob&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="nx">ab&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">type&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nx">mimeString&lt;/span> &lt;span class="p">});&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">blob&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>深入去看一下File对象的接口会发现其实File对象就是Blob对象的装饰器，其实就是一个壳子加上了name,lastmodified等属性&lt;/p>
+&lt;p>所以简单改造一下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="nx">dataURItoFile&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filename&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">lastModified&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// convert base64 to raw binary data held in a string
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="c1">// doesn&amp;#39;t handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kd">let&lt;/span> &lt;span class="nx">byteString&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">].&lt;/span>&lt;span class="nx">indexOf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;base64&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">byteString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">atob&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">byteString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">unescape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// separate out the mime component
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">mimeString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">dataURI&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;:&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;;&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">lastModified&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">lastModified&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">Date&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">now&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">filename&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">ext&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">mimeString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;/&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="s2">&amp;#34;bin&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="nx">filename&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sb">`upload.&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nx">ext&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// write the bytes of the string to an ArrayBuffer
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">ab&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">ArrayBuffer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">byteString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="c1">// create a view into the buffer
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">ia&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">Uint8Array&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ab&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="c1">// set the bytes of the buffer to the correct values
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="nx">byteString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">ia&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">byteString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">charCodeAt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// write the ArrayBuffer to a blob, and you&amp;#39;re done
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">file&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">File&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="nx">ab&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="nx">filename&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">type&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nx">mimeString&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">lastModified&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nx">lastModified&lt;/span>
+&lt;span class="p">});&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">file&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>再加上点小辅助函数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">checkIsDataURI&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">dataURI&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">].&lt;/span>&lt;span class="nx">indexOf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;base64&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;gt;=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>得到File对象以后可以和其他需要一并提交的数据组成FormData对象实例:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kd">let&lt;/span> &lt;span class="nx">srcDataURI&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;data:image/png;base64,xxx此处省略base64编码后的内容&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">dataFile&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">dataURItoFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">srcDataURI&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">fileFieldName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;upload_file&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">addonData&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">field1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="s1">&amp;#39;val1&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">field2&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="s1">&amp;#39;val2&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">postData&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">FormData&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="nx">postData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">fileFieldName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">dataFile&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">dataFile&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">addonData&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nb">Object&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">keys&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">addonData&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">forEach&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">key&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">postData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">key&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">addonData&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">key&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">});&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后再整体封装成普通的表单上传文件的头+内容的方式，此处使用axios处理：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">postUploadDataUri&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">uploadUrl&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">dataURI&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">addonData&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filename&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">field&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">authToken&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">dataFile&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">dataURItoFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">dataURI&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filename&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">postData&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">FormData&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">field&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">field&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;upload_file&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nx">postData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">field&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">dataFile&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">dataFile&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">addonData&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nb">Object&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">keys&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">addonData&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">forEach&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">key&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">postData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">key&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">addonData&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">key&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">});&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">requestConfig&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">headers&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">Authorization&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="sb">`Bearer &lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nx">authToken&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="sb">`&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">};&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">$axios&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">post&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">uploadUrl&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">postData&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">requestConfig&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">then&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">response&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">response&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">})&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="k">catch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">error&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">});&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意由于post的参数对象是FormData对象类型，headers的配置中不需要也不能傻乎乎的加上：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="p">{&lt;/span> &lt;span class="nt">&amp;#34;Content-Type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;multipart/form-data&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>虽然文件上传的确需要multipart/form-data的头，但完整的报文中form-data的头里，各个文件和附加字段之间是会有boundary的分割标记字符串来告知服务端上传的各个数据流的内容到了服务端那边如何解析报文的
+类似于这样：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-http" data-lang="http">&lt;span class="nf">POST&lt;/span> &lt;span class="nn">http://www.example.com&lt;/span> &lt;span class="kr">HTTP&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="m">1.1&lt;/span>
+&lt;span class="n">Content-Type&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="l">multipart/form-data; boundary=----WebKitFormBoundaryFw0bBOkuhsMWbwBV&lt;/span>
+&lt;span class="err"> &lt;/span>
+------WebKitFormBoundaryFw0bBOkuhsMWbwBV
+Content-Disposition: form-data; name=&amp;#34;field1&amp;#34;
+val1
+------WebKitFormBoundaryFw0bBOkuhsMWbwBV
+Content-Disposition: form-data; name=&amp;#34;field2&amp;#34;
+val2
+------WebKitFormBoundaryFw0bBOkuhsMWbwBV
+Content-Disposition: form-data; name=&amp;#34;upload_file&amp;#34;; filename=&amp;#34;example.png&amp;#34;
+Content-Type: image/png
+PNG ... content of example.png ...
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>boundary的分割标记随机字符串axios封装的XMLHttpRequest对象会自动和Content-Type:multipart/form-data一并帮我们生成并加上所以并不用自己手工处理这块的头信息&lt;/p>
+&lt;p>至此基本上可以解决大部分dataURI的上传处理问题&lt;/p></description></item><item><title>mysql数据库空间的influxDB增量统计</title><link>https://www.kumaxiong.com/post/influxdb-increasement/</link><pubDate>Tue, 25 Aug 2020 19:30:17 +0800</pubDate><guid>https://www.kumaxiong.com/post/influxdb-increasement/</guid><description>&lt;p>业务系统中RDS的mysql的空间捉襟见肘时就会想起来需要做一下容量的统计和趋势监控
+实施的方案是：&lt;/p>
+&lt;p>定时用python从mysql的information_schema库中的TABLES表中抽取DATA_LENGTH+INDEX_LENGTH的数据以及DATA_FREE的数据来做统计项
+将数据抽取到influxDB中备查&lt;/p>
+&lt;p>核心的查询语句：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-python" data-lang="python"> &lt;span class="c1"># 1048576 字节 等于 1MB&lt;/span>
+&lt;span class="c1"># 监控门槛：&lt;/span>
+&lt;span class="c1"># DATA_FREE&amp;gt;= 6MB （可优化空间大于6MB）&lt;/span>
+&lt;span class="c1"># TABLE_ROWS&amp;gt;= 100k (10万行以上)&lt;/span>
+&lt;span class="c1"># DATA_LENGTH&amp;gt;= 20MB (数据空间占用大于20MB)&lt;/span>
+&lt;span class="c1"># INDEX_LENGTH&amp;gt;= 20MB (索引空间占用大于20MB)&lt;/span>
+&lt;span class="c1"># `TABLE_SCHEMA` IN (&amp;#39;{&amp;#34;&amp;#39;,&amp;#39;&amp;#34;.join(self.check_dbs)}&amp;#39;)&lt;/span>
+&lt;span class="n">sql&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34; SELECT `TABLE_SCHEMA`,`TABLE_NAME`, CONCAT_WS(&amp;#39;.&amp;#39;,`TABLE_SCHEMA`,`TABLE_NAME`) AS DBTABLENAME,
+&lt;/span>&lt;span class="s2">(`DATA_FREE`/1048576) AS free_len_mb,
+&lt;/span>&lt;span class="s2">(`DATA_LENGTH`+ `INDEX_LENGTH`)/1048576 AS row_len_mb,
+&lt;/span>&lt;span class="s2">(`TABLE_ROWS`/1000) AS rows_kb ,
+&lt;/span>&lt;span class="s2">(`DATA_LENGTH`/1048576) AS dat_len_mb,
+&lt;/span>&lt;span class="s2">(`INDEX_LENGTH`/1048576) AS idx_len_mb
+&lt;/span>&lt;span class="s2">FROM `information_schema`.`TABLES` WHERE
+&lt;/span>&lt;span class="s2">`TABLE_SCHEMA` IN (&amp;#39;{&amp;#34;&amp;#39;,&amp;#39;&amp;#34;.join(self.check_dbs)}&amp;#39;)
+&lt;/span>&lt;span class="s2">AND (`DATA_FREE`&amp;gt;=6291456 OR TABLE_ROWS &amp;gt;= 100000 OR DATA_LENGTH&amp;gt;=20971520 OR INDEX_LENGTH&amp;gt;=15728640 )
+&lt;/span>&lt;span class="s2">ORDER BY free_len_mb DESC,row_len_mb DESC,dat_len_mb DESC,idx_len_mb DESC, `TABLE_SCHEMA` ASC,`TABLE_NAME` ASC
+&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后单行的influxdb的表结构：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-python" data-lang="python"> &lt;span class="n">tsdb_item_record&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="s1">&amp;#39;measurement&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;dbtable_stats&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;tags&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="s1">&amp;#39;db&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">db&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;table&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">table&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;dbtable&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">dbtable&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="s1">&amp;#39;time&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="s1">&amp;#39;{utcnow.strftime(&amp;#34;%Y-%m-&lt;/span>&lt;span class="si">%d&lt;/span>&lt;span class="s1">T%H:%M:%S&amp;#34;)}Z&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;fields&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="s1">&amp;#39;free_len_mb&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">free_len_mb&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;row_len_mb&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">row_len_mb&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;rows&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">rows_kb&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;dat_len_mb&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">dat_len_mb&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;idx_len_mb&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">idx_len_mb&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样在influxdb中我们就有了每个埋点间隔下统计的数据信息，接下来在grafana中可以用InfluxDB的查询函数统计出对应的信息并展示图表&lt;/p>
+&lt;p>按时间查询各个表的空间占用（数据+索引）的增长量：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="k">SELECT&lt;/span> &lt;span class="n">cumulative_sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">difference&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mean&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;row_len_mb&amp;#34;&lt;/span>&lt;span class="p">)))&lt;/span> &lt;span class="k">FROM&lt;/span> &lt;span class="s2">&amp;#34;dbspace_watches_rp&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="s2">&amp;#34;dbtable_stats&amp;#34;&lt;/span> &lt;span class="k">WHERE&lt;/span> &lt;span class="err">$&lt;/span>&lt;span class="n">timeFilter&lt;/span> &lt;span class="k">GROUP&lt;/span> &lt;span class="k">BY&lt;/span> &lt;span class="n">time&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">5&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="s2">&amp;#34;dbtable&amp;#34;&lt;/span> &lt;span class="n">fill&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">null&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>再加上一下查询起始时的值就是当下的总数据量的表数据空间排名：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="k">SELECT&lt;/span> &lt;span class="k">first&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;row_len_mb&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">cumulative_sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">difference&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mean&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;row_len_mb&amp;#34;&lt;/span>&lt;span class="p">)))&lt;/span> &lt;span class="k">FROM&lt;/span> &lt;span class="s2">&amp;#34;dbspace_watches_rp&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="s2">&amp;#34;dbtable_stats&amp;#34;&lt;/span> &lt;span class="k">WHERE&lt;/span> &lt;span class="err">$&lt;/span>&lt;span class="n">timeFilter&lt;/span> &lt;span class="k">GROUP&lt;/span> &lt;span class="k">BY&lt;/span> &lt;span class="n">time&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">5&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="s2">&amp;#34;dbtable&amp;#34;&lt;/span> &lt;span class="n">fill&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">null&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://www.kumaxiong.com/post/influxdb-increasement/image-20200826173247724.png" alt="image-20200826173247724">&lt;/p>
+&lt;p>同理也可以得到库表的DATA_FREE也就是可优化空间的增长量和排名在此不再赘述
+另外提一句，mysql在做optmize释放空间的时候会锁表，所以还是在业务空闲期做这些释放空间的活比较好&lt;/p>
+&lt;p>另外可以顺便求一下倒数得到查询时间区间内的各表的增长率，方便发现特别高增长的表做对应的优化&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="k">SELECT&lt;/span> &lt;span class="n">derivative&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cumulative_sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">difference&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mean&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;row_len_mb&amp;#34;&lt;/span>&lt;span class="p">))),&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">FROM&lt;/span> &lt;span class="s2">&amp;#34;dbspace_watches_rp&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="s2">&amp;#34;dbtable_stats&amp;#34;&lt;/span> &lt;span class="k">WHERE&lt;/span> &lt;span class="err">$&lt;/span>&lt;span class="n">timeFilter&lt;/span> &lt;span class="k">GROUP&lt;/span> &lt;span class="k">BY&lt;/span> &lt;span class="n">time&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="n">h&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="s2">&amp;#34;dbtable&amp;#34;&lt;/span> &lt;span class="n">fill&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">null&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>OpenCv开发中所遇到的问题备忘</title><link>https://www.kumaxiong.com/post/opencv-notes/</link><pubDate>Wed, 12 Aug 2020 19:10:42 +0800</pubDate><guid>https://www.kumaxiong.com/post/opencv-notes/</guid><description>&lt;h3 id="opencv开发中所遇到的问题备忘">OpenCv开发中所遇到的问题备忘&lt;/h3>
+&lt;h4 id="1qt库冲突的问题">1.qt库冲突的问题：&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-text" data-lang="text">You might be loading two sets of Qt binaries into the same process. Check that all plugins are compiled against the right Qt binaries. Export DYLD_PRINT_LIBRARIES=1 and check that only one set of binaries are being loaded.
+QObject::moveToThread: Current thread (0x7ff56d74feb0) is not the object&amp;#39;s thread (0x7ff570dfec60).
+Cannot move to target thread (0x7ff56d74feb0)
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行conda环境下opencv时遇到的，查了一下大概是需要卸载了opencv-python后再安装一下opencv-python-headless的版本&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">pip uninstall opencv-python
+pip install opencv-python-headless
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装时长不够就用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">pip install --default-timeout&lt;span class="o">=&lt;/span>&lt;span class="m">50000&lt;/span> opencv-python-headless
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>参考：
+&lt;a href="https://www.pythonheidong.com/blog/article/410902/">https://www.pythonheidong.com/blog/article/410902/&lt;/a>&lt;/p></description></item><item><title>FastApi开发中所遇到的问题备忘</title><link>https://www.kumaxiong.com/post/fastapi-notes/</link><pubDate>Wed, 12 Aug 2020 19:02:42 +0800</pubDate><guid>https://www.kumaxiong.com/post/fastapi-notes/</guid><description>&lt;h3 id="fastapi开发中所遇到的问题解决">FastApi开发中所遇到的问题解决&lt;/h3>
+&lt;h4 id="1-需要fastapi的服务端提供静态文件">1. 需要fastapi的服务端提供静态文件：&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="n">app&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">mount&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;/static&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">StaticFiles&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">directory&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">join&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">myapp&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">env&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_data_path&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="s1">&amp;#39;static&amp;#39;&lt;/span>&lt;span class="p">)),&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;static&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中第一个static是网站访问路径，第二个static是磁盘路径，第三个static是FastApi代码内部引用名称&lt;/p>
+&lt;h4 id="2-文件上传处理">2. 文件上传处理：&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="n">async&lt;/span> &lt;span class="k">def&lt;/span> &lt;span class="nf">file_upload&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="n">upfile&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">UploadFile&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">File&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">...&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">):&lt;/span>
+&lt;span class="n">dest_file_path&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;uploaded/userfile.ext&amp;#39;&lt;/span>
+&lt;span class="n">destination&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Path&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dest_file_path&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="k">with&lt;/span> &lt;span class="n">destination&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;wb&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nb">buffer&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="n">shutil&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">copyfileobj&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">upfile&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">file&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">buffer&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="k">finally&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="n">upload_file&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">file&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">close&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-cors问题">3. cors问题&lt;/h3>
+&lt;p>服务端配置cros:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="n">origins&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="c1"># &amp;#34;*&amp;#34;&lt;/span>
+&lt;span class="s2">&amp;#34;https://localhost&amp;#34;&lt;/span>
+&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;http://localhost&amp;#34;&lt;/span>
+&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;http://localhost:8000&amp;#34;&lt;/span>
+&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;https://www.kumaxiong.com&amp;#34;&lt;/span>
+&lt;span class="p">]&lt;/span>
+&lt;span class="n">app&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_middleware&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="n">CORSMiddleware&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="n">allow_origins&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">origins&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="n">allow_credentials&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="bp">True&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="n">allow_methods&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;*&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;span class="c1"># allow_methods=[&amp;#34;DELETE&amp;#34;, &amp;#34;GET&amp;#34;, &amp;#34;POST&amp;#34;, &amp;#34;PUT&amp;#34;],&lt;/span>
+&lt;span class="n">allow_headers&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;*&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>客户端处理的时候不要with-credentials带上cookie等信息：&lt;/p>
+&lt;p>参考：https://blog.csdn.net/liyuling52011/article/details/80013725&lt;/p></description></item><item><title>阿熊的Caddy+Hugo+Acme.sh配置填坑笔记</title><link>https://www.kumaxiong.com/post/caddy-hugo-acme/</link><pubDate>Fri, 05 Jan 2018 12:04:38 +0800</pubDate><guid>https://www.kumaxiong.com/post/caddy-hugo-acme/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>最近想比较一下caddy和nginx的服务及功能，&lt;/p>
+&lt;p>设定的目标是用hugo搭建一个静态站点然后通过Caddy服务起来提供&lt;/p>
+&lt;p>&lt;a href="https://axiong.me">https://axiong.me&lt;/a> 的访问。&lt;/p>
+&lt;p>于是就走上了一条不断踩坑的不归路，在此记录一下踩坑、填坑的过程。&lt;/p>
+&lt;h3 id="第个踩到的坑github的cname站点不支持https">第〇个踩到的坑：github的CNAME站点不支持https&lt;/h3>
+&lt;p>理论上站点也可以放在github的gh-pages上，所以我就尝试了&lt;/p>
+&lt;p>&lt;a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">Hugo托管到Github的流程说明&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Tips&lt;/strong>&lt;/p>
+&lt;p>我用的是gh-pages的分支方案
+项目master分支根节点可以加gitignore忽略掉hugo的发布路径public，方便测试
+注意安装主题的话最好用submodule的方式而不是文档中的git clone,比如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">git submodule add https://github.com/christianmendoza/hugo-smpl-theme themes/hugo-smpl-theme
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样后续部署的时候才不会遇到尴尬的项目没法自动部署的问题。&lt;/p>
+&lt;p>&lt;strong>问题&lt;/strong>&lt;/p>
+&lt;p>github的CNAME站点不支持https&lt;/p>
+&lt;p>不过@根域名CNAME记录和MX记录TXT记录冲突，蛋疼（免费邮局服务不想放），而且MD不支持https，所以，方案被我毙掉了。&lt;/p>
+&lt;p>&lt;strong>解决方案&lt;/strong>&lt;/p>
+&lt;p>自己有vps就可以任性一下了，也顺便捣腾一下Caddy的https服务&lt;/p>
+&lt;h3 id="第一个踩到的坑caddy自动申请证书不成功">第一个踩到的坑：Caddy自动申请证书不成功&lt;/h3>
+&lt;p>就是Caddy自动申请 Let&amp;rsquo;s Encrypt 的请求总是总是timeout，
+不知道是不是因为解析服务用cloudxns的问题，而caddy目前还没有cloudxns的组件。&lt;/p>
+&lt;p>&lt;strong>解决方案&lt;/strong>&lt;/p>
+&lt;p>用 &lt;a href="https://github.com/Neilpang/acme.sh">Acme.sh&lt;/a> 这个自动脚本做配置做证书的issue和renew，注意要采用dns的api模式,毕竟到这一步Caddy的服务还被申请证书卡着。&lt;/p>
+&lt;p>参考：&lt;a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E">Acme.sh说明&lt;/a>&lt;/p>
+&lt;h4 id="1-证书申请">1. 证书申请&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">acme.sh --issue --dns -d axiong.me
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="2-到解析服务商后台添加对应的txt记录">2. 到解析服务商后台添加对应的Txt记录&lt;/h4>
+&lt;p>我的是cloudxns基本上就是加一条的Txt类型记录，_acme-challenge为主host部分记录，内容部分是acme终端中给出的。&lt;/p>
+&lt;h4 id="3-重新生成证书">3. 重新生成证书&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">acme.sh --renew -d axiong.me
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="4-到你的解析服务商后台申请api的key和secret">4. 到你的解析服务商后台申请API的key和secret&lt;/h4>
+&lt;p>&lt;strong>参考链接&lt;/strong>&lt;/p>
+&lt;p>&lt;a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md">Acme.sh的DNSApi的配置说明&lt;/a>&lt;/p>
+&lt;h4 id="5-导出安装证书到本地供后续caddy使用">5. 导出/安装证书到本地供后续Caddy使用&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">acme.sh --installcert -d axiong.me --key-file /etc/ssl/caddy/certs/axiong.me/ssl.key --fullchain-file /etc/ssl/caddy/certs/axiong.me/fullchain.cer --reloadcmd &amp;#34;systemctl restart caddy&amp;#34;
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>按照acme.sh的说明，它的crontab脚本会自动续期证书。&lt;/p>
+&lt;p>免费ssl证书问题至此算是告一段落。&lt;/p>
+&lt;h3 id="第二个踩到的坑caddyhugo组合配置问题">第二个踩到的坑：Caddy+Hugo组合配置问题&lt;/h3>
+&lt;p>网上有Caddy+Hugo的教程:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="http://www.gohugo.org/post/qhsong-host-hugo-blog-using-caddy/">http://www.gohugo.org/post/qhsong-host-hugo-blog-using-caddy/&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://laozhu.me/post/deploy-blog-with-caddy-and-hugo/">https://laozhu.me/post/deploy-blog-with-caddy-and-hugo/&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>都有一些小坑，比如：&lt;/p>
+&lt;ul>
+&lt;li>caddy的插件有依赖必须通过他官方的服务整合编译，上面的配置中依赖http.hugo,http.minify,http.git等&lt;/li>
+&lt;li>caddy的官方下载如果插件加多了很可能给你返回500，安装失败&lt;/li>
+&lt;li>caddy的hugo插件，hugo指令必须是环境变量里支持的，我适用golang开发环境的hugo如果作为系统服务就会找不到&lt;/li>
+&lt;li>caddy的配置问题，errors节点里不能配置log指令&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>解决方案&lt;/strong>&lt;/p>
+&lt;p>查文档，看官方说明，例子。&lt;/p>
+&lt;h4 id="1-caddy插件下载问题至少需要httpgithttpminifyhttphugo">1. caddy+插件下载问题，至少需要http.git,http.minify,http.hugo&lt;/h4>
+&lt;p>精简插件数量只装必要的&lt;/p>
+&lt;p>Caddy官方的下载页面可以定制，定制完毕页面最下方有命令行指令参考&lt;/p>
+&lt;p>&lt;a href="https://caddyserver.com/download">https://caddyserver.com/download&lt;/a>&lt;/p>
+&lt;p>一键安装指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">curl https://getcaddy.com | bash -s personal dns,hook.service,http.git,http.hugo,http.minify,tls.dns.rfc2136
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>或者用下载链接下载后解压缩后把caddy放到/usr/local/bin/caddy&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">wget -O &amp;#34;caddy.tar.gz&amp;#34; &amp;#34;https://caddyserver.com/download/linux/amd64?plugins=dns,hook.service,http.git,http.hugo,http.minify,tls.dns.rfc2136&amp;amp;license=personal&amp;#34;
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="2-hugo指令必须是环境变量里支持的去官方直接下载发行版的安装包">2. hugo指令必须是环境变量里支持的,去官方直接下载发行版的安装包&lt;/h4>
+&lt;p>注意apt-get或者snap安装的版本会比较老，建议直接去 &lt;a href="https://github.com/gohugoio/hugo/releases">https://github.com/gohugoio/hugo/releases&lt;/a> 下载
+比如ubuntu用的.deb的包
+下载后安装&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">sudo dpkg -i hugo_xxx_Linux-64bit.deb
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="第三个踩到的坑caddy的ulimit问题">第三个踩到的坑：Caddy的ulimit问题&lt;/h3>
+&lt;p>其实不算是Caddy的锅，系统的limits配置我的vps没调整，Caddy会报&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">caddy: WARNING: File descriptor limit 1024 is too low for production servers. At least 8192 is recommended. Fix with &amp;#34;ulimit -n 8192&amp;#34;.
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>解决方案&lt;/strong>&lt;/p>
+&lt;p>临时解决方案就是执行提示里的&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">ulimit -n 8192
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>再跑caddy，彻底的解决方案是修改系统的limits配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">sudo vim /etc/security/limits.conf
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>追加 对文件句柄的配置设定&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">* soft nofile 65535
+* hard nofile 65535
+* soft nproc 65535
+* hard nproc 65535
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="第四个踩到的坑caddy的默认端口是2015">第四个踩到的坑：Caddy的默认端口是2015&lt;/h3>
+&lt;p>Caddy的配置有个坑，如果tls不是他它自动签发的模式，的情况下
+http的端口用的是2015。&lt;/p>
+&lt;p>参见&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/mholt/caddy/issues/651">https://github.com/mholt/caddy/issues/651&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/mholt/caddy/issues/1673">https://github.com/mholt/caddy/issues/1673&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>解决方案&lt;/strong>&lt;/p>
+&lt;p>手工配置自动跳转&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">http://axiong.me {
+redir https://axiong.me
+}
+https://axiong.me {
+tls ssl.cer ssl.key
+...
+}
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="第五个踩到的坑caddy自启动的systemd配置问题">第五个踩到的坑：Caddy自启动的Systemd配置问题&lt;/h3>
+&lt;p>配置Caddy的Systemd自启动遇到&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">caddy.service: Failed at step NAMESPACE spawning /usr/local/bin/caddy: No such file or directory
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>启动不了&lt;/p>
+&lt;p>参考 &lt;a href="https://caddy.community/t/starting-with-systemd-failed-at-step-namespace-spawning-usr-local-bin-caddy-no-such-file-or-directory/423">https://caddy.community/t/starting-with-systemd-failed-at-step-namespace-spawning-usr-local-bin-caddy-no-such-file-or-directory/423&lt;/a>&lt;/p>
+&lt;p>改吧改吧，然后转角遇到爱，尼玛，又出现&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">ExecStart=/usr/local/bin/caddy -log stdout -agree=true -conf=/etc/caddy/Caddyfile -root=/var/tmp (code=exited, status=226/NAMESPACE)
+Main PID: xxx (code=exited, status=226/NAMESPACE)
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>解决方案&lt;/strong>&lt;/p>
+&lt;p>死活找不到原因，怒了，重新按社区贡献的配置文档重新整了一遍，&lt;/p>
+&lt;p>参考 &lt;a href="https://github.com/mholt/caddy/tree/master/dist/init/linux-systemd">https://github.com/mholt/caddy/tree/master/dist/init/linux-systemd&lt;/a> 文档，并下载caddy.service作为模板&lt;/p>
+&lt;p>重新一步步把用户权限配置了一遍，搞定，不在出现226/NAMESPACE问题。&lt;/p>
+&lt;h3 id="优化完善caddy配置">优化完善Caddy配置&lt;/h3>
+&lt;h4 id="查caddy的官方文档完整的解决配置文件caddyfile内容问题">查Caddy的官方文档，完整的解决配置文件Caddyfile内容问题&lt;/h4>
+&lt;p>修改后的完整示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">http://axiong.me {
+redir https://axiong.me
+}
+https://axiong.me {
+#tls off
+#tls admin@example.com
+tls /etc/ssl/caddy/certs/axiong.me/fullchain.cer /etc/ssl/caddy/certs/axiong.me/ssl.key
+minify
+gzip
+log / /var/log/caddy/pub-axiong.me_access.log &amp;#34;{combined}&amp;#34; {
+rotate_size 100 # Rotate a log when it reaches 100 MB
+rotate_age 14 # Keep rotated log files for 14 days
+rotate_keep 10 # Keep at most 10 rotated log files
+rotate_compress # Compress rotated log files in gzip format
+}
+errors /var/log/caddy/pub-axiong.me_error.log {
+404 404.html # Not Found
+rotate_size 100 # Rotate a log when it reaches 100 MB
+rotate_age 14 # Keep rotated log files for 14 days
+rotate_keep 10 # Keep at most 10 rotated log files
+rotate_compress # Compress rotated log files in gzip format
+}
+root /var/www/axiong.me/public
+git {
+repo https://github.com/nickfan/axiong.me
+path /var/www/axiong.me
+then hugo --destination=/var/www/axiong.me/public
+hook /webhook [你在github后台设置的webhook的口令]
+hook_type github
+clone_args --recursive
+pull_args --recurse-submodules
+interval 3600
+}
+hugo
+}
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中webhook就是你代码托管服务比如github上代码repo后台设定中添加一下webhook这样代码提交以后就会自动构建你的新静态网站
+比如我的托管在github上webhook.settings设定在 &lt;a href="https://github.com/nickfan/axiong.me/settings/hooks">https://github.com/nickfan/axiong.me/settings/hooks&lt;/a>&lt;/p>
+&lt;p>添加webhook,PayloadURL填写你域名/webhook，比如我的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">https://axiong.me/webhook
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>content-type选json
+secret填写和Caddyfile中的口令保持一致
+其他保持默认即可。&lt;/p>
+&lt;p>至此Caddy才算是初步可以看了。&lt;/p>
+&lt;ul>
+&lt;li>有访问日志、有错误日志，日志都有rotate不会撑满磁盘。&lt;/li>
+&lt;li>有minify+gzip做输出优化&lt;/li>
+&lt;li>免费自定义ssl证书，有钱你换DV,OV级别的我也没意见&lt;/li>
+&lt;li>自动http-&amp;gt;https跳转&lt;/li>
+&lt;li>改完站点提交代码后webhook自动发布上线&lt;/li>
+&lt;/ul>
+&lt;h3 id="todo">TODO&lt;/h3>
+&lt;p>webhook的配置可以从Caddyfile配置中用环境变量替换出来，放到Systemd的附加配置里，比如加个override.conf之类的，更完善。&lt;/p></description></item><item><title>android终端环境配置</title><link>https://www.kumaxiong.com/post/android-termux/</link><pubDate>Sun, 20 Aug 2017 10:27:49 +0800</pubDate><guid>https://www.kumaxiong.com/post/android-termux/</guid><description>&lt;h2 id="效果图">效果图&lt;/h2>
+&lt;p>&lt;strong>惯例，先看最终执行效果图&lt;/strong>&lt;/p>
+&lt;p>&lt;a href="https://www.kumaxiong.com/post/android-termux/Screenshot_2017-08-21-09-57-03-169_com.termux.png">&lt;img src="https://www.kumaxiong.com/post/android-termux/Screenshot_2017-08-21-09-57-03-169_com.termux.png" alt="termux-screenshot">&lt;/a>&lt;/p>
+&lt;h2 id="android客户端软件清单">android客户端软件清单&lt;/h2>
+&lt;p>&lt;a href="https://www.kumaxiong.com/post/android-termux/IMG_20170821_100922.jpg">&lt;img src="https://www.kumaxiong.com/post/android-termux/IMG_20170821_100922.jpg" alt="android-app-list">&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://termux.com/">Termux&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>无需root的终端app，基于busybox&lt;/p>
+&lt;ul>
+&lt;li>(可选) &lt;a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard">Hacker&amp;rsquo;s Keyboard&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>更舒服的编码键盘&lt;/p>
+&lt;ul>
+&lt;li>(可选) &lt;a href="https://play.google.com/store/apps/details?id=com.appaholics.keyboardswitch">Quick Keyboard Switch&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>快速切换键盘（通知栏输入法切换）&lt;/p>
+&lt;ul>
+&lt;li>(可选) &lt;a href="https://play.google.com/store/apps/details?id=de.onyxbits.remotekeyboard">Remote Keyboard&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>非常简单的远程键盘输入，你所需要的只是一个telnet终端工具（windows的telnet命令或者SecureCRT,XShell之类的都可以）
+打开Remote Keyboard后会告诉你本机的服务地址和端口
+同时你选中的输入法是Remote Keyboard
+在你的终端工具/指令中连接上此ip端口即可&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">telnet 192.168.1.247 2323
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后就尽情的输入吧，不过话说，有台式机还要在手机玩，应该是缺乏安全感吧。&lt;/p>
+&lt;p>&lt;a href="https://www.kumaxiong.com/post/android-termux/QQ20170821-100001@2x.png">&lt;img src="https://www.kumaxiong.com/post/android-termux/QQ20170821-100001@2x.png" alt="remote_keyboard-telnet-screenshot">&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>(备用) &lt;a href="https://play.google.com/store/apps/details?id=com.spartacusrex.spartacuside">Terminal IDE&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>这货也是基于busybox的，不过属于一次性集成n多包的那种，目前没看到追加包的办法只有rpm指令，如果内置的功能够用，这个备选也不错。&lt;/p>
+&lt;ul>
+&lt;li>(推荐) &lt;a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">JuiceSSH - SSH Client&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>如果你仅仅是需要远程登录到服务器临时解决一下问题的话这个ssh终端工具也许会更适合你。&lt;/p>
+&lt;h2 id="准备">准备&lt;/h2>
+&lt;p>&lt;strong>如果你愿意认真读Termux的帮助文档，这里的很多废话可以略过，想省时间的话看下面：&lt;/strong>&lt;/p>
+&lt;h2 id="触屏键盘">触屏键盘&lt;/h2>
+&lt;ul>
+&lt;li>触屏键盘手机的实体键位中的音量减相当于linux中的Control键(CTRL)&lt;/li>
+&lt;li>触屏键盘手机的实体键位中的音量加相当于linux中的Alt键(ALT)或一些特殊功能键&lt;/li>
+&lt;li>触屏键盘记得按音量加 + Q键 开启扩展功能键视图会比较方便输入&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装包管理器">安装包管理器&lt;/h2>
+&lt;p>debian/ubuntu的包管理器的那一套的简装版&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>安装包 &lt;code>apt install xxx&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>搜索包 &lt;code>apt search xxx&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>卸载包 &lt;code>apt remove xxx&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>列出已安装包 &lt;code>apt list --installed&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>所有的apt命令也可以用pkg命令替代
+比如pkg install 等价于apt install&lt;/p>
+&lt;p>我本地配置基本环境所用到的包清单：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">aria2
+coreutils
+curl
+git
+golang
+gzip
+less
+lftp
+nano
+openssh
+screenfetch
+vim
+wget
+zsh
+termux-tools
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="挂载点配置">挂载点配置&lt;/h2>
+&lt;p>运行指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">termux-setup-storage
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>具体的挂载点可以参考 &lt;a href="https://termux.com/storage.html">https://termux.com/storage.html&lt;/a> 在这里就不展开说了&lt;/p>
+&lt;h2 id="交互终端配置">交互终端配置&lt;/h2>
+&lt;p>你可以安装zsh来提供更便捷的使用体验&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">apt install zsh
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>切换zsh为默认shell:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">chsh -s zsh
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>注意你的配置里locale的设置应该会无效，至少我目前是把服务端的.profile修改后再使用的&lt;/strong>&lt;/p>
+&lt;p>默认的zsh啥也木有，而网上的oh-my-zsh又没办法直接安装在termux里
+有人已经做好了移植版：&lt;/p>
+&lt;p>&lt;a href="https://github.com/Cabbagec/termux-ohmyzsh">https://github.com/Cabbagec/termux-ohmyzsh&lt;/a>&lt;/p>
+&lt;p>安装指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">
+sh -c &amp;#34;$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)&amp;#34;
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>记得先apt install 我上面包列表中的curl至少。&lt;/p>
+&lt;p>最后可以根据自己的个人喜好修改一下~/.zshrc配置中的主题&lt;/p>
+&lt;p>个人比较喜好ys主题，诸君请随意。&lt;/p>
+&lt;h2 id="手机ssh服务">手机ssh服务&lt;/h2>
+&lt;p>除了Remote Keyboard这种歪脖看手机屏幕，电脑键盘打字的方式，更传统的方式是把手机当服务器ssh连进来玩。&lt;/p>
+&lt;p>apt install openssh 之后即可，不过有几点注意的地方：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>sshd需要手工跑一下&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>有1024低端口安全限制所以这里sshd的服务是开在8022端口上的&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>因为Termux是不需要root的系统，所以一般情况下你登录的用户名需要你自己看一下：&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">whoami
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>ssh登录是key公钥模式登录，你可以先手工scp远程的公钥到本地的路径再cat追加到~/.ssh/authorized_keys中然后在客户机以密钥对的私钥登录&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">ssh -p8022 xxx@192.168.1.247
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中xxx是你whoami中查到的值&lt;/p>
+&lt;ul>
+&lt;li>如果你要从手机上ssh到其他服务器&lt;/li>
+&lt;/ul>
+&lt;p>最简单的办法，copy私钥到~/.ssh/id_rsa位置然后在zsh里开启ssh-agent插件:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">plugin=(git ssh-agent)
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>或者你也可以试试在自己的.profile或者其他交互启动脚本中追加：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">
+if [ -f ~/.ssh/id_rsa ]; then
+ssh-add -K ~/.ssh/id_rsa 2&amp;gt;/dev/null
+fi
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="杂谈">杂谈&lt;/h2>
+&lt;p>这货虽然是busybox组装的但是基础组件都能慢慢堆叠，&lt;/p>
+&lt;p>虽然环境简陋了点，但好歹真正的应急移动办公也算有点着落&lt;/p>
+&lt;p>另外私钥还是要保管好的说。&lt;/p>
+&lt;p>除此之外，有aria2可以用来当下载服务用，路径记得设在外面的挂载点里，配合android端的ui，你懂的。&lt;/p>
+&lt;p>golang装好了之后还能起个本地web服务玩玩，总之爱折(zhuang)腾(bi)的朋友不容错过。&lt;/p></description></item><item><title>github上hexo静态博客自动部署配置笔记</title><link>https://www.kumaxiong.com/post/github-hexo-setup/</link><pubDate>Tue, 25 Jul 2017 20:33:00 +0800</pubDate><guid>https://www.kumaxiong.com/post/github-hexo-setup/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>越来越觉得时间不够用，千头万绪，容我喝口水。。&lt;/p>
+&lt;p>写blog的频率还赶不上wordpress的安全更新的推送频率，思考了一下还是决定把博客迁移到github上来，动机：&lt;/p>
+&lt;ol>
+&lt;li>wordpress的强大对于我等懒人实在是太折腾了。&lt;/li>
+&lt;li>https+全静态，后续维护不想再折腾太多。&lt;/li>
+&lt;li>不怕忘了续费，哪怕百年之后也算留点痕迹。(但愿github在10年之内能继续服务下去，至少感觉比国内的服务靠谱一点，关站的几率较小)&lt;/li>
+&lt;/ol>
+&lt;h2 id="方案">方案&lt;/h2>
+&lt;p>目前来说看了一眼 &lt;a href="https://www.staticgen.com/">https://www.staticgen.com/&lt;/a>&lt;/p>
+&lt;p>jekyll最火，ruby的，环境配置方面感觉有点担心
+hugo其次, golang的，虽然最快，最强大，但从写博客的角度出发而言，功能不多，而且貌似教程不多。
+hexo再次，node的，教程挺多，还有比较成熟的主题，就他了。&lt;/p>
+&lt;ul>
+&lt;li>建站工具: hexo + NexT 主题模板&lt;/li>
+&lt;li>github公共主页静态页面网站&lt;/li>
+&lt;li>bitbucket后端项目源码&lt;/li>
+&lt;li>codeship持续集成自动发布&lt;/li>
+&lt;/ul>
+&lt;h2 id="预备">预备&lt;/h2>
+&lt;ol>
+&lt;li>git本地配置+ssh公钥配置&lt;/li>
+&lt;li>github账号&lt;/li>
+&lt;li>bitbucket账号&lt;/li>
+&lt;li>codeship账号&lt;/li>
+&lt;/ol>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;ul>
+&lt;li>安装hexo&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">npm install -g hexo-cli
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>生成并初始化博客&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo init myblog
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>安装NexT主题 (下载最新版本的主题并mv到myblog/themes/next路径)&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="nb">cd&lt;/span> myblog
+wget https://github.com/iissnan/hexo-theme-next/archive/v5.1.1.tar.gz
+tar zxf v5.1.1.tar.gz
+mv hexo-theme-next-5.1.1 themes/next
+rm -rf v5.1.1.tar.gz
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>参考链接:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://linghucong.js.org/2016/04/15/2016-04-15-hexo-github-pages-blog/">手把手教你使用Hexo + Github Pages搭建个人独立博客&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://xuanwo.org/2015/03/26/hexo-intor/">史上最详细的Hexo博客搭建图文教程&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="http://theme-next.iissnan.com/">NexT主题配置流程&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://hexo.io/zh-cn/docs/">hexo 官方中文文档&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>按参考链接中的说明配置好你的站点 _config.yml 配置文件和主题配置文件 themes/next/_config.yml&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;h3 id="基本页面">基本页面&lt;/h3>
+&lt;ul>
+&lt;li>关于 页面&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo new page about
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>内容自己填写&lt;/p>
+&lt;ul>
+&lt;li>tags 页面&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo new page tags
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-markdown" data-lang="markdown">---
+title: tags
+date: 2017-07-25 15:06:12
+type: &amp;#34;tags&amp;#34;
+comments: false
+---
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>categories 页面&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo new page categories
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-markdown" data-lang="markdown">---
+title: categories
+date: 2017-07-25 16:21:02
+type: &amp;#34;categories&amp;#34;
+comments: false
+---
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="新建文章">新建文章&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo new &lt;span class="s2">&amp;#34;hello world&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>文章源文件存储在source/_posts/&lt;/p>
+&lt;p>不用的文章删掉文件重新发布即可。&lt;/p>
+&lt;h3 id="本地测试">本地测试&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo s -g
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>访问 http://localhost:4000 预览效果。&lt;/p>
+&lt;h3 id="清理">清理&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo clean
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="手工发布">手工发布&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo d -g
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="自动发布配置">自动发布配置&lt;/h2>
+&lt;ul>
+&lt;li>在bitbucket上新建私有项目（部分配置key需要保密）&lt;/li>
+&lt;li>在codeship中导入此私有项目&lt;/li>
+&lt;li>在codeship中查看deploy-keys发布公钥，并在github的对应静态站点中配置此发布公钥并允许write写入权限&lt;/li>
+&lt;li>配置codeship基础setup初始化指令：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">
+nvm install 6.11.1
+npm install hexo-cli -g
+npm install
+&lt;span class="c1"># or, if you prefer to use yarn&lt;/span>
+&lt;span class="c1">#yarn install&lt;/span>
+git config --global user.email &lt;span class="s2">&amp;#34;yourname@example.com&amp;#34;&lt;/span>
+git config --global user.name &lt;span class="s2">&amp;#34;yourname&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意记得指令中配置git的全局配置，不然部署流程可能失败&lt;/p>
+&lt;ul>
+&lt;li>删掉test的commands的pipeline 指令，不需要&lt;/li>
+&lt;li>配置deploy部署指令的分支为master&lt;/li>
+&lt;li>配置部署指令的脚本为custom scripts:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo clean
+hexo d -g
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>注意：如果你使用了algolia的三方服务组件的情况下：&lt;/strong>
+你的codeship配置中环境变量要加上HEXO_ALGOLIA_INDEXING_KEY的变量
+并且在algolia 新建对应的索引用的apikey，设置流程参考：&lt;a href="https://github.com/oncletom/hexo-algolia#api-key">hexo-algolia&lt;/a>&lt;/p>
+&lt;p>部署脚本的指令也要改为：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">hexo clean
+hexo g
+hexo algolia
+hexo d
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>写点内容到你的博客中，并提交push到bitbucket的项目中去(source/_posts/中新建xxx.md的日志文件)&lt;/li>
+&lt;/ul>
+&lt;p>等着发布完成的通知&lt;/p>
+&lt;p>查看你的静态博客站点看效果吧。&lt;/p>
+&lt;p>当前这篇文章就是在bitbucket的在线创建文件编辑器(支持markdown)中编写的。&lt;/p>
+&lt;h2 id="todo">TODO&lt;/h2>
+&lt;p>在线图床可以用imgur或者七牛的服务，如果写文字为主也可以本地存图，&lt;/p>
+&lt;p>完整的想好好的像medium、简书之类的服务在线码字贴图的话，&lt;/p>
+&lt;p>一种方案就是写个前后端编辑器处理上传文件服务和提交/获取bitbucket项目文件。
+再牛一点就是纯h5方案前端集成图床的api接口+bitbucket的服务接口。&lt;/p></description></item><item><title>windows下基础开发环境搭建2016</title><link>https://www.kumaxiong.com/post/windows-dev-env-setup-2016/</link><pubDate>Sat, 28 May 2016 09:22:12 +0800</pubDate><guid>https://www.kumaxiong.com/post/windows-dev-env-setup-2016/</guid><description>&lt;p>&lt;strong>工作需要在windows环境下搭建一个基础开发环境，在此记录一下：&lt;/strong>&lt;/p>
+&lt;h2 id="一注意事项">一、注意事项&lt;/h2>
+&lt;ol>
+&lt;li>以下的安装配置方法仅支持win7/8/10之类的系统，xp可以洗洗睡了。&lt;/li>
+&lt;li>装了cmder-full(With git-for-windows)版或者babun就没有必要安装git-for-windows了，不过从兼容性角度出发，建议还是使用cmder-full的版本，至少纯windows的环境下也能直接使用git指令，也支持外部ide调用。&lt;/li>
+&lt;li>babun（cygwin）是调整过的cygwin环境,cmder默认是windows环境(可以安装chocolatey做包管理)两个环境面对的场景不同，choco安装的软件基本都是port到win环境下的版本，和babun的cygwin环境下的版本配置方式不一样，看各人喜好，可以分别使用，也可以只使用一个。&lt;/li>
+&lt;li>linux的家HOME目录用~字符来标识，windows下通常对应的就是C:\Users\Administrator目录&lt;/li>
+&lt;/ol>
+&lt;h2 id="二终端环境">二、终端环境&lt;/h2>
+&lt;p>&lt;strong>推荐使用cmder(With git-for-windows) + babun(cygwin)预配置环境的方式，既有普通cmd终端的linux化，又支持cygwin环境安装使用你所需要的linux环境安装包&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="http://cmder.net/">cmder-full（With git-for-windows）&lt;/a>下载后解压缩到磁盘，（推荐c:\opt\cmder）&lt;/li>
+&lt;li>加入系统环境变量PATH环境变量中追加c:\opt\cmder路径。&lt;/li>
+&lt;li>注册右键菜单：以管理员身份启动命令行提示符(cmd)，然后进入c:\opt\cmder路径后执行：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> Cmder.exe /REGISTER ALL
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>提示符配置：修改cmder目录下的config\cmder.lua的第2行把λ替换为$,更符合日常linux下用户prompt的习惯。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-lua" data-lang="lua"> &lt;span class="kr">function&lt;/span> &lt;span class="nf">lambda_prompt_filter&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="n">clink.prompt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">string.gsub&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">clink.prompt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;{lamb}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;$&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="kr">end&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="5">
+&lt;li>常用别名配置：修改cmder目录下的config\alias文件，在最后加入常用的alias，比如：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash"> &lt;span class="nv">l&lt;/span>&lt;span class="o">=&lt;/span>ls --show-control-chars
+&lt;span class="nv">la&lt;/span>&lt;span class="o">=&lt;/span>ls -aF --show-control-chars
+&lt;span class="nv">ll&lt;/span>&lt;span class="o">=&lt;/span>ls -alF --show-control-chars
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="6">
+&lt;li>
+&lt;p>中文字间距问题，启动cmder后win+alt+p呼出设置面板去掉 monospace 选项（点两下让勾选框留空），然后save settings保存设置。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>可选（安装chocolatey windows包管理器），打开cmder/cmd终端，执行以下命令：&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell"> &lt;span class="nv">@powershell&lt;/span> &lt;span class="n">-NoProfile&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">Bypass&lt;/span> &lt;span class="n">-Command&lt;/span> &lt;span class="s2">&amp;#34;iex ((new-object net.webclient).DownloadString(&amp;#39;https://chocolatey.org/install.ps1&amp;#39;))&amp;#34;&lt;/span> &lt;span class="p">&amp;amp;&lt;/span>&lt;span class="n">amp&lt;/span>&lt;span class="p">;&amp;amp;&lt;/span>&lt;span class="n">amp&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nb">SET &lt;/span>&lt;span class="n">PATH&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="k">%&lt;/span>&lt;span class="n">PATH&lt;/span>&lt;span class="p">%;&lt;/span>&lt;span class="k">%&lt;/span>&lt;span class="n">ALLUSERSPROFILE&lt;/span>&lt;span class="p">%\&lt;/span>&lt;span class="n">chocolatey&lt;/span>&lt;span class="p">\&lt;/span>&lt;span class="n">bin&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="8">
+&lt;li>安装babun的环境：下载&lt;a href="http://babun.github.io/">babun&lt;/a>官网上的安装包，解压后执行其中的install.bat批处理文件&lt;/li>
+&lt;li>配置整合babun环境到cmder工具中：启动cmder后win+alt+p呼出设置面板(Settings)，然后打开 Startup&amp;gt;Tasks面板点+号添加一个task，名称输入babun，
+Task parameters中输入：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> /icon &amp;#34;%userprofile%\.babun\cygwin\bin\mintty.exe&amp;#34; /dir &amp;#34;%userprofile%&amp;#34;
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>下面的Commands大输入文本框中输入：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">%userprofile%\.babun\cygwin\bin\mintty.exe /bin/env CHERE_INVOKING=1 /bin/zsh.exe
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>save settings保存设置，然后你可以按up或down的按钮把{babun}的顺序调到{cmd}的前后，也可以勾选Default task for new console和Default Shell选项来把它作为默认console。注意，如果新开窗口想默认用{babun}，需要修改Startup面板中的Specified named task不选{cmd}而是新的这个{babun}&lt;/p>
+&lt;ol start="10">
+&lt;li>修改babun的环境配置：cmder启动后打开{babun}的终端后编辑~/.zshrc文件：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">vim ~/.zshrc
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>修改ZSH_THEME=&amp;quot;babun&amp;quot;为ZSH_THEME=&amp;quot;ys&amp;rdquo;，后保存退出，然后关闭终端后再启动{babun}终端即可。&lt;/p>
+&lt;ol start="11">
+&lt;li>如果你还是习惯mingw的git-bash环境也可以在cmder工具中添加配置：启动cmder后win+alt+p呼出设置面板(Settings)，然后打开 Startup&amp;gt;Tasks面板点+号添加一个task，名称输入gitbash，Task parameters中留空下面的Commands大输入文本框中输入：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">%ConEmuDir%\..\git-for-windows\git-cmd.exe --cd-to-home --command=usr/bin/bash.exe -l -i
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>save settings保存设置即可，后续的就可以启动{gitbash}终端使用了。&lt;/p>
+&lt;p>至此你已经完成了windows下终端环境的配置，启动cmder后，&lt;strong>{cmd}的task为windows上下文命令行：使用choco作为包管理器&lt;/strong>
+同时也支持一些基本的linux命令比如ls,curl之类的，软件包管理可以使用chocolatey的choco指令，&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> choco install -y notepadplusplus
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>{babun}的task为cygwin上下文命令行：使用pact作为包管理器&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> pact find php
+pact install -y php
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意{babun}的cygwin环境上下文中的安装的包不能在windows上下文环境中使用，（比如这里安装的php指令在windows环境下则会报招不到php指令），但windows上下文环境中安装的软件可以在cygwin环境下最后被搜索到则&lt;strong>调用&lt;/strong>，注意是调用，效率比较低，而且也无法控制执行，所以通常情况下的windows指令还是推荐在{cmd}终端中执行。&lt;/p>
+&lt;ol start="12">
+&lt;li>命令行生成私钥公钥对：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> ssh-keygen -t rsa -C &amp;#34;you@myteam&amp;#34;
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认生成的文件在~/.ssh路径下的id_rsa(私钥)和id_rsa.pub(公钥)，id_rsa.pub可以添加到代码托管环境的个人公钥列表中去&lt;/p>
+&lt;ol start="13">
+&lt;li>设置个人基础的git信息:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> git config --global user.name &amp;#34;你的名字或昵称&amp;#34;
+git config --global user.email &amp;#34;你的邮箱&amp;#34;
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="其他推荐软件">其他推荐软件&lt;/h2>
+&lt;p>以下软件都可以用 &lt;a href="https://chocolatey.org/">chocolatey&lt;/a> windows下的命令行包管理器 来安装，安装/卸载软件并不需要用到那些什么软件管理专家了。&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="http://www.getwox.com/">wox&lt;/a> windows下类似于mac的alfred的快速启动工具，有了它记得软件、目录名字就可以了，忘了开始菜单吧。&lt;/li>
+&lt;li>&lt;a href="https://www.voidtools.com/">everything&lt;/a> windows下的文件搜索工具，这个就不用多说了吧。&lt;/li>
+&lt;/ol></description></item><item><title>基于Laravel Envoy的部署脚本</title><link>https://www.kumaxiong.com/post/envoy-deployscript/</link><pubDate>Tue, 21 Jul 2015 16:04:06 +0800</pubDate><guid>https://www.kumaxiong.com/post/envoy-deployscript/</guid><description>&lt;h1 id="基于laravel-envoy的部署脚本">基于Laravel Envoy的部署脚本&lt;/h1>
+&lt;p>如题，找了半天貌似都没有符合laravel的天朝网络环境的的部署脚本，
+于是乎结合参考了多个部署脚本和工具的理念又造了个新轮子：&lt;/p>
+&lt;p>&lt;a href="https://github.com/nickfan/envoy-deployscript">https://github.com/nickfan/envoy-deployscript&lt;/a>&lt;/p>
+&lt;p>使用说明见：&lt;a href="https://github.com/nickfan/envoy-deployscript/blob/master/README.zh-CN.md">https://github.com/nickfan/envoy-deployscript/blob/master/README.zh-CN.md&lt;/a>&lt;/p>
+&lt;p>欢迎大家测试吐槽。&lt;/p>
+&lt;p>主要特点：&lt;/p>
+&lt;p>支持本地构建打包部署&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">envoy run deploy_localrepo_install --branch&lt;span class="o">=&lt;/span>master --env&lt;span class="o">=&lt;/span>production
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>支持工作拷贝本地构建依赖模块(vendor目录)&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">envoy run deploy_mix_pack
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="原理设计规划">原理/设计规划&lt;/h2>
+&lt;p>你的 &lt;code>$deploybasepath&lt;/code> 远程部署基础路径将会看起来像如下这样(如果你有多个子应用在同一个部署基路径里).&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> mysite/
+mysite2/
+mysite3/
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>你的 &lt;code>$deploybasepath/$appname&lt;/code> 远程部署应用路径将会看起来如下.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> releases/release_20150717032737/
+releases/release_20150717034646/
+current -&amp;gt; ./releases/release_20150717034646
+shared/storage/
+tmp/
+.env
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>正如你所见的, &lt;em>current&lt;/em> 目录是软链到最近一次的部署目录的&lt;/p>
+&lt;p>在你的部署目录中文件列表看起来像下面这样(只列举了部分文件做例子):&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback"> app/
+artisan
+boostrap/
+public/index.php
+composer.json
+.env -&amp;gt; ../../.env
+storage -&amp;gt; ../../shared/storage
+vendor/
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>部署目录中的.env文件和storage文件夹都软链接到了上级应用目录中的公共文件/文件夹了,这样部署本身只部署源代码和vendor等依赖环境, storage等公共数据在shared文件夹中并不随代码部署,节省了空间也保留延续了日志/应用cache等相关基础数据在应用中的使用&lt;/p></description></item><item><title>一个简单的php守护进程代码示例</title><link>https://www.kumaxiong.com/post/simple-php-daemon-code/</link><pubDate>Wed, 08 Jul 2015 12:50:29 +0800</pubDate><guid>https://www.kumaxiong.com/post/simple-php-daemon-code/</guid><description>&lt;p>工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需要用到pcntl的信号量来工作了，主要的设计思路：&lt;/p>
+&lt;ol>
+&lt;li>捕获系统发给进程的中断的信号量&lt;/li>
+&lt;li>在handler代码中设置标志位变量&lt;/li>
+&lt;li>在一个业务循环处理完成之后判断标志位变量，如果接收到过终止请求，则跳出整个工作循环。
+主要的处理逻辑：&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>注册绑定函数：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected function regist_sig_handler()
+{
+declare(ticks = 1);
+pcntl_signal(SIGTERM, [$this, &amp;#39;sig_handler&amp;#39;]);
+pcntl_signal(SIGHUP, [$this, &amp;#39;sig_handler&amp;#39;]);
+pcntl_signal(SIGINT, [$this, &amp;#39;sig_handler&amp;#39;]);
+}
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>在函数中设置标志位：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">protected function sig_handler($signo)
+{
+switch ($signo) {
+case SIGTERM:
+case SIGHUP:
+case SIGINT:
+self::$_MYDAEMON_SHOULD_STOP = true;
+// ...
+break;
+}
+}
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>构建退出处理函数&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected function shouldStop()
+{
+if (self::$_MYDAEMON_SHOULD_STOP) {
+// before exit staff code
+// ...
+return true;
+}
+return false;
+}
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>在主循环中一次处理完成后判断是否要终止退出&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> while (true) {
+if ($this-&amp;gt;shouldStop()) {
+break;
+}
+try {
+$jobStatusInfo = $this-&amp;gt;execute([]);
+} catch (Exception $ex) {
+$this-&amp;gt;log($ex-&amp;gt;getMessage());
+}
+usleep(10);
+}
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>附上完整代码（loop是示例需要长时间处理的业务逻辑，memoryusage超限也会退出，外部可以由supervisor/daemontools等进程监控程序控制）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;span class="lnt">117
+&lt;/span>&lt;span class="lnt">118
+&lt;/span>&lt;span class="lnt">119
+&lt;/span>&lt;span class="lnt">120
+&lt;/span>&lt;span class="lnt">121
+&lt;/span>&lt;span class="lnt">122
+&lt;/span>&lt;span class="lnt">123
+&lt;/span>&lt;span class="lnt">124
+&lt;/span>&lt;span class="lnt">125
+&lt;/span>&lt;span class="lnt">126
+&lt;/span>&lt;span class="lnt">127
+&lt;/span>&lt;span class="lnt">128
+&lt;/span>&lt;span class="lnt">129
+&lt;/span>&lt;span class="lnt">130
+&lt;/span>&lt;span class="lnt">131
+&lt;/span>&lt;span class="lnt">132
+&lt;/span>&lt;span class="lnt">133
+&lt;/span>&lt;span class="lnt">134
+&lt;/span>&lt;span class="lnt">135
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">#!/usr/bin/env php
+&lt;span class="cp">&amp;lt;?php&lt;/span>
+&lt;span class="sd">/**
+&lt;/span>&lt;span class="sd"> * Description
+&lt;/span>&lt;span class="sd"> *
+&lt;/span>&lt;span class="sd"> * @project mydevkit
+&lt;/span>&lt;span class="sd"> * @package mydevkit
+&lt;/span>&lt;span class="sd"> * @author nickfan &amp;lt;nickfan81@gmail.com&amp;gt;
+&lt;/span>&lt;span class="sd"> * @link http://www.axiong.me
+&lt;/span>&lt;span class="sd"> * @version $Id$
+&lt;/span>&lt;span class="sd"> * @lastmodified: 2015-07-08 09:37
+&lt;/span>&lt;span class="sd"> *
+&lt;/span>&lt;span class="sd"> */&lt;/span>
+&lt;span class="o">@&lt;/span>&lt;span class="nx">set_time_limit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">class&lt;/span> &lt;span class="nc">myDaemon&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">const&lt;/span> &lt;span class="no">DEBUG&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="k">static&lt;/span> &lt;span class="nv">$_MYDAEMON_SHOULD_STOP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">public&lt;/span> &lt;span class="k">static&lt;/span> &lt;span class="nv">$memLimit&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">5242880&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">private&lt;/span> &lt;span class="nv">$loop&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="nv">$logpath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">public&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="fm">__construct&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$option&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[])&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nv">$option&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="s1">&amp;#39;loop&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;memLimit&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="mi">5242880&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;logpath&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s1">&amp;#39;/tmp/daemon_kill.log&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="p">];&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">loop&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$option&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;loop&amp;#39;&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">logpath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$option&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;logpath&amp;#39;&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nv">$memLimit&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$option&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;memLimit&amp;#39;&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">regist_sig_handler&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">public&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="fm">__destruct&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;worker progress ending...&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">regist_sig_handler&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">declare&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ticks&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="nx">pcntl_signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">SIGTERM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;sig_handler&amp;#39;&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="nx">pcntl_signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">SIGHUP&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;sig_handler&amp;#39;&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="nx">pcntl_signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">SIGINT&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;sig_handler&amp;#39;&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">sig_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">switch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">SIGTERM&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">SIGHUP&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">SIGINT&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nv">$_MYDAEMON_SHOULD_STOP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="nv">$signoStr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="nx">SIGTERM&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$signoStr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;SIGTERM&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">elseif&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="nx">SIGHUP&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$signoStr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;SIGHUP&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">elseif&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="nx">SIGINT&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$signoStr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;SIGINT&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nv">$content&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">date&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Y-m-d H:i:s&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="s1">&amp;#39; &amp;#39;&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="nv">$signoStr&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="nx">PHP_EOL&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="nx">file_put_contents&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">logpath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$content&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">FILE_APPEND&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">shouldStop&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nv">$_MYDAEMON_SHOULD_STOP&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// before exit staff code
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">log&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nv">$args&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">func_get_args&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="nv">$retstr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">date&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;[Y-m-d H:i:s] &amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="nx">implode&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39; &amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$args&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="nx">PHP_EOL&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">DEBUG&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">echo&lt;/span> &lt;span class="nv">$retstr&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nv">$retstr&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">public&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">execute&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[])&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;[EXECUTE] process lot of data.&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nv">$i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">loop&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nv">$i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;step:&amp;#39;&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$i&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;span class="nx">sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">rand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">loop&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">public&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">run&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;[RUN] worker starting to run ...&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">true&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">shouldStop&lt;/span>&lt;span class="p">())&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;processJobData Start ...&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">try&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$jobStatusInfo&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">execute&lt;/span>&lt;span class="p">([]);&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;processJobData end with: &amp;#39;&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="nx">var_export&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$jobStatusInfo&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;span class="nx">unset&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$jobStatusInfo&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">catch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">Exception&lt;/span> &lt;span class="nv">$ex&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$ex&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">getMessage&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nv">$memory&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">memory_get_usage&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;memory usage:&amp;#39;&lt;/span> &lt;span class="o">.&lt;/span> &lt;span class="nx">sprintf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;%.2fMB&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">round&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$memory&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="mi">1048576&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">)));&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$memory&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nv">$memLimit&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;exiting run due to memory limit&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="k">exit&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">//sleep(1);
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">usleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;[RUN] worker run quit.&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nv">$gotMyParam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">isset&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$argv&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]))&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$gotMyParam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">intval&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">trim&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">strip_tags&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$argv&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">])));&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nv">$worker&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">myDaemon&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="s1">&amp;#39;loop&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nv">$gotMyParam&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;memLimit&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="mi">1048576&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="mi">128&lt;/span>&lt;span class="p">,]);&lt;/span>
+&lt;span class="nv">$worker&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">run&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>测试：&lt;/strong>&lt;/p>
+&lt;p>在class代码中的构造函数中注释掉&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">//$this-&amp;gt;regist_sig_handler();
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行daemon代码，在执行execute的for循环时ctrl+c或者用 kill 杀死当前进程&lt;/p>
+&lt;p>&lt;a href="https://www.kumaxiong.com/post/simple-php-daemon-code/Snip20150708_1.png">&lt;img src="https://www.kumaxiong.com/post/simple-php-daemon-code/Snip20150708_1.png" alt="Snip20150708_1">&lt;/a>&lt;/p>
+&lt;p>进程直接结束，没有执行完execute的一个完整流程就直接退出了，&lt;/p>
+&lt;p>把注释去掉重新执行daemon代码：&lt;/p>
+&lt;p>&lt;a href="https://www.kumaxiong.com/post/simple-php-daemon-code/Snip20150708_2.png">&lt;img src="https://www.kumaxiong.com/post/simple-php-daemon-code/Snip20150708_2.png" alt="Snip20150708_2">&lt;/a>&lt;/p>
+&lt;p>在执行过程中按ctrl+c或者kill命令杀死前进程&lt;/p>
+&lt;p>观察daemon运行的结果是直到整个execute循环执行完了以后才退出程序的&lt;/p></description></item><item><title>laravel的oauth2-server相关开发的备忘</title><link>https://www.kumaxiong.com/post/laravel-oauth2-tips/</link><pubDate>Wed, 01 Jul 2015 10:53:52 +0800</pubDate><guid>https://www.kumaxiong.com/post/laravel-oauth2-tips/</guid><description>&lt;p>开发当中踩了不少坑，做个备忘。&lt;/p>
+&lt;p>代码环境：&lt;/p>
+&lt;p>&lt;a href="https://learnku.com/docs/laravel/5.1">laravel 5.1&lt;/a>&lt;/p>
+&lt;p>oauth2-server服务组件：&lt;/p>
+&lt;p>&lt;a href="https://github.com/lucadegasperi/oauth2-server-laravel">lucadegasperi/oauth2-server-laravel&lt;/a> 也就是 &lt;a href="https://github.com/thephpleague/oauth2-server">thephpleague/oauth2-server&lt;/a> 的laravel 包装版本&lt;/p>
+&lt;p>目前插件的版本是~4.1&lt;/p>
+&lt;p>需要注意的点是：&lt;/p>
+&lt;p>一般而言最常见的应用场景是grant_type为authorization_code的情景，&lt;/p>
+&lt;p>thephpleague的oauth2-server要求的数据提交必须是POST数据编码方式是application/x-www-form-urlencoded，默认情况下如果你用的是curl组件会以multipart/form-data模式编码提交的post数据，所以后端提交请求的时候注意一下，
+如果你用的是curl，需要设置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&amp;#39;Content-Type: application/x-www-form-urlencoded&amp;#39;));
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果你用的是GuzzleHttp的组件：参考&lt;a href="http://guzzle.readthedocs.org/en/latest/quickstart.html#query-string-parameters">官方的说明&lt;/a>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">$response = $client-&amp;gt;post(&amp;#39;http://httpbin.org/post&amp;#39;, [
+&amp;#39;form_params&amp;#39; =&amp;gt; [
+&amp;#39;field_name&amp;#39; =&amp;gt; &amp;#39;abc&amp;#39;,
+&amp;#39;other_field&amp;#39; =&amp;gt; &amp;#39;123&amp;#39;,
+&amp;#39;nested_field&amp;#39; =&amp;gt; [
+&amp;#39;nested&amp;#39; =&amp;gt; &amp;#39;hello&amp;#39;
+]
+]
+]);
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其他的基础配置设定,插件作者的&lt;a href="https://github.com/lucadegasperi/oauth2-server-laravel/wiki">wiki&lt;/a>中已经有了说明，我这里做了一些自己的设定：&lt;/p>
+&lt;ul>
+&lt;li>不想关闭全局的csrf保护咋办？
+如果你是直接安装的laravel 5.1版不要关闭全局$middleware的csrf：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected $middleware = array(
+\Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+\App\Http\Middleware\EncryptCookies::class,
+\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+\Illuminate\Session\Middleware\StartSession::class,
+\Illuminate\View\Middleware\ShareErrorsFromSession::class,
+\App\Http\Middleware\VerifyCsrfToken::class, // 不要关闭
+);
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>按wiki中的说明添加$routeMiddleware中的设定：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected $routeMiddleware = [
+&amp;#39;csrf&amp;#39; =&amp;gt; \App\Http\Middleware\VerifyCsrfToken::class, // 添加 csrf配置
+&amp;#39;auth&amp;#39; =&amp;gt; \App\Http\Middleware\Authenticate::class,
+&amp;#39;auth.basic&amp;#39; =&amp;gt; \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+&amp;#39;guest&amp;#39; =&amp;gt; \App\Http\Middleware\RedirectIfAuthenticated::class,
+&amp;#39;oauth&amp;#39; =&amp;gt; \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
+&amp;#39;oauth-owner&amp;#39; =&amp;gt; \LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware::class,
+&amp;#39;check-authorization-params&amp;#39; =&amp;gt; \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
+];
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在你的\App\Http\Middleware\VerifyCsrfToken类中的$except变量添加：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected $except = [
+//
+&amp;#39;api&amp;#39;,
+&amp;#39;api/*&amp;#39;,
+&amp;#39;oauth/access_token&amp;#39;,
+];
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也就是：&lt;/p>
+&lt;ol>
+&lt;li>你的oauth服务获取access_token的入口地址，如果你换了地址修改这里对应的设置即可。&lt;/li>
+&lt;li>你使用oauth中间件保护的服务接口也不需要csrf做多余的防护，在此排除掉 api/* 这对应的前缀即可
+如果是5.0之类的升级上来的，VerifyCsrfToken可能还是老的写法，不支持$except，自己改造一下符合新版规范：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="cp">&amp;lt;?php&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="nx">App\Http\Middleware&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">use&lt;/span> &lt;span class="nx">Closure&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">use&lt;/span> &lt;span class="nx">Illuminate\Foundation\Http\Middleware\VerifyCsrfToken&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nx">BaseVerifier&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">use&lt;/span> &lt;span class="nx">Illuminate\Session\TokenMismatchException&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">class&lt;/span> &lt;span class="nc">VerifyCsrfToken&lt;/span> &lt;span class="k">extends&lt;/span> &lt;span class="nx">BaseVerifier&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="sd">/**
+&lt;/span>&lt;span class="sd"> * The URIs that should be excluded from CSRF verification.
+&lt;/span>&lt;span class="sd"> *
+&lt;/span>&lt;span class="sd"> * @var array
+&lt;/span>&lt;span class="sd"> */&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="nv">$except&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="c1">//
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="s1">&amp;#39;api/*&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;oauth/access_token&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="p">];&lt;/span>
+&lt;span class="sd">/**
+&lt;/span>&lt;span class="sd"> * Handle an incoming request.
+&lt;/span>&lt;span class="sd"> *
+&lt;/span>&lt;span class="sd"> * @param \Illuminate\Http\Request $request
+&lt;/span>&lt;span class="sd"> * @param \Closure $next
+&lt;/span>&lt;span class="sd"> * @return mixed
+&lt;/span>&lt;span class="sd"> */&lt;/span>
+&lt;span class="k">public&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">handle&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Closure&lt;/span> &lt;span class="nv">$next&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">isReading&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">shouldPassThrough&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">tokensMatch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">addCookieToResponse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$next&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">throw&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">TokenMismatchException&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="c1">//return parent::handle($request, $next);
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="sd">/**
+&lt;/span>&lt;span class="sd"> * Determine if the request has a URI that should pass through CSRF verification.
+&lt;/span>&lt;span class="sd"> *
+&lt;/span>&lt;span class="sd"> * @param \Illuminate\Http\Request $request
+&lt;/span>&lt;span class="sd"> * @return bool
+&lt;/span>&lt;span class="sd"> */&lt;/span>
+&lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">shouldPassThrough&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">except&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nv">$except&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">is&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$except&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>本地登录授权的页面（View::make(&amp;lsquo;oauth.authorization-form&amp;rsquo;)）该怎么写？
+原来官方的wiki中没有，放狗找了一圈的issue list才凑合着写了一个放了上去，作者插件的wiki里我已改过了：&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>注意提交的form原先GET请求中的querystring是需要一并post的 这个坑要注意一下。&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">@extends(&amp;#39;app&amp;#39;)
+@section(&amp;#39;content&amp;#39;)
+&amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt;
+{!! Form::open([&amp;#39;method&amp;#39; =&amp;gt; &amp;#39;POST&amp;#39;,&amp;#39;class&amp;#39;=&amp;gt;&amp;#39;form-horizontal&amp;#39;, &amp;#39;url&amp;#39;=&amp;gt; route(&amp;#39;oauth.authorize.post&amp;#39;,$params)]) !!}
+&amp;lt;div class=&amp;#34;form-group&amp;#34;&amp;gt;
+&amp;lt;dl class=&amp;#34;dl-horizontal&amp;#34;&amp;gt;
+&amp;lt;dt&amp;gt;Client Name&amp;lt;/dt&amp;gt;
+&amp;lt;dd&amp;gt;{{$client-&amp;gt;getName()}}&amp;lt;/dd&amp;gt;
+&amp;lt;/dl&amp;gt;
+&amp;lt;/div&amp;gt;
+{!! Form::hidden(&amp;#39;client_id&amp;#39;, $params[&amp;#39;client_id&amp;#39;]) !!}
+{!! Form::hidden(&amp;#39;redirect_uri&amp;#39;, $params[&amp;#39;redirect_uri&amp;#39;]) !!}
+{!! Form::hidden(&amp;#39;response_type&amp;#39;, $params[&amp;#39;response_type&amp;#39;]) !!}
+{!! Form::hidden(&amp;#39;state&amp;#39;, $params[&amp;#39;state&amp;#39;]) !!}
+{!! Form::submit(&amp;#39;Approve&amp;#39;, [&amp;#39;name&amp;#39;=&amp;gt;&amp;#39;approve&amp;#39;, &amp;#39;value&amp;#39;=&amp;gt;1, &amp;#39;class&amp;#39;=&amp;gt;&amp;#39;btn btn-success&amp;#39;]) !!}
+{!! Form::submit(&amp;#39;Deny&amp;#39;, [&amp;#39;name&amp;#39;=&amp;gt;&amp;#39;deny&amp;#39;, &amp;#39;value&amp;#39;=&amp;gt;1, &amp;#39;class&amp;#39;=&amp;gt;&amp;#39;btn bg-danger&amp;#39;]) !!}
+{!! Form::close() !!}
+&amp;lt;/div&amp;gt;
+@endsection
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>而对应的$params在controller中的设置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> $authParams = Authorizer::getAuthCodeRequestParams();
+$formParams = array_except($authParams,&amp;#39;client&amp;#39;);
+$formParams[&amp;#39;client_id&amp;#39;] = $authParams[&amp;#39;client&amp;#39;]-&lt;span class="ni">&amp;amp;gt;&lt;/span>getId();
+return View::make(&amp;#39;oauth.authorization-form&amp;#39;, [&amp;#39;params&amp;#39;=&lt;span class="ni">&amp;amp;gt;&lt;/span>$formParams,&amp;#39;client&amp;#39;=&lt;span class="ni">&amp;amp;gt;&lt;/span>$authParams[&amp;#39;client&amp;#39;]]);
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>最后在你被oauth保护的api接口中你就可以获得到对应的当前用户id了：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">$uid = Authorizer::getResourceOwnerId();
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
