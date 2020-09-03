@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>nickfan.github.io/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 02 Sep 2020 11:08:32 +0800</lastBuildDate><atom:link href="nickfan.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>nickfan.github.io/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>nickfan.github.io/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 02 Sep 2020 11:08:32 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
 &lt;p>这里是阿熊的个人博客（原博客名称：隐逸山林），主要分享一些开发笔记。&lt;/p>
 &lt;p>由于.me的域名续费太贵 axiong.me的域名后面不续费了，还是用.com划算，咩哈哈~~&lt;/p>
 &lt;ul>
@@ -6,7 +6,7 @@
 &lt;li>海外镜像： &lt;a href="https://www.kuma2code.com">https://www.kuma2code.com&lt;/a>&lt;/li>
 &lt;li>github备用：https://nickfan.github.io&lt;/li>
 &lt;li>原域名跳转 &lt;a href="https://axiong.me">https://axiong.me&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>链接及证书的命令行检查(curl+openssl)</title><link>nickfan.github.io/post/devops-httpcheck/</link><pubDate>Wed, 02 Sep 2020 11:08:32 +0800</pubDate><guid>nickfan.github.io/post/devops-httpcheck/</guid><description>&lt;h1 id="链接及证书的命令行检查curlopenssl">链接及证书的命令行检查(curl+openssl)&lt;/h1>
+&lt;/ul></description></item><item><title>链接及证书的命令行检查(curl+openssl)</title><link>/post/devops-httpcheck/</link><pubDate>Wed, 02 Sep 2020 11:08:32 +0800</pubDate><guid>/post/devops-httpcheck/</guid><description>&lt;h1 id="链接及证书的命令行检查curlopenssl">链接及证书的命令行检查(curl+openssl)&lt;/h1>
 &lt;p>日常开发运维中经常需要用到的一些检查链接连通性，包括但不限于挂代理/指定服务实例IP的情况，
 另外随着LE的使用，证书的单个周期的有效性检测验证也需要做一下记录。&lt;/p>
 &lt;h2 id="httphttps连通性检查">http/https连通性检查&lt;/h2>
@@ -94,7 +94,7 @@
 &lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="nb">echo&lt;/span> &lt;span class="p">|&lt;/span> openssl s_client -servername bing.com -connect &lt;span class="s2">&amp;#34;bing.com&amp;#34;&lt;/span>:443 2&amp;gt;/dev/null &lt;span class="p">|&lt;/span> openssl x509 -noout -enddate
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>H5下的图片上传下载与dataURI转换</title><link>nickfan.github.io/post/h5-upload-datauri/</link><pubDate>Wed, 26 Aug 2020 19:46:19 +0800</pubDate><guid>nickfan.github.io/post/h5-upload-datauri/</guid><description>&lt;h1 id="h5下的图片上传下载与datauri转换">H5下的图片上传下载与dataURI转换&lt;/h1>
+&lt;/div></description></item><item><title>H5下的图片上传下载与dataURI转换</title><link>/post/h5-upload-datauri/</link><pubDate>Wed, 26 Aug 2020 19:46:19 +0800</pubDate><guid>/post/h5-upload-datauri/</guid><description>&lt;h1 id="h5下的图片上传下载与datauri转换">H5下的图片上传下载与dataURI转换&lt;/h1>
 &lt;p>最近加强了一点点对前端的学习，从各个地方查找和学习到了前端图片基础处理的一些知识记录一下。&lt;/p>
 &lt;p>先看需要解决的问题：&lt;/p>
 &lt;ol>
@@ -572,7 +572,7 @@ PNG ... content of example.png ...
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>boundary的分割标记随机字符串axios封装的XMLHttpRequest对象会自动和Content-Type:multipart/form-data一并帮我们生成并加上所以并不用自己手工处理这块的头信息&lt;/p>
-&lt;p>至此基本上可以解决大部分dataURI的上传处理问题&lt;/p></description></item><item><title>mysql数据库空间的influxDB增量统计</title><link>nickfan.github.io/post/influxdb-increasement/</link><pubDate>Tue, 25 Aug 2020 19:30:17 +0800</pubDate><guid>nickfan.github.io/post/influxdb-increasement/</guid><description>&lt;p>业务系统中RDS的mysql的空间捉襟见肘时就会想起来需要做一下容量的统计和趋势监控
+&lt;p>至此基本上可以解决大部分dataURI的上传处理问题&lt;/p></description></item><item><title>mysql数据库空间的influxDB增量统计</title><link>/post/influxdb-increasement/</link><pubDate>Tue, 25 Aug 2020 19:30:17 +0800</pubDate><guid>/post/influxdb-increasement/</guid><description>&lt;p>业务系统中RDS的mysql的空间捉襟见肘时就会想起来需要做一下容量的统计和趋势监控
 实施的方案是：&lt;/p>
 &lt;p>定时用python从mysql的information_schema库中的TABLES表中抽取DATA_LENGTH+INDEX_LENGTH的数据以及DATA_FREE的数据来做统计项
 将数据抽取到influxDB中备查&lt;/p>
@@ -689,7 +689,7 @@ PNG ... content of example.png ...
 &lt;pre class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="k">SELECT&lt;/span> &lt;span class="n">derivative&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cumulative_sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">difference&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">mean&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;row_len_mb&amp;#34;&lt;/span>&lt;span class="p">))),&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">FROM&lt;/span> &lt;span class="s2">&amp;#34;dbspace_watches_rp&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="s2">&amp;#34;dbtable_stats&amp;#34;&lt;/span> &lt;span class="k">WHERE&lt;/span> &lt;span class="err">$&lt;/span>&lt;span class="n">timeFilter&lt;/span> &lt;span class="k">GROUP&lt;/span> &lt;span class="k">BY&lt;/span> &lt;span class="n">time&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="n">h&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="s2">&amp;#34;dbtable&amp;#34;&lt;/span> &lt;span class="n">fill&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">null&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>OpenCv开发中所遇到的问题备忘</title><link>nickfan.github.io/post/opencv-notes/</link><pubDate>Wed, 12 Aug 2020 19:10:42 +0800</pubDate><guid>nickfan.github.io/post/opencv-notes/</guid><description>&lt;h3 id="opencv开发中所遇到的问题备忘">OpenCv开发中所遇到的问题备忘&lt;/h3>
+&lt;/div></description></item><item><title>OpenCv开发中所遇到的问题备忘</title><link>/post/opencv-notes/</link><pubDate>Wed, 12 Aug 2020 19:10:42 +0800</pubDate><guid>/post/opencv-notes/</guid><description>&lt;h3 id="opencv开发中所遇到的问题备忘">OpenCv开发中所遇到的问题备忘&lt;/h3>
 &lt;h4 id="1qt库冲突的问题">1.qt库冲突的问题：&lt;/h4>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -724,7 +724,7 @@ pip install opencv-python-headless
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>参考：
-&lt;a href="https://www.pythonheidong.com/blog/article/410902/">https://www.pythonheidong.com/blog/article/410902/&lt;/a>&lt;/p></description></item><item><title>FastApi开发中所遇到的问题备忘</title><link>nickfan.github.io/post/fastapi-notes/</link><pubDate>Wed, 12 Aug 2020 19:02:42 +0800</pubDate><guid>nickfan.github.io/post/fastapi-notes/</guid><description>&lt;h3 id="fastapi开发中所遇到的问题解决">FastApi开发中所遇到的问题解决&lt;/h3>
+&lt;a href="https://www.pythonheidong.com/blog/article/410902/">https://www.pythonheidong.com/blog/article/410902/&lt;/a>&lt;/p></description></item><item><title>FastApi开发中所遇到的问题备忘</title><link>/post/fastapi-notes/</link><pubDate>Wed, 12 Aug 2020 19:02:42 +0800</pubDate><guid>/post/fastapi-notes/</guid><description>&lt;h3 id="fastapi开发中所遇到的问题解决">FastApi开发中所遇到的问题解决&lt;/h3>
 &lt;h4 id="1-需要fastapi的服务端提供静态文件">1. 需要fastapi的服务端提供静态文件：&lt;/h4>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -802,7 +802,7 @@ pip install opencv-python-headless
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>客户端处理的时候不要with-credentials带上cookie等信息：&lt;/p>
-&lt;p>参考：https://blog.csdn.net/liyuling52011/article/details/80013725&lt;/p></description></item><item><title>阿熊的Caddy+Hugo+Acme.sh配置填坑笔记</title><link>nickfan.github.io/post/caddy-hugo-acme/</link><pubDate>Fri, 05 Jan 2018 12:04:38 +0800</pubDate><guid>nickfan.github.io/post/caddy-hugo-acme/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>参考：https://blog.csdn.net/liyuling52011/article/details/80013725&lt;/p></description></item><item><title>阿熊的Caddy+Hugo+Acme.sh配置填坑笔记</title><link>/post/caddy-hugo-acme/</link><pubDate>Fri, 05 Jan 2018 12:04:38 +0800</pubDate><guid>/post/caddy-hugo-acme/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
 &lt;p>最近想比较一下caddy和nginx的服务及功能，&lt;/p>
 &lt;p>设定的目标是用hugo搭建一个静态站点然后通过Caddy服务起来提供&lt;/p>
 &lt;p>&lt;a href="https://axiong.me">https://axiong.me&lt;/a> 的访问。&lt;/p>
@@ -1120,7 +1120,7 @@ secret填写和Caddyfile中的口令保持一致
 &lt;li>改完站点提交代码后webhook自动发布上线&lt;/li>
 &lt;/ul>
 &lt;h3 id="todo">TODO&lt;/h3>
-&lt;p>webhook的配置可以从Caddyfile配置中用环境变量替换出来，放到Systemd的附加配置里，比如加个override.conf之类的，更完善。&lt;/p></description></item><item><title>android终端环境配置</title><link>nickfan.github.io/post/android-termux/</link><pubDate>Sun, 20 Aug 2017 10:27:49 +0800</pubDate><guid>nickfan.github.io/post/android-termux/</guid><description>&lt;h2 id="效果图">效果图&lt;/h2>
+&lt;p>webhook的配置可以从Caddyfile配置中用环境变量替换出来，放到Systemd的附加配置里，比如加个override.conf之类的，更完善。&lt;/p></description></item><item><title>android终端环境配置</title><link>/post/android-termux/</link><pubDate>Sun, 20 Aug 2017 10:27:49 +0800</pubDate><guid>/post/android-termux/</guid><description>&lt;h2 id="效果图">效果图&lt;/h2>
 &lt;p>&lt;strong>惯例，先看最终执行效果图&lt;/strong>&lt;/p>
 &lt;p>&lt;a href="./post/android-termux/Screenshot_2017-08-21-09-57-03-169_com.termux.png">&lt;img src="./post/android-termux/Screenshot_2017-08-21-09-57-03-169_com.termux.png" alt="termux-screenshot">&lt;/a>&lt;/p>
 &lt;h2 id="android客户端软件清单">android客户端软件清单&lt;/h2>
@@ -1342,7 +1342,7 @@ fi
 &lt;p>虽然环境简陋了点，但好歹真正的应急移动办公也算有点着落&lt;/p>
 &lt;p>另外私钥还是要保管好的说。&lt;/p>
 &lt;p>除此之外，有aria2可以用来当下载服务用，路径记得设在外面的挂载点里，配合android端的ui，你懂的。&lt;/p>
-&lt;p>golang装好了之后还能起个本地web服务玩玩，总之爱折(zhuang)腾(bi)的朋友不容错过。&lt;/p></description></item><item><title>github上hexo静态博客自动部署配置笔记</title><link>nickfan.github.io/post/github-hexo-setup/</link><pubDate>Tue, 25 Jul 2017 20:33:00 +0800</pubDate><guid>nickfan.github.io/post/github-hexo-setup/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>golang装好了之后还能起个本地web服务玩玩，总之爱折(zhuang)腾(bi)的朋友不容错过。&lt;/p></description></item><item><title>github上hexo静态博客自动部署配置笔记</title><link>/post/github-hexo-setup/</link><pubDate>Tue, 25 Jul 2017 20:33:00 +0800</pubDate><guid>/post/github-hexo-setup/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
 &lt;p>越来越觉得时间不够用，千头万绪，容我喝口水。。&lt;/p>
 &lt;p>写blog的频率还赶不上wordpress的安全更新的推送频率，思考了一下还是决定把博客迁移到github上来，动机：&lt;/p>
 &lt;ol>
@@ -1617,7 +1617,7 @@ hexo d
 &lt;p>在线图床可以用imgur或者七牛的服务，如果写文字为主也可以本地存图，&lt;/p>
 &lt;p>完整的想好好的像medium、简书之类的服务在线码字贴图的话，&lt;/p>
 &lt;p>一种方案就是写个前后端编辑器处理上传文件服务和提交/获取bitbucket项目文件。
-再牛一点就是纯h5方案前端集成图床的api接口+bitbucket的服务接口。&lt;/p></description></item><item><title>windows下基础开发环境搭建2016</title><link>nickfan.github.io/post/windows-dev-env-setup-2016/</link><pubDate>Sat, 28 May 2016 09:22:12 +0800</pubDate><guid>nickfan.github.io/post/windows-dev-env-setup-2016/</guid><description>&lt;p>&lt;strong>工作需要在windows环境下搭建一个基础开发环境，在此记录一下：&lt;/strong>&lt;/p>
+再牛一点就是纯h5方案前端集成图床的api接口+bitbucket的服务接口。&lt;/p></description></item><item><title>windows下基础开发环境搭建2016</title><link>/post/windows-dev-env-setup-2016/</link><pubDate>Sat, 28 May 2016 09:22:12 +0800</pubDate><guid>/post/windows-dev-env-setup-2016/</guid><description>&lt;p>&lt;strong>工作需要在windows环境下搭建一个基础开发环境，在此记录一下：&lt;/strong>&lt;/p>
 &lt;h2 id="一注意事项">一、注意事项&lt;/h2>
 &lt;ol>
 &lt;li>以下的安装配置方法仅支持win7/8/10之类的系统，xp可以洗洗睡了。&lt;/li>
@@ -1785,7 +1785,7 @@ git config --global user.email &amp;#34;你的邮箱&amp;#34;
 &lt;ol>
 &lt;li>&lt;a href="http://www.getwox.com/">wox&lt;/a> windows下类似于mac的alfred的快速启动工具，有了它记得软件、目录名字就可以了，忘了开始菜单吧。&lt;/li>
 &lt;li>&lt;a href="https://www.voidtools.com/">everything&lt;/a> windows下的文件搜索工具，这个就不用多说了吧。&lt;/li>
-&lt;/ol></description></item><item><title>基于Laravel Envoy的部署脚本</title><link>nickfan.github.io/post/envoy-deployscript/</link><pubDate>Tue, 21 Jul 2015 16:04:06 +0800</pubDate><guid>nickfan.github.io/post/envoy-deployscript/</guid><description>&lt;h1 id="基于laravel-envoy的部署脚本">基于Laravel Envoy的部署脚本&lt;/h1>
+&lt;/ol></description></item><item><title>基于Laravel Envoy的部署脚本</title><link>/post/envoy-deployscript/</link><pubDate>Tue, 21 Jul 2015 16:04:06 +0800</pubDate><guid>/post/envoy-deployscript/</guid><description>&lt;h1 id="基于laravel-envoy的部署脚本">基于Laravel Envoy的部署脚本&lt;/h1>
 &lt;p>如题，找了半天貌似都没有符合laravel的天朝网络环境的的部署脚本，
 于是乎结合参考了多个部署脚本和工具的理念又造了个新轮子：&lt;/p>
 &lt;p>&lt;a href="https://github.com/nickfan/envoy-deployscript">https://github.com/nickfan/envoy-deployscript&lt;/a>&lt;/p>
@@ -1870,7 +1870,7 @@ storage -&amp;gt; ../../shared/storage
 vendor/
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>部署目录中的.env文件和storage文件夹都软链接到了上级应用目录中的公共文件/文件夹了,这样部署本身只部署源代码和vendor等依赖环境, storage等公共数据在shared文件夹中并不随代码部署,节省了空间也保留延续了日志/应用cache等相关基础数据在应用中的使用&lt;/p></description></item><item><title>一个简单的php守护进程代码示例</title><link>nickfan.github.io/post/simple-php-daemon-code/</link><pubDate>Wed, 08 Jul 2015 12:50:29 +0800</pubDate><guid>nickfan.github.io/post/simple-php-daemon-code/</guid><description>&lt;p>工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需要用到pcntl的信号量来工作了，主要的设计思路：&lt;/p>
+&lt;/div>&lt;p>部署目录中的.env文件和storage文件夹都软链接到了上级应用目录中的公共文件/文件夹了,这样部署本身只部署源代码和vendor等依赖环境, storage等公共数据在shared文件夹中并不随代码部署,节省了空间也保留延续了日志/应用cache等相关基础数据在应用中的使用&lt;/p></description></item><item><title>一个简单的php守护进程代码示例</title><link>/post/simple-php-daemon-code/</link><pubDate>Wed, 08 Jul 2015 12:50:29 +0800</pubDate><guid>/post/simple-php-daemon-code/</guid><description>&lt;p>工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需要用到pcntl的信号量来工作了，主要的设计思路：&lt;/p>
 &lt;ol>
 &lt;li>捕获系统发给进程的中断的信号量&lt;/li>
 &lt;li>在handler代码中设置标志位变量&lt;/li>
@@ -2273,7 +2273,7 @@ usleep(10);
 &lt;p>把注释去掉重新执行daemon代码：&lt;/p>
 &lt;p>&lt;a href="./post/simple-php-daemon-code/Snip20150708_2.png">&lt;img src="./post/simple-php-daemon-code/Snip20150708_2.png" alt="Snip20150708_2">&lt;/a>&lt;/p>
 &lt;p>在执行过程中按ctrl+c或者kill命令杀死前进程&lt;/p>
-&lt;p>观察daemon运行的结果是直到整个execute循环执行完了以后才退出程序的&lt;/p></description></item><item><title>laravel的oauth2-server相关开发的备忘</title><link>nickfan.github.io/post/laravel-oauth2-tips/</link><pubDate>Wed, 01 Jul 2015 10:53:52 +0800</pubDate><guid>nickfan.github.io/post/laravel-oauth2-tips/</guid><description>&lt;p>开发当中踩了不少坑，做个备忘。&lt;/p>
+&lt;p>观察daemon运行的结果是直到整个execute循环执行完了以后才退出程序的&lt;/p></description></item><item><title>laravel的oauth2-server相关开发的备忘</title><link>/post/laravel-oauth2-tips/</link><pubDate>Wed, 01 Jul 2015 10:53:52 +0800</pubDate><guid>/post/laravel-oauth2-tips/</guid><description>&lt;p>开发当中踩了不少坑，做个备忘。&lt;/p>
 &lt;p>代码环境：&lt;/p>
 &lt;p>&lt;a href="https://learnku.com/docs/laravel/5.1">laravel 5.1&lt;/a>&lt;/p>
 &lt;p>oauth2-server服务组件：&lt;/p>
