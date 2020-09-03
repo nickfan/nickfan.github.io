@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://www.kumaxiong.com/sitemap.xml
+Sitemap: nickfan.github.io/sitemap.xml
