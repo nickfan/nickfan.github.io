@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 02 Sep 2020 11:08:32 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 04 Sep 2020 19:34:32 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
 &lt;p>这里是阿熊的个人博客（原博客名称：隐逸山林），主要分享一些开发笔记。&lt;/p>
 &lt;p>由于.me的域名续费太贵 axiong.me的域名后面不续费了，还是用.com划算，咩哈哈~~&lt;/p>
 &lt;ul>
@@ -6,7 +6,61 @@
 &lt;li>海外镜像： &lt;a href="https://www.kuma2code.com">https://www.kuma2code.com&lt;/a>&lt;/li>
 &lt;li>github备用：https://nickfan.github.io&lt;/li>
 &lt;li>原域名跳转 &lt;a href="https://axiong.me">https://axiong.me&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>链接及证书的命令行检查(curl+openssl)</title><link>/post/devops-httpcheck/</link><pubDate>Wed, 02 Sep 2020 11:08:32 +0800</pubDate><guid>/post/devops-httpcheck/</guid><description>&lt;h1 id="链接及证书的命令行检查curlopenssl">链接及证书的命令行检查(curl+openssl)&lt;/h1>
+&lt;/ul></description></item><item><title>配置iptables的NAT转发</title><link>/post/setup-iptables-nat/</link><pubDate>Fri, 04 Sep 2020 19:34:32 +0800</pubDate><guid>/post/setup-iptables-nat/</guid><description>&lt;h1 id="配置iptables的nat转发">配置iptables的NAT转发&lt;/h1>
+&lt;ol>
+&lt;li>打开系统ip_forward的配置：&lt;/li>
+&lt;/ol>
+&lt;p>临时：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="nb">echo&lt;/span> &lt;span class="m">1&lt;/span> &amp;gt;/proc/sys/net/ipv4/ip_forward
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>保持重启有效：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">sudo vim /etc/sysctl.conf
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>追加/修改：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">net.ipv4.ip_forward=1
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>NAT转发流量：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">-A PREROUTING -p tcp -m tcp --dport 8443 -j DNAT --to-destination 192.168.0.3:81443
+-A POSTROUTING -d 192.168.0.3/32 -p tcp -m tcp --dport 81443 -j SNAT --to-source 192.168.0.2
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>解释：
+前置路由：把对本地网络（比如内网地址为192.168.0.2）8443端口的请求转发给 192.168.0.3的ip地址的81443端口
+后置路由：把来自192.168.0.3的ip的81443的请求转发到源ip为192.168.0.2的地址去&lt;/p>
+&lt;p>查看结果：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">sudo iptables -t nat -nvL
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>链接及证书的命令行检查(curl+openssl)</title><link>/post/devops-httpcheck/</link><pubDate>Wed, 02 Sep 2020 11:08:32 +0800</pubDate><guid>/post/devops-httpcheck/</guid><description>&lt;h1 id="链接及证书的命令行检查curlopenssl">链接及证书的命令行检查(curl+openssl)&lt;/h1>
 &lt;p>日常开发运维中经常需要用到的一些检查链接连通性，包括但不限于挂代理/指定服务实例IP的情况，
 另外随着LE的使用，证书的单个周期的有效性检测验证也需要做一下记录。&lt;/p>
 &lt;h2 id="httphttps连通性检查">http/https连通性检查&lt;/h2>
