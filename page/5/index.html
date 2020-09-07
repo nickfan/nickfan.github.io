@@ -1,10 +1,362 @@
-<!doctype html><html lang=zh-cn itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>酷码熊博客</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=MobileOptimized content="width"><meta name=HandheldFriendly content="true"><meta name=applicable-device content="pc,mobile"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=mobile-web-app-capable content="yes"><meta name=author content="axiong"><meta name=description content="个人开发日志"><meta name=keywords content="kumaxiong,隐逸山林,阿熊,python,javascript,golang"><meta name=generator content="Hugo 0.74.3"><link rel=canonical href=https://www.kumaxiong.com/><link href=/index.xml rel=alternate type=application/rss+xml title=酷码熊博客><link rel=icon href=/favicon.ico><link rel=stylesheet href=/sass/jane.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css integrity="sha256-+j2UHR0ODdyYWAQif+q//qVciYg+sK804FMqeukTUVE=" media=screen crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="酷码熊博客"><meta property="og:description" content="个人开发日志"><meta property="og:type" content="website"><meta property="og:url" content="/"><meta property="og:updated_time" content="2020-09-04T19:34:32+08:00"><meta itemprop=name content="酷码熊博客"><meta itemprop=description content="个人开发日志"><meta name=twitter:card content="summary"><meta name=twitter:title content="酷码熊博客"><meta name=twitter:description content="个人开发日志"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>酷码熊日志</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><li class=mobile-menu-item><a class=menu-item-link href=/>首页</a></li><li class=mobile-menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=mobile-menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=mobile-menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=mobile-menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
+<!doctype html><html lang=zh-cn itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>酷码熊博客</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=MobileOptimized content="width"><meta name=HandheldFriendly content="true"><meta name=applicable-device content="pc,mobile"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=mobile-web-app-capable content="yes"><meta name=author content="axiong"><meta name=description content="个人开发日志"><meta name=keywords content="kumaxiong,隐逸山林,阿熊,python,javascript,golang"><meta name=generator content="Hugo 0.74.3"><link rel=canonical href=https://www.kumaxiong.com/><link href=/index.xml rel=alternate type=application/rss+xml title=酷码熊博客><link rel=icon href=/favicon.ico><link rel=stylesheet href=/sass/jane.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css integrity="sha256-+j2UHR0ODdyYWAQif+q//qVciYg+sK804FMqeukTUVE=" media=screen crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="酷码熊博客"><meta property="og:description" content="个人开发日志"><meta property="og:type" content="website"><meta property="og:url" content="/"><meta property="og:updated_time" content="2020-09-07T09:43:13+08:00"><meta itemprop=name content="酷码熊博客"><meta itemprop=description content="个人开发日志"><meta name=twitter:card content="summary"><meta name=twitter:title content="酷码熊博客"><meta name=twitter:description content="个人开发日志"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>酷码熊日志</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><li class=mobile-menu-item><a class=menu-item-link href=/>首页</a></li><li class=mobile-menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=mobile-menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=mobile-menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=mobile-menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
 <i class=iconfont><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92.0.0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"/><path d="M841.152 457.152c-30.528.0-54.784 24.512-54.784 54.656V786.56H237.696V237.696h206.016c6.656.0 10.752.0 13.248.0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128H183.04C153.216 128 128 152.576 128 182.848c0 3.136.256 6.272.768 9.28C128.256 195.136 128 198.272 128 201.408v639.488c0 .064.0.192.0.256.0.128.0.192.0.32.0 30.528 24.512 54.784 54.784 54.784H829.76c6.592.0 9.728.0 11.712.0 28.736.0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344v-20.352V561.408 512.128C896 481.792 871.424 457.152 841.152 457.152z"/></svg></i></a></li><li class=mobile-menu-item><a class=menu-item-link href=/about/>关于</a></li></ul></nav><link rel=stylesheet href=/lib/photoswipe/photoswipe.min.css><link rel=stylesheet href=/lib/photoswipe/default-skin/default-skin.min.css><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
 <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header id=header class="header container"><div class=logo-wrapper><a href=/ class=logo>酷码熊日志</a></div><nav class=site-navbar><ul id=menu class=menu><li class="menu-item active"><a class=menu-item-link href=/>首页</a></li><li class=menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
-<i class=iconfont><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92.0.0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"/><path d="M841.152 457.152c-30.528.0-54.784 24.512-54.784 54.656V786.56H237.696V237.696h206.016c6.656.0 10.752.0 13.248.0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128H183.04C153.216 128 128 152.576 128 182.848c0 3.136.256 6.272.768 9.28C128.256 195.136 128 198.272 128 201.408v639.488c0 .064.0.192.0.256.0.128.0.192.0.32.0 30.528 24.512 54.784 54.784 54.784H829.76c6.592.0 9.728.0 11.712.0 28.736.0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344v-20.352V561.408 512.128C896 481.792 871.424 457.152 841.152 457.152z"/></svg></i></a></li><li class=menu-item><a class=menu-item-link href=/about/>关于</a></li></ul></nav></header><div id=mobile-panel><main id=main class="main bg-llight"><div class=content-wrapper><div id=content class="content container"><section id=posts class=posts><article class="post bg-white"><header class=post-header><h1 class=post-title><a class=post-link href=/post/laravel-oauth2-tips/>laravel的oauth2-server相关开发的备忘</a></h1><div class=post-meta><time datetime=2015-07-01 class=post-time>2015-07-01</time><div class=post-category><a href=/categories/%E5%BC%80%E5%8F%91/>开发</a>
+<i class=iconfont><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92.0.0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"/><path d="M841.152 457.152c-30.528.0-54.784 24.512-54.784 54.656V786.56H237.696V237.696h206.016c6.656.0 10.752.0 13.248.0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128H183.04C153.216 128 128 152.576 128 182.848c0 3.136.256 6.272.768 9.28C128.256 195.136 128 198.272 128 201.408v639.488c0 .064.0.192.0.256.0.128.0.192.0.32.0 30.528 24.512 54.784 54.784 54.784H829.76c6.592.0 9.728.0 11.712.0 28.736.0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344v-20.352V561.408 512.128C896 481.792 871.424 457.152 841.152 457.152z"/></svg></i></a></li><li class=menu-item><a class=menu-item-link href=/about/>关于</a></li></ul></nav></header><div id=mobile-panel><main id=main class="main bg-llight"><div class=content-wrapper><div id=content class="content container"><section id=posts class=posts><article class="post bg-white"><header class=post-header><h1 class=post-title><a class=post-link href=/post/simple-php-daemon-code/>一个简单的php守护进程代码示例</a></h1><div class=post-meta><time datetime=2015-07-08 class=post-time>2015-07-08</time><div class=post-category><a href=/categories/%E5%BC%80%E5%8F%91/>开发</a>
+<a href=/categories/php/>php</a></div></div></header><div class=post-content><div class=post-summary><p>工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需要用到pcntl的信号量来工作了，主要的设计思路：</p><ol><li>捕获系统发给进程的中断的信号量</li><li>在handler代码中设置标志位变量</li><li>在一个业务循环处理完成之后判断标志位变量，如果接收到过终止请求，则跳出整个工作循环。
+主要的处理逻辑：</li></ol><ul><li>注册绑定函数：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    protected function regist_sig_handler()
+    {
+        declare(ticks = 1);
+        pcntl_signal(SIGTERM, [$this, &#39;sig_handler&#39;]);
+        pcntl_signal(SIGHUP, [$this, &#39;sig_handler&#39;]);
+        pcntl_signal(SIGINT, [$this, &#39;sig_handler&#39;]);
+    }
+</code></pre></td></tr></table></div></div><ul><li>在函数中设置标志位：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>protected function sig_handler($signo)
+    {
+        switch ($signo) {
+            case SIGTERM:
+            case SIGHUP:
+            case SIGINT:
+                self::$_MYDAEMON_SHOULD_STOP = true;
+                // ...
+                break;
+        }
+    }
+</code></pre></td></tr></table></div></div><ul><li>构建退出处理函数</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php> protected function shouldStop()
+    {
+        if (self::$_MYDAEMON_SHOULD_STOP) {
+            // before exit staff code
+            // ...
+            return true;
+        }
+
+        return false;
+    }
+</code></pre></td></tr></table></div></div><ul><li>在主循环中一次处理完成后判断是否要终止退出</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        while (true) {
+            if ($this-&gt;shouldStop()) {
+                break;
+            }
+            try {
+                $jobStatusInfo = $this-&gt;execute([]);
+            } catch (Exception $ex) {
+                $this-&gt;log($ex-&gt;getMessage());
+            }
+            usleep(10);
+        }
+</code></pre></td></tr></table></div></div><p>附上完整代码（loop是示例需要长时间处理的业务逻辑，memoryusage超限也会退出，外部可以由supervisor/daemontools等进程监控程序控制）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>#!/usr/bin/env php
+<span class=cp>&lt;?php</span>
+<span class=sd>/**
+</span><span class=sd> * Description
+</span><span class=sd> *
+</span><span class=sd> * @project mydevkit
+</span><span class=sd> * @package mydevkit
+</span><span class=sd> * @author nickfan &lt;nickfan81@gmail.com&gt;
+</span><span class=sd> * @link http://www.axiong.me
+</span><span class=sd> * @version $Id$
+</span><span class=sd> * @lastmodified: 2015-07-08 09:37
+</span><span class=sd> *
+</span><span class=sd> */</span>
+<span class=o>@</span><span class=nx>set_time_limit</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+
+<span class=k>class</span> <span class=nc>myDaemon</span>
+<span class=p>{</span>
+    <span class=k>const</span> <span class=no>DEBUG</span> <span class=o>=</span> <span class=k>true</span><span class=p>;</span>
+    <span class=k>protected</span> <span class=k>static</span> <span class=nv>$_MYDAEMON_SHOULD_STOP</span> <span class=o>=</span> <span class=k>false</span><span class=p>;</span>
+    <span class=k>public</span> <span class=k>static</span> <span class=nv>$memLimit</span> <span class=o>=</span> <span class=mi>5242880</span><span class=p>;</span>
+    <span class=k>private</span> <span class=nv>$loop</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+    <span class=k>protected</span> <span class=nv>$logpath</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
+
+    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nv>$option</span> <span class=o>=</span> <span class=p>[])</span>
+    <span class=p>{</span>
+        <span class=nv>$option</span> <span class=o>+=</span> <span class=p>[</span>
+            <span class=s1>&#39;loop&#39;</span> <span class=o>=&gt;</span> <span class=mi>10</span><span class=p>,</span>
+            <span class=s1>&#39;memLimit&#39;</span> <span class=o>=&gt;</span> <span class=mi>5242880</span><span class=p>,</span>
+            <span class=s1>&#39;logpath&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;/tmp/daemon_kill.log&#39;</span><span class=p>,</span>
+        <span class=p>];</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>loop</span> <span class=o>=</span> <span class=nv>$option</span><span class=p>[</span><span class=s1>&#39;loop&#39;</span><span class=p>];</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>logpath</span> <span class=o>=</span> <span class=nv>$option</span><span class=p>[</span><span class=s1>&#39;logpath&#39;</span><span class=p>];</span>
+        <span class=nx>self</span><span class=o>::</span><span class=nv>$memLimit</span> <span class=o>=</span> <span class=nv>$option</span><span class=p>[</span><span class=s1>&#39;memLimit&#39;</span><span class=p>];</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>regist_sig_handler</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>function</span> <span class=fm>__destruct</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;worker progress ending...&#39;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>protected</span> <span class=k>function</span> <span class=nf>regist_sig_handler</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>declare</span><span class=p>(</span><span class=nx>ticks</span> <span class=o>=</span> <span class=mi>1</span><span class=p>);</span>
+        <span class=nx>pcntl_signal</span><span class=p>(</span><span class=nx>SIGTERM</span><span class=p>,</span> <span class=p>[</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sig_handler&#39;</span><span class=p>]);</span>
+        <span class=nx>pcntl_signal</span><span class=p>(</span><span class=nx>SIGHUP</span><span class=p>,</span> <span class=p>[</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sig_handler&#39;</span><span class=p>]);</span>
+        <span class=nx>pcntl_signal</span><span class=p>(</span><span class=nx>SIGINT</span><span class=p>,</span> <span class=p>[</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sig_handler&#39;</span><span class=p>]);</span>
+    <span class=p>}</span>
+
+    <span class=k>protected</span> <span class=k>function</span> <span class=nf>sig_handler</span><span class=p>(</span><span class=nv>$signo</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>switch</span> <span class=p>(</span><span class=nv>$signo</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>case</span> <span class=nx>SIGTERM</span><span class=o>:</span>
+            <span class=k>case</span> <span class=nx>SIGHUP</span><span class=o>:</span>
+            <span class=k>case</span> <span class=nx>SIGINT</span><span class=o>:</span>
+                <span class=nx>self</span><span class=o>::</span><span class=nv>$_MYDAEMON_SHOULD_STOP</span> <span class=o>=</span> <span class=k>true</span><span class=p>;</span>
+                <span class=nv>$signoStr</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
+                <span class=k>if</span> <span class=p>(</span><span class=nv>$signo</span> <span class=o>==</span> <span class=nx>SIGTERM</span><span class=p>)</span> <span class=p>{</span>
+                    <span class=nv>$signoStr</span> <span class=o>=</span> <span class=s1>&#39;SIGTERM&#39;</span><span class=p>;</span>
+                <span class=p>}</span> <span class=k>elseif</span> <span class=p>(</span><span class=nv>$signo</span> <span class=o>==</span> <span class=nx>SIGHUP</span><span class=p>)</span> <span class=p>{</span>
+                    <span class=nv>$signoStr</span> <span class=o>=</span> <span class=s1>&#39;SIGHUP&#39;</span><span class=p>;</span>
+                <span class=p>}</span> <span class=k>elseif</span> <span class=p>(</span><span class=nv>$signo</span> <span class=o>==</span> <span class=nx>SIGINT</span><span class=p>)</span> <span class=p>{</span>
+                    <span class=nv>$signoStr</span> <span class=o>=</span> <span class=s1>&#39;SIGINT&#39;</span><span class=p>;</span>
+                <span class=p>}</span>
+                <span class=nv>$content</span> <span class=o>=</span> <span class=nx>date</span><span class=p>(</span><span class=s1>&#39;Y-m-d H:i:s&#39;</span><span class=p>)</span> <span class=o>.</span> <span class=s1>&#39; &#39;</span> <span class=o>.</span> <span class=nv>$signoStr</span> <span class=o>.</span> <span class=nx>PHP_EOL</span><span class=p>;</span>
+                <span class=nx>file_put_contents</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>logpath</span><span class=p>,</span> <span class=nv>$content</span><span class=p>,</span> <span class=nx>FILE_APPEND</span><span class=p>);</span>
+                <span class=k>break</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=k>protected</span> <span class=k>function</span> <span class=nf>shouldStop</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=nv>$_MYDAEMON_SHOULD_STOP</span><span class=p>)</span> <span class=p>{</span>
+            <span class=c1>// before exit staff code
+</span><span class=c1></span>            <span class=c1>// ...
+</span><span class=c1></span>            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=k>protected</span> <span class=k>function</span> <span class=nf>log</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=nv>$args</span> <span class=o>=</span> <span class=nx>func_get_args</span><span class=p>();</span>
+        <span class=nv>$retstr</span> <span class=o>=</span> <span class=nx>date</span><span class=p>(</span><span class=s1>&#39;[Y-m-d H:i:s] &#39;</span><span class=p>)</span> <span class=o>.</span> <span class=nx>implode</span><span class=p>(</span><span class=s1>&#39; &#39;</span><span class=p>,</span> <span class=nv>$args</span><span class=p>)</span> <span class=o>.</span> <span class=nx>PHP_EOL</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=na>DEBUG</span> <span class=o>==</span> <span class=k>true</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>echo</span> <span class=nv>$retstr</span><span class=p>;</span>
+        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=nv>$retstr</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>function</span> <span class=nf>execute</span><span class=p>(</span><span class=nv>$data</span> <span class=o>=</span> <span class=p>[])</span>
+    <span class=p>{</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;[EXECUTE] process lot of data.&#39;</span><span class=p>);</span>
+        <span class=k>for</span> <span class=p>(</span><span class=nv>$i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nv>$i</span> <span class=o>&lt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>loop</span><span class=p>;</span> <span class=nv>$i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;step:&#39;</span> <span class=o>.</span> <span class=p>(</span><span class=nv>$i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>));</span>
+            <span class=nx>sleep</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=nx>rand</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>loop</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>function</span> <span class=nf>run</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;[RUN] worker starting to run ...&#39;</span><span class=p>);</span>
+        <span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>shouldStop</span><span class=p>())</span> <span class=p>{</span>
+                <span class=k>break</span><span class=p>;</span>
+            <span class=p>}</span>
+            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;processJobData Start ...&#39;</span><span class=p>);</span>
+            <span class=k>try</span> <span class=p>{</span>
+                <span class=nv>$jobStatusInfo</span> <span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>execute</span><span class=p>([]);</span>
+                <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;processJobData end with: &#39;</span> <span class=o>.</span> <span class=nx>var_export</span><span class=p>(</span><span class=nv>$jobStatusInfo</span><span class=p>,</span> <span class=k>true</span><span class=p>));</span>
+                <span class=nx>unset</span><span class=p>(</span><span class=nv>$jobStatusInfo</span><span class=p>);</span>
+            <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>Exception</span> <span class=nv>$ex</span><span class=p>)</span> <span class=p>{</span>
+                <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=nv>$ex</span><span class=o>-&gt;</span><span class=na>getMessage</span><span class=p>());</span>
+            <span class=p>}</span>
+            <span class=nv>$memory</span> <span class=o>=</span> <span class=nx>memory_get_usage</span><span class=p>();</span>
+            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;memory usage:&#39;</span> <span class=o>.</span> <span class=nx>sprintf</span><span class=p>(</span><span class=s1>&#39;%.2fMB&#39;</span><span class=p>,</span> <span class=nx>round</span><span class=p>(</span><span class=nv>$memory</span> <span class=o>/</span> <span class=mi>1048576</span><span class=p>,</span> <span class=mi>2</span><span class=p>)));</span>
+            <span class=k>if</span> <span class=p>(</span><span class=nv>$memory</span> <span class=o>&gt;</span> <span class=nx>self</span><span class=o>::</span><span class=nv>$memLimit</span><span class=p>)</span> <span class=p>{</span>
+                <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;exiting run due to memory limit&#39;</span><span class=p>);</span>
+                <span class=k>exit</span><span class=p>;</span>
+            <span class=p>}</span>
+            <span class=c1>//sleep(1);
+</span><span class=c1></span>            <span class=nx>usleep</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=s1>&#39;[RUN] worker run quit.&#39;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=nv>$gotMyParam</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+<span class=k>if</span> <span class=p>(</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$argv</span><span class=p>[</span><span class=mi>1</span><span class=p>]))</span> <span class=p>{</span>
+    <span class=nv>$gotMyParam</span> <span class=o>=</span> <span class=nx>intval</span><span class=p>(</span><span class=nx>trim</span><span class=p>(</span><span class=nx>strip_tags</span><span class=p>(</span><span class=nv>$argv</span><span class=p>[</span><span class=mi>1</span><span class=p>])));</span>
+<span class=p>}</span>
+<span class=nv>$worker</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>myDaemon</span><span class=p>([</span><span class=s1>&#39;loop&#39;</span> <span class=o>=&gt;</span> <span class=nv>$gotMyParam</span><span class=p>,</span> <span class=s1>&#39;memLimit&#39;</span> <span class=o>=&gt;</span> <span class=mi>1048576</span> <span class=o>*</span> <span class=mi>128</span><span class=p>,]);</span>
+<span class=nv>$worker</span><span class=o>-&gt;</span><span class=na>run</span><span class=p>();</span>
+</code></pre></td></tr></table></div></div><p><strong>测试：</strong></p><p>在class代码中的构造函数中注释掉</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>//$this-&gt;regist_sig_handler();
+</code></pre></td></tr></table></div></div><p>运行daemon代码，在执行execute的for循环时ctrl+c或者用 kill 杀死当前进程</p><p><a href=/post/simple-php-daemon-code/Snip20150708_1.png><img src=/post/simple-php-daemon-code/Snip20150708_1.png alt=Snip20150708_1></a></p><p>进程直接结束，没有执行完execute的一个完整流程就直接退出了，</p><p>把注释去掉重新执行daemon代码：</p><p><a href=/post/simple-php-daemon-code/Snip20150708_2.png><img src=/post/simple-php-daemon-code/Snip20150708_2.png alt=Snip20150708_2></a></p><p>在执行过程中按ctrl+c或者kill命令杀死前进程</p><p>观察daemon运行的结果是直到整个execute循环执行完了以后才退出程序的</p></div></div></article><article class="post bg-white"><header class=post-header><h1 class=post-title><a class=post-link href=/post/laravel-oauth2-tips/>laravel的oauth2-server相关开发的备忘</a></h1><div class=post-meta><time datetime=2015-07-01 class=post-time>2015-07-01</time><div class=post-category><a href=/categories/%E5%BC%80%E5%8F%91/>开发</a>
 <a href=/categories/php/>php</a></div></div></header><div class=post-content><div class=post-summary><p>开发当中踩了不少坑，做个备忘。</p><p>代码环境：</p><p><a href=https://learnku.com/docs/laravel/5.1>laravel 5.1</a></p><p>oauth2-server服务组件：</p><p><a href=https://github.com/lucadegasperi/oauth2-server-laravel>lucadegasperi/oauth2-server-laravel</a> 也就是 <a href=https://github.com/thephpleague/oauth2-server>thephpleague/oauth2-server</a> 的laravel 包装版本</p><p>目前插件的版本是~4.1</p><p>需要注意的点是：</p><p>一般而言最常见的应用场景是grant_type为authorization_code的情景，</p><p>thephpleague的oauth2-server要求的数据提交必须是POST数据编码方式是application/x-www-form-urlencoded，默认情况下如果你用的是curl组件会以multipart/form-data模式编码提交的post数据，所以后端提交请求的时候注意一下，
 如果你用的是curl，需要设置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;Content-Type: application/x-www-form-urlencoded&#39;));

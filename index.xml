@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 04 Sep 2020 19:34:32 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 07 Sep 2020 09:43:13 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
 &lt;p>这里是阿熊的个人博客（原博客名称：隐逸山林），主要分享一些开发笔记。&lt;/p>
 &lt;p>由于.me的域名续费太贵 axiong.me的域名后面不续费了，还是用.com划算，咩哈哈~~&lt;/p>
 &lt;ul>
@@ -6,7 +6,51 @@
 &lt;li>海外镜像： &lt;a href="https://www.kuma2code.com">https://www.kuma2code.com&lt;/a>&lt;/li>
 &lt;li>github备用：https://nickfan.github.io&lt;/li>
 &lt;li>原域名跳转 &lt;a href="https://axiong.me">https://axiong.me&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>配置iptables的NAT转发</title><link>/post/setup-iptables-nat/</link><pubDate>Fri, 04 Sep 2020 19:34:32 +0800</pubDate><guid>/post/setup-iptables-nat/</guid><description>&lt;ol>
+&lt;/ul></description></item><item><title>多节点持续部署白瞟篇</title><link>/post/multi-nodes-continuous-deploy/</link><pubDate>Mon, 07 Sep 2020 09:43:13 +0800</pubDate><guid>/post/multi-nodes-continuous-deploy/</guid><description>&lt;p>对于中小型项目部署而言，还是尽可能的节省资源，（抠门~~~）
+再去自搭个gitlab-ci,或者jenkins去做持续部署就有点大炮打蚊子了。
+于是Github Actions 了解一下，整了一下白瞟方案。
+基础的知识学习可以去看阮博士的 &lt;a href="https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">GitHub Actions 入门教程&lt;/a> ，在此不赘述。&lt;/p>
+&lt;h2 id="资源">资源&lt;/h2>
+&lt;p>网上瞟了一圈，目前比较实用的一些actions有如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/Yikun/hub-mirror-action">Hub Mirror Action&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>github,gitee上都支持私库了代码双份同步他难道不香吗？
+&lt;img src="/post/multi-nodes-continuous-deploy/74003fa3757c.jpeg" alt="真香">&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/wearerequired/git-mirror-action">Git Mirror Action&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>如果你的代码是托管在自搭或其他服务商的平台上的用这个纯ssh协议的镜像actions就对了。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/peaceiris/actions-hugo">GitHub Actions for Hugo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>现在已经追求简约风了，hugo的基本功能做博客绰绰有余，用这个再结合&lt;a href="https://github.com/peaceiris/actions-gh-pages">peaceiris/actions-gh-pages&lt;/a>基本上github.io的镜像自动发布也一步到位了。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/peaceiris/actions-gh-pages">GitHub Actions for GitHub Pages&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>自动化发布静态内容到GitHub Pages上形成xxx.github.io的独立站点（有钱买米CNAME一下更可个性化）&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/garygrossgarten/github-action-ssh">GitHub Action SSH&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>基本上在项目的secrets里配好私钥，再结合这个ssh的action可以对你自己的服务器为所欲为
+&lt;img src="/post/multi-nodes-continuous-deploy/3078119969.jpg" alt="为所欲为">&lt;/p>
+&lt;h2 id="设计">设计&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>代码仓库同步使用 &lt;a href="https://github.com/Yikun/hub-mirror-action">Hub Mirror Action&lt;/a> 做github,gitee同步，白瞟目标1达成。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>github的gh-pages服务直接使用 &lt;a href="https://github.com/peaceiris/actions-hugo">GitHub Actions for Hugo&lt;/a> + &lt;a href="https://github.com/peaceiris/actions-gh-pages">GitHub Actions for GitHub Pages&lt;/a> 构建即可，白瞟目标2达成。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>自有vps配好部署公钥后，代码仓库使用&lt;a href="https://github.com/garygrossgarten/github-action-ssh">GitHub Action SSH&lt;/a> 做vps本地script/shell指令的执行，白瞟目标3达成。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="其他">其他&lt;/h2>
+&lt;p>对于国内的服务器而言，用github是会时常撞墙的，所以国内的服务器使用gitee的仓库，但依赖github-acions的回国链路来做部署，不知道何时也会撞墙，
+看了一下，貌似gitee这边是支持 &lt;a href="https://gitee.com/help/articles/4285">百度效率云的DevOps的服务&lt;/a> 的，所以也可以拿来白瞟，配置过程略复杂，在此不赘述了，有兴趣的可以来捣鼓一下。
+用了一下基本上是和阿里云的Pipeline一个套路，装个java的agent到你的vps节点上，然后后台配置脚本内容和路径，基本和jenkins差不多，国内免撞墙自动部署，白瞟目标达成+1。&lt;/p>
+&lt;p>&lt;img src="/post/multi-nodes-continuous-deploy/201801babies-ops0000.jpg" alt="奇怪的技能增加了">&lt;/p></description></item><item><title>配置iptables的NAT转发</title><link>/post/setup-iptables-nat/</link><pubDate>Fri, 04 Sep 2020 19:34:32 +0800</pubDate><guid>/post/setup-iptables-nat/</guid><description>&lt;ol>
 &lt;li>打开系统ip_forward的配置：&lt;/li>
 &lt;/ol>
 &lt;p>临时：&lt;/p>
