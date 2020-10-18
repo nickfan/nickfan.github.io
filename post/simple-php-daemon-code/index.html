@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-cn itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>一个简单的php守护进程代码示例 - 酷码熊博客</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=MobileOptimized content="width"><meta name=HandheldFriendly content="true"><meta name=applicable-device content="pc,mobile"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=mobile-web-app-capable content="yes"><meta name=author content="axiong"><meta name=description content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><meta name=keywords content="kumaxiong,隐逸山林,阿熊,python,javascript,golang"><meta name=generator content="Hugo 0.74.3"><link rel=canonical href=https://www.kumaxiong.com/post/simple-php-daemon-code/><link rel=icon href=/favicon.ico><link rel=stylesheet href=/sass/jane.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css integrity="sha256-+j2UHR0ODdyYWAQif+q//qVciYg+sK804FMqeukTUVE=" media=screen crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="一个简单的php守护进程代码示例"><meta property="og:description" content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><meta property="og:type" content="article"><meta property="og:url" content="/post/simple-php-daemon-code/"><meta property="article:published_time" content="2015-07-08T12:50:29+08:00"><meta property="article:modified_time" content="2015-07-08T12:50:29+08:00"><meta itemprop=name content="一个简单的php守护进程代码示例"><meta itemprop=description content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><meta itemprop=datePublished content="2015-07-08T12:50:29+08:00"><meta itemprop=dateModified content="2015-07-08T12:50:29+08:00"><meta itemprop=wordCount content="1095"><meta itemprop=keywords content="notes,daemon,守护进程,"><meta name=twitter:card content="summary"><meta name=twitter:title content="一个简单的php守护进程代码示例"><meta name=twitter:description content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>酷码熊日志</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><li class=mobile-menu-item><a class=menu-item-link href=/>首页</a></li><li class=mobile-menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=mobile-menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=mobile-menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=mobile-menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
+<!doctype html><html lang=zh-cn itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>一个简单的php守护进程代码示例 - 酷码熊博客</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=MobileOptimized content="width"><meta name=HandheldFriendly content="true"><meta name=applicable-device content="pc,mobile"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=mobile-web-app-capable content="yes"><meta name=author content="axiong"><meta name=description content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><meta name=keywords content="kumaxiong,隐逸山林,阿熊,python,javascript,golang"><meta name=generator content="Hugo 0.76.5"><link rel=canonical href=https://www.kumaxiong.com/post/simple-php-daemon-code/><link rel=icon href=/favicon.ico><link rel=stylesheet href=/sass/jane.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css integrity="sha256-+j2UHR0ODdyYWAQif+q//qVciYg+sK804FMqeukTUVE=" media=screen crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="一个简单的php守护进程代码示例"><meta property="og:description" content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><meta property="og:type" content="article"><meta property="og:url" content="/post/simple-php-daemon-code/"><meta property="article:published_time" content="2015-07-08T12:50:29+08:00"><meta property="article:modified_time" content="2015-07-08T12:50:29+08:00"><meta itemprop=name content="一个简单的php守护进程代码示例"><meta itemprop=description content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><meta itemprop=datePublished content="2015-07-08T12:50:29+08:00"><meta itemprop=dateModified content="2015-07-08T12:50:29+08:00"><meta itemprop=wordCount content="1095"><meta itemprop=keywords content="notes,daemon,守护进程,"><meta name=twitter:card content="summary"><meta name=twitter:title content="一个简单的php守护进程代码示例"><meta name=twitter:description content="工作中同事需要做一个简单的工作进程，需要在进程结束时不能被硬生生的掐断当前正在执行的工作流程，需要等一个处理流程跑完了再结束，所以这时候就需"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>酷码熊日志</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><li class=mobile-menu-item><a class=menu-item-link href=/>首页</a></li><li class=mobile-menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=mobile-menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=mobile-menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=mobile-menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
 <i class=iconfont><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92.0.0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"/><path d="M841.152 457.152c-30.528.0-54.784 24.512-54.784 54.656V786.56H237.696V237.696h206.016c6.656.0 10.752.0 13.248.0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128H183.04C153.216 128 128 152.576 128 182.848c0 3.136.256 6.272.768 9.28C128.256 195.136 128 198.272 128 201.408v639.488c0 .064.0.192.0.256.0.128.0.192.0.32.0 30.528 24.512 54.784 54.784 54.784H829.76c6.592.0 9.728.0 11.712.0 28.736.0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344v-20.352V561.408 512.128C896 481.792 871.424 457.152 841.152 457.152z"/></svg></i></a></li><li class=mobile-menu-item><a class=menu-item-link href=/about/>关于</a></li></ul></nav><link rel=stylesheet href=/lib/photoswipe/photoswipe.min.css><link rel=stylesheet href=/lib/photoswipe/default-skin/default-skin.min.css><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
@@ -13,13 +13,13 @@
 </span><span class=lnt>5
 </span><span class=lnt>6
 </span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    protected function regist_sig_handler()
-    {
-        declare(ticks = 1);
-        pcntl_signal(SIGTERM, [$this, &#39;sig_handler&#39;]);
-        pcntl_signal(SIGHUP, [$this, &#39;sig_handler&#39;]);
-        pcntl_signal(SIGINT, [$this, &#39;sig_handler&#39;]);
-    }
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    <span class=k>protected</span> <span class=k>function</span> <span class=nf>regist_sig_handler</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>declare</span><span class=p>(</span><span class=nx>ticks</span> <span class=o>=</span> <span class=mi>1</span><span class=p>);</span>
+        <span class=nx>pcntl_signal</span><span class=p>(</span><span class=nx>SIGTERM</span><span class=p>,</span> <span class=p>[</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sig_handler&#39;</span><span class=p>]);</span>
+        <span class=nx>pcntl_signal</span><span class=p>(</span><span class=nx>SIGHUP</span><span class=p>,</span> <span class=p>[</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sig_handler&#39;</span><span class=p>]);</span>
+        <span class=nx>pcntl_signal</span><span class=p>(</span><span class=nx>SIGINT</span><span class=p>,</span> <span class=p>[</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sig_handler&#39;</span><span class=p>]);</span>
+    <span class=p>}</span>
 </code></pre></td></tr></table></div></div><ul><li>在函数中设置标志位：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -31,17 +31,17 @@
 </span><span class=lnt> 9
 </span><span class=lnt>10
 </span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>protected function sig_handler($signo)
-    {
-        switch ($signo) {
-            case SIGTERM:
-            case SIGHUP:
-            case SIGINT:
-                self::$_MYDAEMON_SHOULD_STOP = true;
-                // ...
-                break;
-        }
-    }
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=k>protected</span> <span class=k>function</span> <span class=nf>sig_handler</span><span class=p>(</span><span class=nv>$signo</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>switch</span> <span class=p>(</span><span class=nv>$signo</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>case</span> <span class=nx>SIGTERM</span><span class=o>:</span>
+            <span class=k>case</span> <span class=nx>SIGHUP</span><span class=o>:</span>
+            <span class=k>case</span> <span class=nx>SIGINT</span><span class=o>:</span>
+                <span class=nx>self</span><span class=o>::</span><span class=nv>$_MYDAEMON_SHOULD_STOP</span> <span class=o>=</span> <span class=k>true</span><span class=p>;</span>
+                <span class=c1>// ...
+</span><span class=c1></span>                <span class=k>break</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
 </code></pre></td></tr></table></div></div><ul><li>构建退出处理函数</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -52,16 +52,16 @@
 </span><span class=lnt> 8
 </span><span class=lnt> 9
 </span><span class=lnt>10
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php> protected function shouldStop()
-    {
-        if (self::$_MYDAEMON_SHOULD_STOP) {
-            // before exit staff code
-            // ...
-            return true;
-        }
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php> <span class=k>protected</span> <span class=k>function</span> <span class=nf>shouldStop</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=nv>$_MYDAEMON_SHOULD_STOP</span><span class=p>)</span> <span class=p>{</span>
+            <span class=c1>// before exit staff code
+</span><span class=c1></span>            <span class=c1>// ...
+</span><span class=c1></span>            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+        <span class=p>}</span>
 
-        return false;
-    }
+        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+    <span class=p>}</span>
 </code></pre></td></tr></table></div></div><ul><li>在主循环中一次处理完成后判断是否要终止退出</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -73,17 +73,17 @@
 </span><span class=lnt> 9
 </span><span class=lnt>10
 </span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        while (true) {
-            if ($this-&gt;shouldStop()) {
-                break;
-            }
-            try {
-                $jobStatusInfo = $this-&gt;execute([]);
-            } catch (Exception $ex) {
-                $this-&gt;log($ex-&gt;getMessage());
-            }
-            usleep(10);
-        }
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        <span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>shouldStop</span><span class=p>())</span> <span class=p>{</span>
+                <span class=k>break</span><span class=p>;</span>
+            <span class=p>}</span>
+            <span class=k>try</span> <span class=p>{</span>
+                <span class=nv>$jobStatusInfo</span> <span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>execute</span><span class=p>([]);</span>
+            <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>Exception</span> <span class=nv>$ex</span><span class=p>)</span> <span class=p>{</span>
+                <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>log</span><span class=p>(</span><span class=nv>$ex</span><span class=o>-&gt;</span><span class=na>getMessage</span><span class=p>());</span>
+            <span class=p>}</span>
+            <span class=nx>usleep</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+        <span class=p>}</span>
 </code></pre></td></tr></table></div></div><p>附上完整代码（loop是示例需要长时间处理的业务逻辑，memoryusage超限也会退出，外部可以由supervisor/daemontools等进程监控程序控制）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>  1
 </span><span class=lnt>  2
 </span><span class=lnt>  3
@@ -219,8 +219,8 @@
 </span><span class=lnt>133
 </span><span class=lnt>134
 </span><span class=lnt>135
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>#!/usr/bin/env php
-<span class=cp>&lt;?php</span>
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=c1>#!/usr/bin/env php
+</span><span class=c1></span><span class=o>&lt;?</span><span class=nx>php</span>
 <span class=sd>/**
 </span><span class=sd> * Description
 </span><span class=sd> *
@@ -355,8 +355,8 @@
 <span class=nv>$worker</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>myDaemon</span><span class=p>([</span><span class=s1>&#39;loop&#39;</span> <span class=o>=&gt;</span> <span class=nv>$gotMyParam</span><span class=p>,</span> <span class=s1>&#39;memLimit&#39;</span> <span class=o>=&gt;</span> <span class=mi>1048576</span> <span class=o>*</span> <span class=mi>128</span><span class=p>,]);</span>
 <span class=nv>$worker</span><span class=o>-&gt;</span><span class=na>run</span><span class=p>();</span>
 </code></pre></td></tr></table></div></div><p><strong>测试：</strong></p><p>在class代码中的构造函数中注释掉</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>//$this-&gt;regist_sig_handler();
-</code></pre></td></tr></table></div></div><p>运行daemon代码，在执行execute的for循环时ctrl+c或者用 kill 杀死当前进程</p><p><a href=/post/simple-php-daemon-code/Snip20150708_1.png><img src=/post/simple-php-daemon-code/Snip20150708_1.png alt=Snip20150708_1></a></p><p>进程直接结束，没有执行完execute的一个完整流程就直接退出了，</p><p>把注释去掉重新执行daemon代码：</p><p><a href=/post/simple-php-daemon-code/Snip20150708_2.png><img src=/post/simple-php-daemon-code/Snip20150708_2.png alt=Snip20150708_2></a></p><p>在执行过程中按ctrl+c或者kill命令杀死前进程</p><p>观察daemon运行的结果是直到整个execute循环执行完了以后才退出程序的</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=c1>//$this-&gt;regist_sig_handler();
+</span></code></pre></td></tr></table></div></div><p>运行daemon代码，在执行execute的for循环时ctrl+c或者用 kill 杀死当前进程</p><p><a href=/post/simple-php-daemon-code/Snip20150708_1.png><img src=/post/simple-php-daemon-code/Snip20150708_1.png alt=Snip20150708_1></a></p><p>进程直接结束，没有执行完execute的一个完整流程就直接退出了，</p><p>把注释去掉重新执行daemon代码：</p><p><a href=/post/simple-php-daemon-code/Snip20150708_2.png><img src=/post/simple-php-daemon-code/Snip20150708_2.png alt=Snip20150708_2></a></p><p>在执行过程中按ctrl+c或者kill命令杀死前进程</p><p>观察daemon运行的结果是直到整个execute循环执行完了以后才退出程序的</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
 <span class=item-content>axiong</span></p><p class=copyright-item><span class=item-title>上次更新</span>
 <span class=item-content>2015-07-08</span></p><p class=copyright-item><span class=item-title>许可协议</span>
 <span class=item-content><a rel="license noopener" href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank>CC BY-NC-ND 4.0</a></span></p></div><div class=post-reward><input type=checkbox name=reward id=reward hidden>

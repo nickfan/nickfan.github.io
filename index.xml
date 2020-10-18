@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 07 Sep 2020 09:43:13 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 16 Oct 2020 13:22:12 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
 &lt;p>这里是阿熊的个人博客（原博客名称：隐逸山林），主要分享一些开发笔记。&lt;/p>
 &lt;p>由于.me的域名续费太贵 axiong.me的域名后面不续费了，还是用.com划算，咩哈哈~~&lt;/p>
 &lt;ul>
@@ -6,7 +6,832 @@
 &lt;li>海外镜像： &lt;a href="https://www.kuma2code.com">https://www.kuma2code.com&lt;/a>&lt;/li>
 &lt;li>github备用：https://nickfan.github.io&lt;/li>
 &lt;li>原域名跳转 &lt;a href="https://axiong.me">https://axiong.me&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>多节点持续部署白瞟篇</title><link>/post/multi-nodes-continuous-deploy/</link><pubDate>Mon, 07 Sep 2020 09:43:13 +0800</pubDate><guid>/post/multi-nodes-continuous-deploy/</guid><description>&lt;p>对于中小型项目部署而言，还是尽可能的节省资源，（抠门~~~）
+&lt;/ul></description></item><item><title>win10下基础开发环境搭建2020</title><link>/post/win10-dev-env-setup-2020/</link><pubDate>Fri, 16 Oct 2020 13:22:12 +0800</pubDate><guid>/post/win10-dev-env-setup-2020/</guid><description>&lt;p>&lt;strong>目前win10系统对wsl的支持在逐步提升，mac已经转型消费向的arm阵营了，也许从远期来看是对的方向，但当下的开发还是以桌面工作环境为主，所以目前而言还是配一下桌面开发环境，做一下笔记&lt;/strong>&lt;/p>
+&lt;h2 id="参考笔记">参考笔记&lt;/h2>
+&lt;p>&lt;a href="https://www.lagou.com/lgeduarticle/85437.html">https://www.lagou.com/lgeduarticle/85437.html&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/145488247">https://zhuanlan.zhihu.com/p/145488247&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.sitepoint.com/wsl2/">https://www.sitepoint.com/wsl2/&lt;/a>&lt;/p>
+&lt;h2 id="预备">预备&lt;/h2>
+&lt;p>win+x快捷键，选Y系统，在设备规格中选“重命名这台电脑”，可以配置个简单点的名字尽量英文小写字母后面配hosts的时候也简单点&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;h3 id="升级win10到最新版本">升级win10到最新版本&lt;/h3>
+&lt;p>家庭版和专业版都可以，有的企业版本貌似没有microsoft store商店，所以不推荐&lt;/p>
+&lt;ol>
+&lt;li>访问：https://support.microsoft.com/zh-cn/help/3159635/windows-10-update-assistant 下载更新助手（windows易升）
+或者直接访问 &lt;a href="https://www.microsoft.com/zh-cn/software-download/windows10">https://www.microsoft.com/zh-cn/software-download/windows10&lt;/a> 点立即更新
+升级安装时间主要看你的机器性能及网络带宽&lt;/li>
+&lt;/ol>
+&lt;h3 id="安装配置好你的网络访问工具">安装配置好你的网络访问工具&lt;/h3>
+&lt;p>比如clash,v2等等解决网络访问慢和阻塞的问题，此处不可描述n字省略。&lt;/p>
+&lt;h3 id="安装windows-terminal">安装windows terminal&lt;/h3>
+&lt;p>在开始菜单找到microsoft store商店进入后搜索并安装 windows terminal&lt;/p>
+&lt;h3 id="安装wsl2">安装WSL2&lt;/h3>
+&lt;p>参考：https://docs.microsoft.com/zh-cn/windows/wsl/install-win10&lt;/p>
+&lt;p>右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+粘贴安装指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">dism&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">exe&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">online&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="nb">enable-feature&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">featurename&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">Microsoft-Windows-Subsystem-Linux&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">all&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">norestart&lt;/span>
+&lt;span class="n">dism&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">exe&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">online&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="nb">enable-feature&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">featurename&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">VirtualMachinePlatform&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">all&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">norestart&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行完毕后重启系统
+按照步骤4中下载并更新linux内核包
+参考：
+&lt;a href="https://aka.ms/wsl2kernel">https://aka.ms/wsl2kernel&lt;/a>&lt;/p>
+&lt;p>比如下载安装包为：&lt;/p>
+&lt;p>&lt;a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi&lt;/a>&lt;/p>
+&lt;p>右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+粘贴配置指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">wsl&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-set-default-version&lt;/span> &lt;span class="n">2&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装对应的linux发行版，此次以ubuntu1804为例子
+&lt;a href="https://www.microsoft.com/zh-hk/p/ubuntu-1804-lts/9n9tngvndl3q?rtc=1&amp;amp;activetab=pivot:overviewtab">https://www.microsoft.com/zh-hk/p/ubuntu-1804-lts/9n9tngvndl3q?rtc=1&amp;amp;activetab=pivot:overviewtab&lt;/a>&lt;/p>
+&lt;p>安装完成后创建初始用户（比如www）并设置密码则安装完毕&lt;/p>
+&lt;p>通过终端运行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">wsl&lt;/span> &lt;span class="n">-l&lt;/span> &lt;span class="n">-v&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以确认当前的发行版所使用的wsl的版本是2还是1&lt;/p>
+&lt;p>&lt;strong>如果上一个步骤中配置后忘记了初始用户的密码可以通过命令行处理一下&lt;/strong>
+参考：https://winaero.com/reset-password-wsl-linux-distro-windows-10/&lt;/p>
+&lt;p>先设置默认登陆用户到root，此处以ubuntu18.04发行版为例子
+右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+粘贴配置指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">ubuntu1804&lt;/span> &lt;span class="n">config&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-default-user&lt;/span> &lt;span class="n">root&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以root身份打开ubuntu18.04的终端修改www用户密码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">passwd www
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>输入新密码后，再把默认用户切回来
+右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+粘贴配置指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">ubuntu1804&lt;/span> &lt;span class="n">config&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-default-user&lt;/span> &lt;span class="n">www&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>现在用刚更新后的密码登录即可。&lt;/p>
+&lt;h3 id="安装包管理工具">安装包管理工具&lt;/h3>
+&lt;ol>
+&lt;li>基础包安装工具&lt;/li>
+&lt;/ol>
+&lt;p>右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+运行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="nb">Install-PackageProvider&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">NuGet&lt;/span> &lt;span class="n">-Force&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">PowerShellGet&lt;/span> &lt;span class="n">-Force&lt;/span>
+&lt;span class="nb">Update-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">PowerShellGet&lt;/span>
+&lt;span class="n">Exit&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>官方基础命令行包管理工具winget（类似于apt/yum等发行版的包管理器）&lt;/li>
+&lt;/ol>
+&lt;p>网站：https://github.com/microsoft/winget-cli
+下载：https://github.com/microsoft/winget-cli/releases
+找最新版本的下载后执行（比如）：https://github.com/microsoft/winget-cli/releases/download/v.0.2.2521-preview/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.appxbundle&lt;/p>
+&lt;ol start="3">
+&lt;li>安装三方chocolatey包管理工具（全局-管理员）&lt;/li>
+&lt;/ol>
+&lt;p>网站：https://chocolatey.org
+安装参考：https://chocolatey.org/install#individual&lt;/p>
+&lt;p>右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+粘贴安装指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">Bypass&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="k">Process&lt;/span> &lt;span class="n">-Force&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="no">[System.Net.ServicePointManager]&lt;/span>&lt;span class="p">::&lt;/span>&lt;span class="n">SecurityProtocol&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="no">[System.Net.ServicePointManager]&lt;/span>&lt;span class="p">::&lt;/span>&lt;span class="n">SecurityProtocol&lt;/span> &lt;span class="o">-bor&lt;/span> &lt;span class="n">3072&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nb">iex &lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Net&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WebClient&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">DownloadString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;https://chocolatey.org/install.ps1&amp;#39;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>安装三方scoop包管理工具（当前用户）&lt;/li>
+&lt;/ol>
+&lt;p>网站：https://scoop.sh/&lt;/p>
+&lt;p>直接运行windows terminal（以非管理员身份） 打开默认的Windows PowerShell
+粘贴安装指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="nb">Invoke-Expression&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nb">New-Object&lt;/span> &lt;span class="n">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Net&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WebClient&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">DownloadString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;https://get.scoop.sh&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>或者&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="nb">iwr &lt;/span>&lt;span class="n">-useb&lt;/span> &lt;span class="n">get&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">scoop&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sh&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">iex
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果运行出现权限异常则执行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>后重新运行上面的安装指令&lt;/p>
+&lt;h3 id="升级安装最新的powershell">升级安装最新的PowerShell&lt;/h3>
+&lt;p>网站：https://github.com/PowerShell/PowerShell&lt;/p>
+&lt;p>直接运行windows terminal（以非管理员身份） 打开默认的Windows PowerShell&lt;/p>
+&lt;p>用winget下载安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-i&lt;/span> &lt;span class="n">powershell&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中的&lt;code>-i&lt;/code>参数可以在部分有安装选项的软件中提供安装过程中的交互，如果都按照默认值安装则可以直接不带-i参数执行默认的静默模式安装&lt;/p>
+&lt;h3 id="通过winget安装相关基础软件">通过winget安装相关基础软件&lt;/h3>
+&lt;p>wox 启动器(类似于macos下的Alfred)&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-i&lt;/span> &lt;span class="n">wox&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>notepad++文本编辑器&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-i&lt;/span> &lt;span class="n">notepad&lt;/span>&lt;span class="p">++&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>vscode代码编辑器&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-i&lt;/span> &lt;span class="n">vscode&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Microsoft Edge 浏览器&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-i&lt;/span> &lt;span class="s2">&amp;#34;Microsoft Edge&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>git源码管理工具&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">winget&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-i&lt;/span> &lt;span class="n">git&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="配置windows-terminal">配置windows terminal&lt;/h3>
+&lt;p>&lt;strong>支持sudo(管理员身份运行)&lt;/strong>&lt;/p>
+&lt;p>使用psutils脚本
+参考：https://github.com/lukesampson/psutils
+直接运行windows terminal（以非管理员身份） 打开默认的Windows PowerShell&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">scoop&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">psutils&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用gsudo工具
+网站：https://github.com/gerardog/gsudo&lt;/p>
+&lt;p>右键选择以管理员身份运行windows terminal，打开默认的Windows PowerShell
+运行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">PowerShell&lt;/span> &lt;span class="n">-Command&lt;/span> &lt;span class="s2">&amp;#34;Set-ExecutionPolicy RemoteSigned -scope Process; iwr -useb https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | iex&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>或者用前面的chocolatey包管理工具来安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">choco&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">gsudo&lt;/span>
+&lt;span class="n">refreshenv&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>配置支持管理员身份运行的windows terminal选项&lt;/strong>&lt;/p>
+&lt;p>参考：https://blog.csdn.net/weixin_39858881/article/details/107026065&lt;/p>
+&lt;p>在windows terminal的右上方的下拉菜单中选择设置然后编辑settings.json文件&lt;/p>
+&lt;p>其中powershell的图标&lt;code>&amp;quot;C:\\opt\\data\\assets\\img\\Giuj3FT.png&amp;quot;&lt;/code>下载自：https://i.imgur.com/Giuj3FT.png&lt;/p>
+&lt;p>cmd命令行图标&lt;code>&amp;quot;C:\\opt\\data\\assets\\img\\CMD_32px.png&amp;quot;&lt;/code>
+下载自：
+&lt;a href="https://raw.githubusercontent.com/mahoshojoHCG/GithubPageAccessories/master/Terminal/CMD_32px.png">https://raw.githubusercontent.com/mahoshojoHCG/GithubPageAccessories/master/Terminal/CMD_32px.png&lt;/a>&lt;/p>
+&lt;p>参考：https://github.com/mahoshojoHCG/GithubPageAccessories/tree/master/Terminal&lt;/p>
+&lt;p>基本的配置例子：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;span class="lnt">117
+&lt;/span>&lt;span class="lnt">118
+&lt;/span>&lt;span class="lnt">119
+&lt;/span>&lt;span class="lnt">120
+&lt;/span>&lt;span class="lnt">121
+&lt;/span>&lt;span class="lnt">122
+&lt;/span>&lt;span class="lnt">123
+&lt;/span>&lt;span class="lnt">124
+&lt;/span>&lt;span class="lnt">125
+&lt;/span>&lt;span class="lnt">126
+&lt;/span>&lt;span class="lnt">127
+&lt;/span>&lt;span class="lnt">128
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="err">//&lt;/span> &lt;span class="err">This&lt;/span> &lt;span class="err">file&lt;/span> &lt;span class="err">was&lt;/span> &lt;span class="err">initially&lt;/span> &lt;span class="err">generated&lt;/span> &lt;span class="err">by&lt;/span> &lt;span class="err">Windows&lt;/span> &lt;span class="err">Terminal&lt;/span> &lt;span class="mf">1.3&lt;/span>&lt;span class="err">.&lt;/span>&lt;span class="mf">2651.0&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">It&lt;/span> &lt;span class="err">should&lt;/span> &lt;span class="err">still&lt;/span> &lt;span class="err">be&lt;/span> &lt;span class="err">usable&lt;/span> &lt;span class="err">in&lt;/span> &lt;span class="err">newer&lt;/span> &lt;span class="err">versions,&lt;/span> &lt;span class="err">but&lt;/span> &lt;span class="err">newer&lt;/span> &lt;span class="err">versions&lt;/span> &lt;span class="err">might&lt;/span> &lt;span class="err">have&lt;/span> &lt;span class="err">additional&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">settings,&lt;/span> &lt;span class="err">help&lt;/span> &lt;span class="err">text,&lt;/span> &lt;span class="err">or&lt;/span> &lt;span class="err">changes&lt;/span> &lt;span class="err">that&lt;/span> &lt;span class="err">you&lt;/span> &lt;span class="err">will&lt;/span> &lt;span class="err">not&lt;/span> &lt;span class="err">see&lt;/span> &lt;span class="err">unless&lt;/span> &lt;span class="err">you&lt;/span> &lt;span class="err">clear&lt;/span> &lt;span class="err">this&lt;/span> &lt;span class="err">file&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">let&lt;/span> &lt;span class="err">us&lt;/span> &lt;span class="err">generate&lt;/span> &lt;span class="err">a&lt;/span> &lt;span class="err">new&lt;/span> &lt;span class="err">one&lt;/span> &lt;span class="err">for&lt;/span> &lt;span class="err">you.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">view&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">default&lt;/span> &lt;span class="err">settings,&lt;/span> &lt;span class="err">hold&lt;/span> &lt;span class="s2">&amp;#34;alt&amp;#34;&lt;/span> &lt;span class="err">while&lt;/span> &lt;span class="err">clicking&lt;/span> &lt;span class="err">on&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="s2">&amp;#34;Settings&amp;#34;&lt;/span> &lt;span class="err">button.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">For&lt;/span> &lt;span class="err">documentation&lt;/span> &lt;span class="err">on&lt;/span> &lt;span class="err">these&lt;/span> &lt;span class="err">settings,&lt;/span> &lt;span class="err">see:&lt;/span> &lt;span class="err">https://aka.ms/terminal-documentation&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;$schema&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;https://aka.ms/terminal-profiles-schema&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;defaultProfile&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{574e775e-4f2a-5b96-ac1e-a2962a402336}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">You&lt;/span> &lt;span class="err">can&lt;/span> &lt;span class="err">add&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">global&lt;/span> &lt;span class="err">application&lt;/span> &lt;span class="err">settings&lt;/span> &lt;span class="err">here.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">learn&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">global&lt;/span> &lt;span class="err">settings,&lt;/span> &lt;span class="err">visit&lt;/span> &lt;span class="err">https://aka.ms/terminal-global-settings&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">If&lt;/span> &lt;span class="err">enabled,&lt;/span> &lt;span class="err">selections&lt;/span> &lt;span class="err">are&lt;/span> &lt;span class="err">automatically&lt;/span> &lt;span class="err">copied&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">your&lt;/span> &lt;span class="err">clipboard.&lt;/span>
+&lt;span class="nt">&amp;#34;copyOnSelect&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">If&lt;/span> &lt;span class="err">enabled,&lt;/span> &lt;span class="err">formatted&lt;/span> &lt;span class="err">data&lt;/span> &lt;span class="err">is&lt;/span> &lt;span class="err">also&lt;/span> &lt;span class="err">copied&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">your&lt;/span> &lt;span class="err">clipboard&lt;/span>
+&lt;span class="nt">&amp;#34;copyFormatting&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">A&lt;/span> &lt;span class="err">profile&lt;/span> &lt;span class="err">specifies&lt;/span> &lt;span class="err">a&lt;/span> &lt;span class="err">command&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">execute&lt;/span> &lt;span class="err">paired&lt;/span> &lt;span class="err">with&lt;/span> &lt;span class="err">information&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">how&lt;/span> &lt;span class="err">it&lt;/span> &lt;span class="err">should&lt;/span> &lt;span class="err">look&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">feel.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Each&lt;/span> &lt;span class="err">one&lt;/span> &lt;span class="err">of&lt;/span> &lt;span class="err">them&lt;/span> &lt;span class="err">will&lt;/span> &lt;span class="err">appear&lt;/span> &lt;span class="err">in&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">&amp;#39;New&lt;/span> &lt;span class="err">Tab&amp;#39;&lt;/span> &lt;span class="err">dropdown,&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">can&lt;/span> &lt;span class="err">be&lt;/span> &lt;span class="err">invoked&lt;/span> &lt;span class="err">from&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">commandline&lt;/span> &lt;span class="err">with&lt;/span> &lt;span class="err">`wt.exe&lt;/span> &lt;span class="err">-p&lt;/span> &lt;span class="err">xxx`&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">learn&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">profiles,&lt;/span> &lt;span class="err">visit&lt;/span> &lt;span class="err">https://aka.ms/terminal-profile-settings&lt;/span>
+&lt;span class="nt">&amp;#34;profiles&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;defaults&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Put&lt;/span> &lt;span class="err">settings&lt;/span> &lt;span class="err">here&lt;/span> &lt;span class="err">that&lt;/span> &lt;span class="err">you&lt;/span> &lt;span class="err">want&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">apply&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">all&lt;/span> &lt;span class="err">profiles.&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="nt">&amp;#34;list&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{574e775e-4f2a-5b96-ac1e-a2962a402336}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;PowerShell&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;colorScheme&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Solarized Dark&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;fontFace&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Sarasa Mono Slab SC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows.Terminal.PowershellCore&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{41dd7a51-f0e1-4420-a2ec-1a7130b7e950}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows PowerShell Elevated&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;commandline&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;gsudo.exe powershell.exe&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;colorScheme&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Solarized Dark&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;fontFace&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Sarasa Mono Slab SC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;icon&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;C:\\opt\\data\\assets\\img\\Giuj3FT.png&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Ubuntu-18.04&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows.Terminal.Wsl&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Make&lt;/span> &lt;span class="err">changes&lt;/span> &lt;span class="err">here&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">cmd.exe&lt;/span> &lt;span class="err">profile.&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{0caa0dad-35be-5f56-a8ff-afceeeaa6101}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;命令提示符&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;commandline&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;cmd.exe&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Make&lt;/span> &lt;span class="err">changes&lt;/span> &lt;span class="err">here&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">cmd.exe&lt;/span> &lt;span class="err">profile.&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{0caa0dad-35be-5f56-a8ff-afceeeaa6102}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;命令提示符(管理员)&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;commandline&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;gsudo.exe cmd.exe&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;icon&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;C:\\opt\\data\\assets\\img\\CMD_32px.png&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Make&lt;/span> &lt;span class="err">changes&lt;/span> &lt;span class="err">here&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">powershell.exe&lt;/span> &lt;span class="err">profile.&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{61c54bbd-c2c6-5271-96e7-009a87ff44bf}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows PowerShell&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;commandline&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;powershell.exe&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{b453ae62-4e3d-5e58-b989-0a998ec441b8}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Azure Cloud Shell&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows.Terminal.Azure&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{574e775e-4f2a-5b96-ac1e-a2962a402336}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;PowerShell&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows.Terminal.PowershellCore&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;guid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;hidden&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Ubuntu-18.04&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Windows.Terminal.Wsl&amp;#34;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">]&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Add&lt;/span> &lt;span class="err">custom&lt;/span> &lt;span class="err">color&lt;/span> &lt;span class="err">schemes&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">this&lt;/span> &lt;span class="err">array.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">learn&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">color&lt;/span> &lt;span class="err">schemes,&lt;/span> &lt;span class="err">visit&lt;/span> &lt;span class="err">https://aka.ms/terminal-color-schemes&lt;/span>
+&lt;span class="nt">&amp;#34;schemes&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[],&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Add&lt;/span> &lt;span class="err">custom&lt;/span> &lt;span class="err">actions&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">keybindings&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">this&lt;/span> &lt;span class="err">array.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">unbind&lt;/span> &lt;span class="err">a&lt;/span> &lt;span class="err">key&lt;/span> &lt;span class="err">combination&lt;/span> &lt;span class="err">from&lt;/span> &lt;span class="err">your&lt;/span> &lt;span class="err">defaults.json,&lt;/span> &lt;span class="err">set&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">command&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="nt">&amp;#34;unbound&amp;#34;&lt;/span>&lt;span class="err">.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">learn&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">actions&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">keybindings&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="err">visit&lt;/span> &lt;span class="err">https://aka.ms/terminal-keybindings&lt;/span>
+&lt;span class="nt">&amp;#34;actions&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Copy&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">paste&lt;/span> &lt;span class="err">are&lt;/span> &lt;span class="err">bound&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">Ctrl+Shift+C&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">Ctrl+Shift+V&lt;/span> &lt;span class="err">in&lt;/span> &lt;span class="err">your&lt;/span> &lt;span class="err">defaults.json.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">These&lt;/span> &lt;span class="err">two&lt;/span> &lt;span class="err">lines&lt;/span> &lt;span class="err">additionally&lt;/span> &lt;span class="err">bind&lt;/span> &lt;span class="err">them&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">Ctrl+C&lt;/span> &lt;span class="err">and&lt;/span> &lt;span class="err">Ctrl+V.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">learn&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">selection&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="err">visit&lt;/span> &lt;span class="err">https://aka.ms/terminal-selection&lt;/span>
+&lt;span class="p">{&lt;/span> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nt">&amp;#34;action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;copy&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nt">&amp;#34;singleLine&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="nt">&amp;#34;keys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ctrl+c&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="p">{&lt;/span> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;paste&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nt">&amp;#34;keys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ctrl+v&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Press&lt;/span> &lt;span class="err">Ctrl+Shift+F&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">open&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">search&lt;/span> &lt;span class="err">box&lt;/span>
+&lt;span class="p">{&lt;/span> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;find&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nt">&amp;#34;keys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ctrl+shift+f&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">Press&lt;/span> &lt;span class="err">Alt+Shift+D&lt;/span> &lt;span class="err">to&lt;/span> &lt;span class="err">open&lt;/span> &lt;span class="err">a&lt;/span> &lt;span class="err">new&lt;/span> &lt;span class="err">pane.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">-&lt;/span> &lt;span class="s2">&amp;#34;split&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;auto&amp;#34;&lt;/span> &lt;span class="err">makes&lt;/span> &lt;span class="err">this&lt;/span> &lt;span class="err">pane&lt;/span> &lt;span class="err">open&lt;/span> &lt;span class="err">in&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">direction&lt;/span> &lt;span class="err">that&lt;/span> &lt;span class="err">provides&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">most&lt;/span> &lt;span class="err">surface&lt;/span> &lt;span class="err">area.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">-&lt;/span> &lt;span class="s2">&amp;#34;splitMode&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;duplicate&amp;#34;&lt;/span> &lt;span class="err">makes&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">new&lt;/span> &lt;span class="err">pane&lt;/span> &lt;span class="err">use&lt;/span> &lt;span class="err">the&lt;/span> &lt;span class="err">focused&lt;/span> &lt;span class="err">pane&amp;#39;s&lt;/span> &lt;span class="err">profile.&lt;/span>
+&lt;span class="err">//&lt;/span> &lt;span class="err">To&lt;/span> &lt;span class="err">learn&lt;/span> &lt;span class="err">more&lt;/span> &lt;span class="err">about&lt;/span> &lt;span class="err">panes&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="err">visit&lt;/span> &lt;span class="err">https://aka.ms/terminal-panes&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nt">&amp;#34;action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;splitPane&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;split&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;auto&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nt">&amp;#34;splitMode&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;duplicate&amp;#34;&lt;/span>
+&lt;span class="p">},&lt;/span>
+&lt;span class="nt">&amp;#34;keys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;alt+shift+d&amp;#34;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">]&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>配置完成后默认第二项“Windows PowerShell Elevated”即为管理员权限的PowerShell终端不需要右键再选择windows terminal图标手工执行了。&lt;/p>
+&lt;p>&lt;strong>美化windows terminal/powershell&lt;/strong>&lt;/p>
+&lt;p>参考：https://github.com/JanDeDobbeleer/oh-my-posh#installation&lt;/p>
+&lt;p>参考：https://hcg.today/2019/08/02/windows-terminal/&lt;/p>
+&lt;p>参考：https://sspai.com/post/52868&lt;/p>
+&lt;p>参考：https://www.cnblogs.com/kasnti/p/12547985.html&lt;/p>
+&lt;p>参考：https://coolcode.org/2018/03/16/how-to-make-your-powershell-beautiful/&lt;/p>
+&lt;p>安装字体&lt;/p>
+&lt;p>参考：https://github.com/microsoft/cascadia-code/releases&lt;/p>
+&lt;p>参考：https://github.com/be5invis/Sarasa-Gothic&lt;/p>
+&lt;p>国内镜像：https://mirrors.tuna.tsinghua.edu.cn/github-release/be5invis/Sarasa-Gothic/&lt;/p>
+&lt;blockquote>
+&lt;p>下载解压安装更纱黑体之后，我们重新启动一个 PowerShell 终端，就可以在菜单栏右键，选择「属性-字体」，并在字体中选择更纱黑体。适合终端使用的等宽字体是「等距更纱黑体 T SC」或「Sarasa Mono T SC」。&lt;/p>
+&lt;/blockquote>
+&lt;p>安装colortool&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">scoop&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">colortool&lt;/span>
+&lt;span class="c">#colortool -s&lt;/span>
+&lt;span class="c">#colortool -d OneHalfDark&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="n">mkdir&lt;/span> &lt;span class="p">~\&lt;/span>&lt;span class="n">dir_colors&lt;/span>
+&lt;span class="nb">Set-PSRepository&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">PSGallery&lt;/span> &lt;span class="n">-InstallationPolicy&lt;/span> &lt;span class="n">Trusted&lt;/span>
+&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">Bypass&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">windows-screenfetch&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">-AllowClobber&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">PSColor&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">DirColors&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">posh-git&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">oh-my-posh&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
+&lt;span class="nb">Set-Prompt&lt;/span>
+&lt;span class="nb">Set-Theme&lt;/span> &lt;span class="n">Agnoster&lt;/span>
+&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">PSReadLine&lt;/span> &lt;span class="n">-AllowPrerelease&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="n">-SkipPublisherCheck&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>编辑当前用户的powershell默认启动配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="k">if&lt;/span> &lt;span class="p">(!(&lt;/span>&lt;span class="nb">Test-Path&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$PROFILE&lt;/span> &lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nb">New-Item&lt;/span> &lt;span class="n">-Type&lt;/span> &lt;span class="n">File&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$PROFILE&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="n">notepad&lt;/span> &lt;span class="nv">$PROFILE&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在弹出的notepad记事本中粘贴内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="c">#Import-Module DirColors&lt;/span>
+&lt;span class="c">#Update-DirColors ~/dircolors&lt;/span>
+&lt;span class="nb">Set-Alias&lt;/span> &lt;span class="n">edit&lt;/span> &lt;span class="n">notepad&lt;/span>
+&lt;span class="nb">Import-Module&lt;/span> &lt;span class="n">posh-git&lt;/span>
+&lt;span class="c">#if (!(Get-SshAgent)) {&lt;/span>
+&lt;span class="c"># Start-SshAgent&lt;/span>
+&lt;span class="c">#}&lt;/span>
+&lt;span class="nb">Import-Module&lt;/span> &lt;span class="n">oh-my-posh&lt;/span>
+&lt;span class="nb">Set-Theme&lt;/span> &lt;span class="n">Paradox&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="配置powershell支持命令行代理">配置powershell支持命令行代理&lt;/h3>
+&lt;p>参考：
+&lt;a href="https://zcdll.github.io/2018/01/27/proxy-on-windows-terminal/">https://zcdll.github.io/2018/01/27/proxy-on-windows-terminal/&lt;/a>&lt;/p>
+&lt;p>编辑当前用户的powershell默认启动配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="k">if&lt;/span> &lt;span class="p">(!(&lt;/span>&lt;span class="nb">Test-Path&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$PROFILE&lt;/span> &lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nb">New-Item&lt;/span> &lt;span class="n">-Type&lt;/span> &lt;span class="n">File&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$PROFILE&lt;/span> &lt;span class="n">-Force&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="n">notepad&lt;/span> &lt;span class="nv">$PROFILE&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在弹出的notepad记事本中追加粘贴内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="c"># NOTE: registry keys for IE 8, may vary for other versions&lt;/span>
+&lt;span class="nv">$regPath&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings&amp;#39;&lt;/span>
+&lt;span class="k">function&lt;/span> &lt;span class="nb">Clear-Proxy&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nb">Set-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$regPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">ProxyEnable&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="n">0&lt;/span>
+&lt;span class="nb">Set-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$regPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">ProxyServer&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>
+&lt;span class="nb">Set-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$regPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">ProxyOverride&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>
+&lt;span class="no">[Environment]&lt;/span>&lt;span class="p">::&lt;/span>&lt;span class="n">SetEnvironmentVariable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;http_proxy&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$null&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;User&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="no">[Environment]&lt;/span>&lt;span class="p">::&lt;/span>&lt;span class="n">SetEnvironmentVariable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;https_proxy&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$null&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;User&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">function&lt;/span> &lt;span class="nb">Set-Proxy&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="nv">$proxy&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;http://example.com&amp;#39;&lt;/span>
+&lt;span class="nb">Set-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$regPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">ProxyEnable&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="n">1&lt;/span>
+&lt;span class="nb">Set-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$regPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">ProxyServer&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="nv">$proxy&lt;/span>
+&lt;span class="nb">Set-ItemProperty&lt;/span> &lt;span class="n">-Path&lt;/span> &lt;span class="nv">$regPath&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">ProxyOverride&lt;/span> &lt;span class="n">-Value&lt;/span> &lt;span class="s1">&amp;#39;&amp;lt;local&amp;gt;&amp;#39;&lt;/span>
+&lt;span class="no">[Environment]&lt;/span>&lt;span class="p">::&lt;/span>&lt;span class="n">SetEnvironmentVariable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;http_proxy&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$proxy&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;User&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="no">[Environment]&lt;/span>&lt;span class="p">::&lt;/span>&lt;span class="n">SetEnvironmentVariable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;https_proxy&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nv">$proxy&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;User&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中&lt;code>http://example.com&lt;/code>替换为你本地http代理的地址比如：&lt;code>http://127.0.0.1:1080&lt;/code>&lt;/p>
+&lt;p>验证：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="nb">Invoke-WebRequest&lt;/span> &lt;span class="n">-URI&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="p">//&lt;/span>&lt;span class="n">httpbin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">org&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">ip&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="配置wsl磁盘挂载问题">配置WSL磁盘挂载问题&lt;/h3>
+&lt;p>参考：https://p3terx.com/archives/problems-and-solutions-encountered-in-wsl-use-2.html&lt;/p>
+&lt;p>windows terminal打开Ubuntu-18.04标签页&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">sudo nano /etc/wsl.conf
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>粘贴内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">enabled = true
+root = /mnt/
+options = &amp;#34;metadata,umask=22,fmask=111&amp;#34;
+mountFsTab = true
+C:\ /mnt/c drvfs rw,noatime,uid=1000,gid=1000,metadata,umask=22,fmask=11 0 0
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="windows本地环境与wsl环境问题">windows本地环境与wsl环境问题&lt;/h3>
+&lt;p>参考： &lt;a href="https://zhuanlan.zhihu.com/p/237941890">https://zhuanlan.zhihu.com/p/237941890&lt;/a>&lt;/p>
+&lt;p>WSL访问windows环境：
+通过上面的drvfs的方式，挂载win下的磁盘分区到/mnt路径下，不过wsl2的访问win的性能比较差&lt;/p>
+&lt;p>windows环境访问WSL：&lt;/p>
+&lt;p>整体磁盘分区挂载方式：
+目前而言需要Windows 10 Insider Preview Build 20211版本才能通过wsl &amp;ndash;mount 挂载物理磁盘
+而且还有概率会碰到ubuntu系统下的rpc服务的问题 &lt;a href="https://github.com/microsoft/WSL/issues/5915">https://github.com/microsoft/WSL/issues/5915&lt;/a>&lt;/p>
+&lt;p>走网络磁盘映射方式：
+系统默认会提供\wsl$的入口，比如我们上面安装的Ubuntu 18.04 那么整个发行版的访问路径就是&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">\\wsl$\Ubuntu-18.04
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后用资源管理器打开&lt;code>\\wsl$&lt;/code>后可以右键Ubuntu-18.04文件夹将其映射为网络驱动器，比如U:盘。&lt;/p>
+&lt;p>普通的映射有个问题是并非Administrator权限
+参考：https://cnzhx.net/blog/install-app-into-mapped-network-drive-in-windows-10/&lt;/p>
+&lt;p>新建这个wsl_startup.bat批处理文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bat" data-lang="bat">&lt;span class="p">@&lt;/span>&lt;span class="k">echo&lt;/span> off
+&lt;span class="c1">rem net use u: /delete&lt;/span>
+net use u: \\wsl$\Ubuntu-18.04 /persistent:yes
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将上面的批处理添加到“任务计划程序”
+win开始，输入“任务计划程序”打开
+任务计划程序（本地）&amp;gt;任务计划程序库&amp;gt;右键“创建基本任务”：
+名称：wsl_startup
+触发器：计算机启动时
+操作：启动程序
+程序或脚本，选择上面创建的wsl_startup.bat文件
+完成
+在右侧的列表中找到wsl_startup项，右键&amp;gt;属性
+安全选项中选中：不管用户是否登录都要运行
+勾选中使用最高权限运行
+确定设置完成&lt;/p>
+&lt;p>打开注册表编辑器找到路径：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>新建修改DWORD类型键值：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">EnableLinkedConnections
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>值为1&lt;/p>
+&lt;p>如果win10是家庭版非专业版，默认是没有组策略编辑器的，需要通过手工打开&lt;/p>
+&lt;p>编辑一个批处理比如enable_gpedit.bat：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bat" data-lang="bat">&lt;span class="p">@&lt;/span>&lt;span class="k">echo&lt;/span> off
+&lt;span class="k">pushd&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">%~dp0&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="k">dir&lt;/span> /b C:\Windows\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~3*.mum &lt;span class="p">&amp;gt;&lt;/span>List.txt
+&lt;span class="k">dir&lt;/span> /b C:\Windows\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package~3*.mum &lt;span class="p">&amp;gt;&amp;gt;&lt;/span>List.txt
+&lt;span class="k">for&lt;/span> &lt;span class="k">/f&lt;/span> &lt;span class="se">%%&lt;/span>i &lt;span class="k">in&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;findstr /i . List.txt 2^&amp;gt;nul&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">do&lt;/span> dism /online /norestart /add-package:&lt;span class="s2">&amp;#34;C:\Windows\servicing\Packages\&lt;/span>&lt;span class="se">%%&lt;/span>&lt;span class="s2">i&amp;#34;&lt;/span>
+&lt;span class="k">pause&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后在资源管理器中右键&lt;strong>以管理员身份&lt;/strong>运行
+完成后就可以使用组策略编辑器了
+接着我们需要允许当前用户使用mklink创建软链接
+参考：https://blog.csdn.net/SharkMarine/article/details/88538995&lt;/p>
+&lt;p>win+r运行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">secpol.msc
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>本地策略&amp;gt;用户权限分配&amp;gt;右侧列表中找到“创建符号链接”打开后点击“添加用户或组”，输入当前用户比如user，然后点右侧的检查名称，成功后点确定&lt;/p>
+&lt;p>然后重启电脑&lt;/p>
+&lt;p>重启后系统会自动挂载wsl的ubuntu18.04发行版实例的磁盘到U:盘分区
+同时当前用户也可以通过mklink创建软链接了。&lt;/p>
+&lt;p>需要注意的地方：windows的软链接和linux系统的软链接是互相不认识的，所以win下创建的软链接只能windows系统自己用,linux下的亦然。&lt;/p>
+&lt;h3 id="代码开发与运行环境">代码开发与运行环境&lt;/h3>
+&lt;p>基于目前drvfs访问性能的问题以及在可见的未来ms应该大概率会支持直接访问ext4的磁盘分区，所以目前来说个人觉得更好的方案就是在win10下默认自动挂载wsl的分区到盘符后创建目录软链接，本地IDE直接读取U:盘符或者软链后的目录中的各个项目，运行环境可以在win下安装或者直接使用wsl中的环境运行代码项目。&lt;/p></description></item><item><title>多节点持续部署白瞟篇</title><link>/post/multi-nodes-continuous-deploy/</link><pubDate>Mon, 07 Sep 2020 09:43:13 +0800</pubDate><guid>/post/multi-nodes-continuous-deploy/</guid><description>&lt;p>对于中小型项目部署而言，还是尽可能的节省资源，（抠门~~~）
 再去自搭个gitlab-ci,或者jenkins去做持续部署就有点大炮打蚊子了。
 于是Github Actions 了解一下，整了一下白瞟方案。
 基础的知识学习可以去看阮博士的 &lt;a href="https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">GitHub Actions 入门教程&lt;/a> ，在此不赘述。&lt;/p>
@@ -318,9 +1143,9 @@
 &lt;/span>&lt;span class="lnt">18
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">getBase64ImageFromUrl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">async&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">imageUrl&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;span class="kd">let&lt;/span> &lt;span class="nx">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">await&lt;/span> &lt;span class="nx">fetch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">imageUrl&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;span class="kd">let&lt;/span> &lt;span class="nx">blob&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">await&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">blob&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="kr">const&lt;/span> &lt;span class="nx">getBase64ImageFromUrl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">async&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">imageUrl&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">await&lt;/span> &lt;span class="nx">fetch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">imageUrl&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="kd">let&lt;/span> &lt;span class="nx">blob&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">await&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">blob&lt;/span>&lt;span class="p">();&lt;/span>
 &lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Promise&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="nx">resolve&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">reject&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="kd">let&lt;/span> &lt;span class="nx">reader&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nx">FileReader&lt;/span>&lt;span class="p">();&lt;/span>
 &lt;span class="nx">reader&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">addEventListener&lt;/span>&lt;span class="p">(&lt;/span>
@@ -1822,7 +2647,7 @@ Task parameters中输入：&lt;/li>
 &lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">vim ~/.zshrc
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>修改ZSH_THEME=&amp;quot;babun&amp;quot;为ZSH_THEME=&amp;quot;ys&amp;rdquo;，后保存退出，然后关闭终端后再启动{babun}终端即可。&lt;/p>
+&lt;/div>&lt;p>修改ZSH_THEME=&amp;ldquo;babun&amp;quot;为ZSH_THEME=&amp;ldquo;ys&amp;rdquo;，后保存退出，然后关闭终端后再启动{babun}终端即可。&lt;/p>
 &lt;ol start="11">
 &lt;li>如果你还是习惯mingw的git-bash环境也可以在cmder工具中添加配置：启动cmder后win+alt+p呼出设置面板(Settings)，然后打开 Startup&amp;gt;Tasks面板点+号添加一个task，名称输入gitbash，Task parameters中留空下面的Commands大输入文本框中输入：&lt;/li>
 &lt;/ol>
@@ -1992,13 +2817,13 @@ vendor/
 &lt;/span>&lt;span class="lnt">7
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected function regist_sig_handler()
-{
-declare(ticks = 1);
-pcntl_signal(SIGTERM, [$this, &amp;#39;sig_handler&amp;#39;]);
-pcntl_signal(SIGHUP, [$this, &amp;#39;sig_handler&amp;#39;]);
-pcntl_signal(SIGINT, [$this, &amp;#39;sig_handler&amp;#39;]);
-}
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">regist_sig_handler&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">declare&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ticks&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="nx">pcntl_signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">SIGTERM&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;sig_handler&amp;#39;&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="nx">pcntl_signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">SIGHUP&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;sig_handler&amp;#39;&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="nx">pcntl_signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">SIGINT&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;sig_handler&amp;#39;&lt;/span>&lt;span class="p">]);&lt;/span>
+&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;ul>
@@ -2019,17 +2844,17 @@ pcntl_signal(SIGINT, [$this, &amp;#39;sig_handler&amp;#39;]);
 &lt;/span>&lt;span class="lnt">11
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">protected function sig_handler($signo)
-{
-switch ($signo) {
-case SIGTERM:
-case SIGHUP:
-case SIGINT:
-self::$_MYDAEMON_SHOULD_STOP = true;
-// ...
-break;
-}
-}
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">sig_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">switch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$signo&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">SIGTERM&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">SIGHUP&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">SIGINT&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nv">$_MYDAEMON_SHOULD_STOP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;ul>
@@ -2049,15 +2874,15 @@ break;
 &lt;/span>&lt;span class="lnt">10
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected function shouldStop()
-{
-if (self::$_MYDAEMON_SHOULD_STOP) {
-// before exit staff code
-// ...
-return true;
-}
-return false;
-}
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="k">protected&lt;/span> &lt;span class="k">function&lt;/span> &lt;span class="nf">shouldStop&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">self&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nv">$_MYDAEMON_SHOULD_STOP&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// before exit staff code
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="k">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;ul>
@@ -2078,17 +2903,17 @@ return false;
 &lt;/span>&lt;span class="lnt">11
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> while (true) {
-if ($this-&amp;gt;shouldStop()) {
-break;
-}
-try {
-$jobStatusInfo = $this-&amp;gt;execute([]);
-} catch (Exception $ex) {
-$this-&amp;gt;log($ex-&amp;gt;getMessage());
-}
-usleep(10);
-}
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">true&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">shouldStop&lt;/span>&lt;span class="p">())&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">try&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$jobStatusInfo&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">execute&lt;/span>&lt;span class="p">([]);&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">catch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">Exception&lt;/span> &lt;span class="nv">$ex&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">$this&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$ex&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">getMessage&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nx">usleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>附上完整代码（loop是示例需要长时间处理的业务逻辑，memoryusage超限也会退出，外部可以由supervisor/daemontools等进程监控程序控制）&lt;/p>
@@ -2231,8 +3056,8 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">135
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">#!/usr/bin/env php
-&lt;span class="cp">&amp;lt;?php&lt;/span>
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="c1">#!/usr/bin/env php
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="o">&amp;lt;?&lt;/span>&lt;span class="nx">php&lt;/span>
 &lt;span class="sd">/**
 &lt;/span>&lt;span class="sd"> * Description
 &lt;/span>&lt;span class="sd"> *
@@ -2365,8 +3190,8 @@ usleep(10);
 &lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">//$this-&amp;gt;regist_sig_handler();
-&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="c1">//$this-&amp;gt;regist_sig_handler();
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>运行daemon代码，在执行execute的for循环时ctrl+c或者用 kill 杀死当前进程&lt;/p>
 &lt;p>&lt;a href="/post/simple-php-daemon-code/Snip20150708_1.png">&lt;img src="/post/simple-php-daemon-code/Snip20150708_1.png" alt="Snip20150708_1">&lt;/a>&lt;/p>
@@ -2389,7 +3214,7 @@ usleep(10);
 &lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&amp;#39;Content-Type: application/x-www-form-urlencoded&amp;#39;));
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="nx">curl_setopt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$ch&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">CURLOPT_HTTPHEADER&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">array&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Content-Type: application/x-www-form-urlencoded&amp;#39;&lt;/span>&lt;span class="p">));&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>如果你用的是GuzzleHttp的组件：参考&lt;a href="http://guzzle.readthedocs.org/en/latest/quickstart.html#query-string-parameters">官方的说明&lt;/a>：&lt;/p>
@@ -2407,15 +3232,15 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">10
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">$response = $client-&amp;gt;post(&amp;#39;http://httpbin.org/post&amp;#39;, [
-&amp;#39;form_params&amp;#39; =&amp;gt; [
-&amp;#39;field_name&amp;#39; =&amp;gt; &amp;#39;abc&amp;#39;,
-&amp;#39;other_field&amp;#39; =&amp;gt; &amp;#39;123&amp;#39;,
-&amp;#39;nested_field&amp;#39; =&amp;gt; [
-&amp;#39;nested&amp;#39; =&amp;gt; &amp;#39;hello&amp;#39;
-]
-]
-]);
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="nv">$response&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$client&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="na">post&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;http://httpbin.org/post&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="s1">&amp;#39;form_params&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="s1">&amp;#39;field_name&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s1">&amp;#39;abc&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;other_field&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s1">&amp;#39;123&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;nested_field&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="s1">&amp;#39;nested&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s1">&amp;#39;hello&amp;#39;&lt;/span>
+&lt;span class="p">]&lt;/span>
+&lt;span class="p">]&lt;/span>
+&lt;span class="p">]);&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>其他的基础配置设定,插件作者的&lt;a href="https://github.com/lucadegasperi/oauth2-server-laravel/wiki">wiki&lt;/a>中已经有了说明，我这里做了一些自己的设定：&lt;/p>
@@ -2436,15 +3261,15 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">9
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected $middleware = array(
-\Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
-\App\Http\Middleware\EncryptCookies::class,
-\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-\Illuminate\Session\Middleware\StartSession::class,
-\Illuminate\View\Middleware\ShareErrorsFromSession::class,
-\App\Http\Middleware\VerifyCsrfToken::class, // 不要关闭
-);
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="k">protected&lt;/span> &lt;span class="nv">$middleware&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">array&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="nx">\Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">\App\Http\Middleware\EncryptCookies&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">\Illuminate\Session\Middleware\StartSession&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">\Illuminate\View\Middleware\ShareErrorsFromSession&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="nx">\App\Http\Middleware\VerifyCsrfToken&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 不要关闭
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">);&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>按wiki中的说明添加$routeMiddleware中的设定：&lt;/p>
@@ -2461,15 +3286,15 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">9
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected $routeMiddleware = [
-&amp;#39;csrf&amp;#39; =&amp;gt; \App\Http\Middleware\VerifyCsrfToken::class, // 添加 csrf配置
-&amp;#39;auth&amp;#39; =&amp;gt; \App\Http\Middleware\Authenticate::class,
-&amp;#39;auth.basic&amp;#39; =&amp;gt; \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-&amp;#39;guest&amp;#39; =&amp;gt; \App\Http\Middleware\RedirectIfAuthenticated::class,
-&amp;#39;oauth&amp;#39; =&amp;gt; \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
-&amp;#39;oauth-owner&amp;#39; =&amp;gt; \LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware::class,
-&amp;#39;check-authorization-params&amp;#39; =&amp;gt; \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
-];
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="k">protected&lt;/span> &lt;span class="nv">$routeMiddleware&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="s1">&amp;#39;csrf&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\App\Http\Middleware\VerifyCsrfToken&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 添加 csrf配置
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="s1">&amp;#39;auth&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\App\Http\Middleware\Authenticate&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;auth.basic&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\Illuminate\Auth\Middleware\AuthenticateWithBasicAuth&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;guest&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\App\Http\Middleware\RedirectIfAuthenticated&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;oauth&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;oauth-owner&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;check-authorization-params&amp;#39;&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="nx">\LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="p">];&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>在你的\App\Http\Middleware\VerifyCsrfToken类中的$except变量添加：&lt;/p>
@@ -2483,12 +3308,12 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">6
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> protected $except = [
-//
-&amp;#39;api&amp;#39;,
-&amp;#39;api/*&amp;#39;,
-&amp;#39;oauth/access_token&amp;#39;,
-];
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="k">protected&lt;/span> &lt;span class="nv">$except&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="c1">//
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="s1">&amp;#39;api&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;api/*&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="s1">&amp;#39;oauth/access_token&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="p">];&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>也就是：&lt;/p>
@@ -2555,7 +3380,7 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">54
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="cp">&amp;lt;?php&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="nx">App\Http\Middleware&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="o">&amp;lt;?&lt;/span>&lt;span class="nx">php&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="nx">App\Http\Middleware&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;span class="k">use&lt;/span> &lt;span class="nx">Closure&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;span class="k">use&lt;/span> &lt;span class="nx">Illuminate\Foundation\Http\Middleware\VerifyCsrfToken&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nx">BaseVerifier&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;span class="k">use&lt;/span> &lt;span class="nx">Illuminate\Session\TokenMismatchException&lt;/span>&lt;span class="p">;&lt;/span>
@@ -2662,10 +3487,10 @@ usleep(10);
 &lt;/span>&lt;span class="lnt">4
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> $authParams = Authorizer::getAuthCodeRequestParams();
-$formParams = array_except($authParams,&amp;#39;client&amp;#39;);
-$formParams[&amp;#39;client_id&amp;#39;] = $authParams[&amp;#39;client&amp;#39;]-&lt;span class="ni">&amp;amp;gt;&lt;/span>getId();
-return View::make(&amp;#39;oauth.authorization-form&amp;#39;, [&amp;#39;params&amp;#39;=&lt;span class="ni">&amp;amp;gt;&lt;/span>$formParams,&amp;#39;client&amp;#39;=&lt;span class="ni">&amp;amp;gt;&lt;/span>$authParams[&amp;#39;client&amp;#39;]]);
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php"> &lt;span class="nv">$authParams&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Authorizer&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">getAuthCodeRequestParams&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="nv">$formParams&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">array_except&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nv">$authParams&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s1">&amp;#39;client&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="nv">$formParams&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;client_id&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$authParams&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;client&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">-&amp;amp;&lt;/span>&lt;span class="nx">gt&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="nx">getId&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">View&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;oauth.authorization-form&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;params&amp;#39;&lt;/span>&lt;span class="o">=&amp;amp;&lt;/span>&lt;span class="nx">gt&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="nv">$formParams&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s1">&amp;#39;client&amp;#39;&lt;/span>&lt;span class="o">=&amp;amp;&lt;/span>&lt;span class="nx">gt&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="nv">$authParams&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;client&amp;#39;&lt;/span>&lt;span class="p">]]);&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>最后在你被oauth保护的api接口中你就可以获得到对应的当前用户id了：&lt;/p>
@@ -2674,7 +3499,7 @@ return View::make(&amp;#39;oauth.authorization-form&amp;#39;, [&amp;#39;params&a
 &lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">$uid = Authorizer::getResourceOwnerId();
+&lt;pre class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="nv">$uid&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Authorizer&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="na">getResourceOwnerId&lt;/span>&lt;span class="p">();&lt;/span>
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div></description></item></channel></rss>

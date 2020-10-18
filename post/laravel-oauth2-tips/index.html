@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-cn itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>laravel的oauth2-server相关开发的备忘 - 酷码熊博客</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=MobileOptimized content="width"><meta name=HandheldFriendly content="true"><meta name=applicable-device content="pc,mobile"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=mobile-web-app-capable content="yes"><meta name=author content="axiong"><meta name=description content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><meta name=keywords content="kumaxiong,隐逸山林,阿熊,python,javascript,golang"><meta name=generator content="Hugo 0.74.3"><link rel=canonical href=https://www.kumaxiong.com/post/laravel-oauth2-tips/><link rel=icon href=/favicon.ico><link rel=stylesheet href=/sass/jane.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css integrity="sha256-+j2UHR0ODdyYWAQif+q//qVciYg+sK804FMqeukTUVE=" media=screen crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="laravel的oauth2-server相关开发的备忘"><meta property="og:description" content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><meta property="og:type" content="article"><meta property="og:url" content="/post/laravel-oauth2-tips/"><meta property="article:published_time" content="2015-07-01T10:53:52+08:00"><meta property="article:modified_time" content="2015-07-01T10:53:52+08:00"><meta itemprop=name content="laravel的oauth2-server相关开发的备忘"><meta itemprop=description content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><meta itemprop=datePublished content="2015-07-01T10:53:52+08:00"><meta itemprop=dateModified content="2015-07-01T10:53:52+08:00"><meta itemprop=wordCount content="1297"><meta itemprop=keywords content="notes,laravel,oauth,"><meta name=twitter:card content="summary"><meta name=twitter:title content="laravel的oauth2-server相关开发的备忘"><meta name=twitter:description content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>酷码熊日志</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><li class=mobile-menu-item><a class=menu-item-link href=/>首页</a></li><li class=mobile-menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=mobile-menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=mobile-menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=mobile-menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
+<!doctype html><html lang=zh-cn itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>laravel的oauth2-server相关开发的备忘 - 酷码熊博客</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=MobileOptimized content="width"><meta name=HandheldFriendly content="true"><meta name=applicable-device content="pc,mobile"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=mobile-web-app-capable content="yes"><meta name=author content="axiong"><meta name=description content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><meta name=keywords content="kumaxiong,隐逸山林,阿熊,python,javascript,golang"><meta name=generator content="Hugo 0.76.5"><link rel=canonical href=https://www.kumaxiong.com/post/laravel-oauth2-tips/><link rel=icon href=/favicon.ico><link rel=stylesheet href=/sass/jane.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css integrity="sha256-+j2UHR0ODdyYWAQif+q//qVciYg+sK804FMqeukTUVE=" media=screen crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="laravel的oauth2-server相关开发的备忘"><meta property="og:description" content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><meta property="og:type" content="article"><meta property="og:url" content="/post/laravel-oauth2-tips/"><meta property="article:published_time" content="2015-07-01T10:53:52+08:00"><meta property="article:modified_time" content="2015-07-01T10:53:52+08:00"><meta itemprop=name content="laravel的oauth2-server相关开发的备忘"><meta itemprop=description content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><meta itemprop=datePublished content="2015-07-01T10:53:52+08:00"><meta itemprop=dateModified content="2015-07-01T10:53:52+08:00"><meta itemprop=wordCount content="1297"><meta itemprop=keywords content="notes,laravel,oauth,"><meta name=twitter:card content="summary"><meta name=twitter:title content="laravel的oauth2-server相关开发的备忘"><meta name=twitter:description content="开发当中踩了不少坑，做个备忘。 代码环境： laravel 5.1 oauth2-server服务组件： lucadegasperi/oauth2-server-laravel 也就是 thephpleague/oauth2-server 的laravel 包装版本 目前插件的版本是~4.1 需"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>酷码熊日志</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><li class=mobile-menu-item><a class=menu-item-link href=/>首页</a></li><li class=mobile-menu-item><a class=menu-item-link href=/post/>归档</a></li><li class=mobile-menu-item><a class=menu-item-link href=/tags/>标签</a></li><li class=mobile-menu-item><a class=menu-item-link href=/categories/>分类</a></li><li class=mobile-menu-item><a class=menu-item-link href=https://github.com/nickfan rel=noopener target=_blank>Github
 <i class=iconfont><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92.0.0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"/><path d="M841.152 457.152c-30.528.0-54.784 24.512-54.784 54.656V786.56H237.696V237.696h206.016c6.656.0 10.752.0 13.248.0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128H183.04C153.216 128 128 152.576 128 182.848c0 3.136.256 6.272.768 9.28C128.256 195.136 128 198.272 128 201.408v639.488c0 .064.0.192.0.256.0.128.0.192.0.32.0 30.528 24.512 54.784 54.784 54.784H829.76c6.592.0 9.728.0 11.712.0 28.736.0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344v-20.352V561.408 512.128C896 481.792 871.424 457.152 841.152 457.152z"/></svg></i></a></li><li class=mobile-menu-item><a class=menu-item-link href=/about/>关于</a></li></ul></nav><link rel=stylesheet href=/lib/photoswipe/photoswipe.min.css><link rel=stylesheet href=/lib/photoswipe/default-skin/default-skin.min.css><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
@@ -7,7 +7,7 @@
 <i class=iconfont><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92.0.0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"/><path d="M841.152 457.152c-30.528.0-54.784 24.512-54.784 54.656V786.56H237.696V237.696h206.016c6.656.0 10.752.0 13.248.0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128H183.04C153.216 128 128 152.576 128 182.848c0 3.136.256 6.272.768 9.28C128.256 195.136 128 198.272 128 201.408v639.488c0 .064.0.192.0.256.0.128.0.192.0.32.0 30.528 24.512 54.784 54.784 54.784H829.76c6.592.0 9.728.0 11.712.0 28.736.0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344v-20.352V561.408 512.128C896 481.792 871.424 457.152 841.152 457.152z"/></svg></i></a></li><li class=menu-item><a class=menu-item-link href=/about/>关于</a></li></ul></nav></header><div id=mobile-panel><main id=main class="main bg-llight"><div class=content-wrapper><div id=content class="content container"><article class="post bg-white"><header class=post-header><h1 class=post-title>laravel的oauth2-server相关开发的备忘</h1><div class=post-meta><time datetime=2015-07-01 class=post-time>2015-07-01</time><div class=post-category><a href=/categories/%E5%BC%80%E5%8F%91/>开发</a>
 <a href=/categories/php/>php</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class=post-toc-content><nav id=TableOfContents></nav></div></div><div class=post-content><p>开发当中踩了不少坑，做个备忘。</p><p>代码环境：</p><p><a href=https://learnku.com/docs/laravel/5.1>laravel 5.1</a></p><p>oauth2-server服务组件：</p><p><a href=https://github.com/lucadegasperi/oauth2-server-laravel>lucadegasperi/oauth2-server-laravel</a> 也就是 <a href=https://github.com/thephpleague/oauth2-server>thephpleague/oauth2-server</a> 的laravel 包装版本</p><p>目前插件的版本是~4.1</p><p>需要注意的点是：</p><p>一般而言最常见的应用场景是grant_type为authorization_code的情景，</p><p>thephpleague的oauth2-server要求的数据提交必须是POST数据编码方式是application/x-www-form-urlencoded，默认情况下如果你用的是curl组件会以multipart/form-data模式编码提交的post数据，所以后端提交请求的时候注意一下，
 如果你用的是curl，需要设置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;Content-Type: application/x-www-form-urlencoded&#39;));
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=nx>curl_setopt</span><span class=p>(</span><span class=nv>$ch</span><span class=p>,</span> <span class=nx>CURLOPT_HTTPHEADER</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=s1>&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class=p>));</span>
 </code></pre></td></tr></table></div></div><p>如果你用的是GuzzleHttp的组件：参考<a href=http://guzzle.readthedocs.org/en/latest/quickstart.html#query-string-parameters>官方的说明</a>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -18,15 +18,15 @@
 </span><span class=lnt> 8
 </span><span class=lnt> 9
 </span><span class=lnt>10
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$response = $client-&gt;post(&#39;http://httpbin.org/post&#39;, [
-    &#39;form_params&#39; =&gt; [
-        &#39;field_name&#39; =&gt; &#39;abc&#39;,
-        &#39;other_field&#39; =&gt; &#39;123&#39;,
-        &#39;nested_field&#39; =&gt; [
-            &#39;nested&#39; =&gt; &#39;hello&#39;
-        ]
-    ]
-]);
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=nv>$response</span> <span class=o>=</span> <span class=nv>$client</span><span class=o>-&gt;</span><span class=na>post</span><span class=p>(</span><span class=s1>&#39;http://httpbin.org/post&#39;</span><span class=p>,</span> <span class=p>[</span>
+    <span class=s1>&#39;form_params&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+        <span class=s1>&#39;field_name&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;abc&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;other_field&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;123&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;nested_field&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
+            <span class=s1>&#39;nested&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;hello&#39;</span>
+        <span class=p>]</span>
+    <span class=p>]</span>
+<span class=p>]);</span>
 
 </code></pre></td></tr></table></div></div><p>其他的基础配置设定,插件作者的<a href=https://github.com/lucadegasperi/oauth2-server-laravel/wiki>wiki</a>中已经有了说明，我这里做了一些自己的设定：</p><ul><li>不想关闭全局的csrf保护咋办？
 如果你是直接安装的laravel 5.1版不要关闭全局$middleware的csrf：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
@@ -38,15 +38,15 @@
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        protected $middleware = array(
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
-        \App\Http\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\VerifyCsrfToken::class, // 不要关闭
-    );
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        <span class=k>protected</span> <span class=nv>$middleware</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span>
+        <span class=nx>\Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=nx>\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=nx>\App\Http\Middleware\EncryptCookies</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=nx>\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=nx>\Illuminate\Session\Middleware\StartSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=nx>\Illuminate\View\Middleware\ShareErrorsFromSession</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=nx>\App\Http\Middleware\VerifyCsrfToken</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=c1>// 不要关闭
+</span><span class=c1></span>    <span class=p>);</span>
 </code></pre></td></tr></table></div></div><p>按wiki中的说明添加$routeMiddleware中的设定：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
@@ -56,27 +56,27 @@
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    protected $routeMiddleware = [
-        &#39;csrf&#39; =&gt; \App\Http\Middleware\VerifyCsrfToken::class, // 添加 csrf配置
-        &#39;auth&#39; =&gt; \App\Http\Middleware\Authenticate::class,
-        &#39;auth.basic&#39; =&gt; \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        &#39;guest&#39; =&gt; \App\Http\Middleware\RedirectIfAuthenticated::class,
-        &#39;oauth&#39; =&gt; \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
-        &#39;oauth-owner&#39; =&gt; \LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware::class,
-        &#39;check-authorization-params&#39; =&gt; \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
-    ];
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    <span class=k>protected</span> <span class=nv>$routeMiddleware</span> <span class=o>=</span> <span class=p>[</span>
+        <span class=s1>&#39;csrf&#39;</span> <span class=o>=&gt;</span> <span class=nx>\App\Http\Middleware\VerifyCsrfToken</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=c1>// 添加 csrf配置
+</span><span class=c1></span>        <span class=s1>&#39;auth&#39;</span> <span class=o>=&gt;</span> <span class=nx>\App\Http\Middleware\Authenticate</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=s1>&#39;auth.basic&#39;</span> <span class=o>=&gt;</span> <span class=nx>\Illuminate\Auth\Middleware\AuthenticateWithBasicAuth</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=s1>&#39;guest&#39;</span> <span class=o>=&gt;</span> <span class=nx>\App\Http\Middleware\RedirectIfAuthenticated</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=s1>&#39;oauth&#39;</span> <span class=o>=&gt;</span> <span class=nx>\LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=s1>&#39;oauth-owner&#39;</span> <span class=o>=&gt;</span> <span class=nx>\LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+        <span class=s1>&#39;check-authorization-params&#39;</span> <span class=o>=&gt;</span> <span class=nx>\LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+    <span class=p>];</span>
 </code></pre></td></tr></table></div></div><p>在你的\App\Http\Middleware\VerifyCsrfToken类中的$except变量添加：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    protected $except = [
-        //
-        &#39;api&#39;,
-        &#39;api/*&#39;,
-        &#39;oauth/access_token&#39;,
-    ];
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>    <span class=k>protected</span> <span class=nv>$except</span> <span class=o>=</span> <span class=p>[</span>
+        <span class=c1>//
+</span><span class=c1></span>        <span class=s1>&#39;api&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;api/*&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;oauth/access_token&#39;</span><span class=p>,</span>
+    <span class=p>];</span>
 </code></pre></td></tr></table></div></div><p>也就是：</p><ol><li>你的oauth服务获取access_token的入口地址，如果你换了地址修改这里对应的设置即可。</li><li>你使用oauth中间件保护的服务接口也不需要csrf做多余的防护，在此排除掉 api/* 这对应的前缀即可
 如果是5.0之类的升级上来的，VerifyCsrfToken可能还是老的写法，不支持$except，自己改造一下符合新版规范：</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
@@ -132,7 +132,7 @@
 </span><span class=lnt>52
 </span><span class=lnt>53
 </span><span class=lnt>54
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=cp>&lt;?php</span> <span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=o>&lt;?</span><span class=nx>php</span> <span class=k>namespace</span> <span class=nx>App\Http\Middleware</span><span class=p>;</span>
 
 <span class=k>use</span> <span class=nx>Closure</span><span class=p>;</span>
 <span class=k>use</span> <span class=nx>Illuminate\Foundation\Http\Middleware\VerifyCsrfToken</span> <span class=k>as</span> <span class=nx>BaseVerifier</span><span class=p>;</span>
@@ -231,12 +231,12 @@
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        $authParams = Authorizer::getAuthCodeRequestParams();
-        $formParams = array_except($authParams,&#39;client&#39;);
-        $formParams[&#39;client_id&#39;] = $authParams[&#39;client&#39;]-<span class=ni>&amp;gt;</span>getId();
-        return View::make(&#39;oauth.authorization-form&#39;, [&#39;params&#39;=<span class=ni>&amp;gt;</span>$formParams,&#39;client&#39;=<span class=ni>&amp;gt;</span>$authParams[&#39;client&#39;]]);
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>        <span class=nv>$authParams</span> <span class=o>=</span> <span class=nx>Authorizer</span><span class=o>::</span><span class=na>getAuthCodeRequestParams</span><span class=p>();</span>
+        <span class=nv>$formParams</span> <span class=o>=</span> <span class=nx>array_except</span><span class=p>(</span><span class=nv>$authParams</span><span class=p>,</span><span class=s1>&#39;client&#39;</span><span class=p>);</span>
+        <span class=nv>$formParams</span><span class=p>[</span><span class=s1>&#39;client_id&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=nv>$authParams</span><span class=p>[</span><span class=s1>&#39;client&#39;</span><span class=p>]</span><span class=o>-&amp;</span><span class=nx>gt</span><span class=p>;</span><span class=nx>getId</span><span class=p>();</span>
+        <span class=k>return</span> <span class=nx>View</span><span class=o>::</span><span class=na>make</span><span class=p>(</span><span class=s1>&#39;oauth.authorization-form&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;params&#39;</span><span class=o>=&amp;</span><span class=nx>gt</span><span class=p>;</span><span class=nv>$formParams</span><span class=p>,</span><span class=s1>&#39;client&#39;</span><span class=o>=&amp;</span><span class=nx>gt</span><span class=p>;</span><span class=nv>$authParams</span><span class=p>[</span><span class=s1>&#39;client&#39;</span><span class=p>]]);</span>
 </code></pre></td></tr></table></div></div><p>最后在你被oauth保护的api接口中你就可以获得到对应的当前用户id了：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$uid = Authorizer::getResourceOwnerId();
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=nv>$uid</span> <span class=o>=</span> <span class=nx>Authorizer</span><span class=o>::</span><span class=na>getResourceOwnerId</span><span class=p>();</span>
 </code></pre></td></tr></table></div></div></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
 <span class=item-content>axiong</span></p><p class=copyright-item><span class=item-title>上次更新</span>
 <span class=item-content>2015-07-01</span></p><p class=copyright-item><span class=item-title>许可协议</span>
