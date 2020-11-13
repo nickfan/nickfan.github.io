@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 16 Oct 2020 13:22:12 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>酷码熊博客</title><link>/</link><description>Recent content on 酷码熊博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 13 Nov 2020 16:36:12 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>关于</title><link>/about/</link><pubDate>Fri, 07 Aug 2020 23:53:43 +0800</pubDate><guid>/about/</guid><description>&lt;h1 id="关于">关于&lt;/h1>
 &lt;p>这里是阿熊的个人博客（原博客名称：隐逸山林），主要分享一些开发笔记。&lt;/p>
 &lt;p>由于.me的域名续费太贵 axiong.me的域名后面不续费了，还是用.com划算，咩哈哈~~&lt;/p>
 &lt;ul>
@@ -6,7 +6,110 @@
 &lt;li>海外镜像： &lt;a href="https://www.kuma2code.com">https://www.kuma2code.com&lt;/a>&lt;/li>
 &lt;li>github备用：https://nickfan.github.io&lt;/li>
 &lt;li>原域名跳转 &lt;a href="https://axiong.me">https://axiong.me&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>win10下基础开发环境搭建2020</title><link>/post/win10-dev-env-setup-2020/</link><pubDate>Fri, 16 Oct 2020 13:22:12 +0800</pubDate><guid>/post/win10-dev-env-setup-2020/</guid><description>&lt;p>&lt;strong>目前win10系统对wsl的支持在逐步提升，mac已经转型消费向的arm阵营了，也许从远期来看是对的方向，但当下的开发还是以桌面工作环境为主，所以目前而言还是配一下桌面开发环境，做一下笔记&lt;/strong>&lt;/p>
+&lt;/ul></description></item><item><title>linux系统下的文件下载</title><link>/post/linux-download/</link><pubDate>Fri, 13 Nov 2020 16:36:12 +0800</pubDate><guid>/post/linux-download/</guid><description>&lt;h1 id="linux系统下的文件下载">linux系统下的文件下载&lt;/h1>
+&lt;h2 id="单线程">单线程&lt;/h2>
+&lt;ul>
+&lt;li>wget&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">wget -c &lt;span class="s2">&amp;#34;https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.iso&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用代理&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">wget -e &lt;span class="s2">&amp;#34;http://127.0.0.1:1080&amp;#34;&lt;/span> -c &lt;span class="s2">&amp;#34;https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.iso&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>curl&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl -O -C - &lt;span class="s2">&amp;#34;https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.iso&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用代理&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">curl -x 127.0.0.1:1080 -O -C - &lt;span class="s2">&amp;#34;https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.iso&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="多线程">多线程&lt;/h2>
+&lt;ul>
+&lt;li>axel&lt;/li>
+&lt;/ul>
+&lt;p>n参数代表连接数&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">axel -a -n &lt;span class="m">10&lt;/span> &lt;span class="s2">&amp;#34;https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.iso&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>aria2&lt;/li>
+&lt;/ul>
+&lt;p>s每个文件最多连接数（默认5）
+k每个连接分片单次最多下载大小（默认20）
+x每个服务器最多连接数（默认1）
+j多个下载任务时同时下载的任务数限制（默认5）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">aria2c --file-allocation&lt;span class="o">=&lt;/span>none -c -s10 -x10 -k5M &lt;span class="s2">&amp;#34;https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.iso&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="其他">其他&lt;/h2>
+&lt;p>&lt;strong>通过环境变量使用代理&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="nb">export&lt;/span> &lt;span class="nv">http_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;http://127.0.0.1:1080&amp;#34;&lt;/span>
+&lt;span class="nb">export&lt;/span> &lt;span class="nv">all_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$http_proxy&lt;/span>
+&lt;span class="nb">export&lt;/span> &lt;span class="nv">https_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$http_proxy&lt;/span>
+&lt;span class="nb">export&lt;/span> &lt;span class="nv">ftp_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$http_proxy&lt;/span>
+&lt;span class="nb">export&lt;/span> &lt;span class="nv">no_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;localhost,.example.com,128.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>apt使用代理&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;Acquire::http::Proxy &amp;#34;http://127.0.0.1:1080&amp;#34;;&amp;#39;&lt;/span> &amp;gt;~/.apt_proxy.conf
+sudo apt-get -c ~/.apt_proxy.conf update
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>win10下基础开发环境搭建2020</title><link>/post/win10-dev-env-setup-2020/</link><pubDate>Fri, 16 Oct 2020 13:22:12 +0800</pubDate><guid>/post/win10-dev-env-setup-2020/</guid><description>&lt;p>&lt;strong>目前win10系统对wsl的支持在逐步提升，mac已经转型消费向的arm阵营了，也许从远期来看是对的方向，但当下的开发还是以桌面工作环境为主，所以目前而言还是配一下桌面开发环境，做一下笔记&lt;/strong>&lt;/p>
 &lt;h2 id="参考笔记">参考笔记&lt;/h2>
 &lt;p>&lt;a href="https://www.lagou.com/lgeduarticle/85437.html">https://www.lagou.com/lgeduarticle/85437.html&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/145488247">https://zhuanlan.zhihu.com/p/145488247&lt;/a>&lt;/p>
